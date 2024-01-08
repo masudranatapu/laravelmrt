@@ -28,11 +28,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', [AdminController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth:web'], function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('home');
+});
+
 
 Route::get('/sadmin/login',[LoginController::class,'sadminLoginForm'])->name('admin.login-view');
 Route::post('/admin',[LoginController::class,'sadminLogin'])->name('admin.login');
 
-Route::group(['as' => 'sadmin.', 'prefix' => 'sadmin'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard')->middleware('auth:admin');
+Route::group(['as' => 'sadmin.', 'prefix' => 'sadmin', 'middleware' => 'auth:admin'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });
