@@ -10,6 +10,6 @@ class AdminController extends Controller
     //
     function index()
     {
-        return view('home');
+        return view('backend.index');
     }
 }

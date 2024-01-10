@@ -2,18 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-// backend
-use App\Http\Controllers\Backend\AdminController;
 // admin
 use App\Http\Controllers\Admin\DashboardController;
-
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| admin routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -22,12 +18,9 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/admin/login',[LoginController::class,'adminLoginForm'])->name('admin.login-view');
+Route::post('/admin',[LoginController::class,'adminLogin'])->name('admin.login');
 
-Auth::routes();
-
-Route::group(['middleware' => 'auth:web'], function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('home');
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });

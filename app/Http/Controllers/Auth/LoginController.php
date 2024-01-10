@@ -40,12 +40,12 @@ class LoginController extends Controller
         $this->middleware('guest:admin')->except('logout');
     }
 
-    public function sadminLoginForm()
+    public function adminLoginForm()
     {
-        return view('auth.admin_login');
+        return view('admin.auth.login');
     }
 
-    public function sadminLogin(Request $request)
+    public function adminLogin(Request $request)
     {
         $this->validate($request, [
             'email'   => 'required|email',
@@ -53,7 +53,7 @@ class LoginController extends Controller
         ]);
 
         if (\Auth::guard('admin')->attempt($request->only(['email','password']), $request->get('remember'))){
-            return redirect()->route('sadmin.dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withInput($request->only('email', 'remember'));
