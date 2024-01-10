@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// frontend
-use App\Http\Controllers\Frontend\FrontendController;
+
+// backend
+use App\Http\Controllers\Backend\BackendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,6 @@ use App\Http\Controllers\Frontend\FrontendController;
 |
 */
 
-Route::get('/', [FrontendController::class, 'index']);
-
-Auth::routes();
+Route::group(['middleware' => 'auth:web'], function () {
+    Route::get('/dashboard', [BackendController::class, 'index'])->name('home');
+});
