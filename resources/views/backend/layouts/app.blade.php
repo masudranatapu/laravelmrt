@@ -7,6 +7,7 @@
     <title>Otika - Admin Dashboard Template</title>
     <link rel='shortcut icon' type='image/x-icon' href='{{ asset('backend/img/favicon.ico') }}' />
     @include('backend.layouts.partials.style')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
