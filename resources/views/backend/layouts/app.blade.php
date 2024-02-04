@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Otika - Admin Dashboard Template</title>
+    <title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
     <link rel='shortcut icon' type='image/x-icon' href='{{ asset('backend/img/favicon.ico') }}' />
     @include('backend.layouts.partials.style')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -24,7 +24,7 @@
             <div class="main-content">
                 @yield('content')
                 {{-- for setting sidebar  --}}
-                @include('backend.layouts.partials.settingSidebar')
+                {{-- @include('backend.layouts.partials.settingSidebar') --}}
             </div>
             <footer class="main-footer">
                 @include('backend.layouts.partials.footer')
