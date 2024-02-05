@@ -1,6 +1,6 @@
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <a href="index.html">
+        <a href="{{ route('home') }}">
             <img alt="image" src="{{ asset('backend/img/logo.png') }}" class="header-logo" />
             <span class="logo-name">
                 Otika
@@ -12,7 +12,7 @@
             Main
         </li>
         <li class="dropdown active">
-            <a href="index.html" class="nav-link">
+            <a href="{{ route('home') }}" class="nav-link">
                 <i data-feather="monitor"></i>
                 <span>
                     Dashboard

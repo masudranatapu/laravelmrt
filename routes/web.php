@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 // frontend
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 
 /*

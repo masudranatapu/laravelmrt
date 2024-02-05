@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 // backend
 use App\Http\Controllers\Backend\BackendController;
+use App\Http\Controllers\Backend\UserBackendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,6 @@ use App\Http\Controllers\Backend\BackendController;
 
 Route::group(['middleware' => 'auth:web'], function () {
     Route::get('/dashboard', [BackendController::class, 'index'])->name('home');
+    // user profile
+    Route::get('profile', [UserBackendController::class, 'index'])->name('backend.user.profile');
 });
