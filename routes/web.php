@@ -19,3 +19,6 @@ use App\Http\Controllers\Frontend\FrontendController;
 Route::get('/', [FrontendController::class, 'index']);
 
 Auth::routes();
+
+
+Route::get('error', [FrontendController::class,  'error']);
