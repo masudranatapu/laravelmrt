@@ -18,7 +18,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <img src="{{ asset('images/error.gif') }}" alt="Error 404">
+                                    <img src="{{ asset('errors/404/error.gif') }}" alt="Error 404">
                                     <h3>Oops! Page not found. 404</h3>
                                     <div class="page-description">
                                         We could not find the page you were looking for.
