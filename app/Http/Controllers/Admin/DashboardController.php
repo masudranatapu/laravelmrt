@@ -12,4 +12,9 @@ class DashboardController extends Controller
     {
         return view('admin.index');
     }
+
+    function profile()
+    {
+        return view('admin.profile.index');
+    }
 }

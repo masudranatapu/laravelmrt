@@ -23,4 +23,5 @@ Route::post('/admin',[LoginController::class,'adminLogin'])->name('admin.login')
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 });
