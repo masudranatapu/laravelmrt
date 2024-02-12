@@ -219,7 +219,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer text-right">
-                                            <button type="button" class="btn btn-warning mr-2">
+                                            <button type="button" class="btn btn-warning mr-2" @click="clearFormValue()">
                                                 Clear
                                             </button>
                                             <button type="submit" class="btn btn-primary">
@@ -263,10 +263,15 @@ export default {
         },
         updatePassword() {
             axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
-                console.log([response]);
+                console.log(response);
             }).catch((error) => {
-                console.log([error]);
+                console.log(error);
             });
+        },
+        clearFormValue() {
+            this.password.old_password = '';
+            this.password.password = '';
+            this.password.password_confirmation = '';
         }
     },
 };

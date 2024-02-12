@@ -8,7 +8,7 @@ import AdminProfile from "./components/admin/profile/Profile.vue";
 
 // import backend component template
 import Dashboard from "./components/backend/Dashboard.vue";
-import UserProfile from "./components/Backend/user/Profile.vue";
+import UserProfile from "./components/backend/user/Profile.vue";
 
 // admin component
 app.component('admin-dashboard', AdminDashboard);
