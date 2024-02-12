@@ -31,7 +31,7 @@
                     </li>
                 @endif
             @else
-                <a href="{{ route('home') }}" >Home</a>
+                <a href="{{ route('backend.home') }}" >Home</a>
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}

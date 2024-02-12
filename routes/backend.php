@@ -18,7 +18,10 @@ use App\Http\Controllers\Backend\UserBackendController;
 */
 
 Route::group(['middleware' => 'auth:web'], function () {
-    Route::get('/dashboard', [BackendController::class, 'index'])->name('home');
-    // user profile
-    Route::get('profile', [UserBackendController::class, 'index'])->name('backend.user.profile');
+    Route::group(['as' => 'backend.'], function () {
+        Route::get('/dashboard', [BackendController::class, 'index'])->name('home');
+        Route::get('profile', [UserBackendController::class, 'index'])->name('user.profile');
+        Route::get('profile-info', [UserBackendController::class, 'info'])->name('profile.info');
+        Route::post('password-update/{id}', [UserBackendController::class, 'passwordUpdate'])->name('password.update');
+    });
 });
