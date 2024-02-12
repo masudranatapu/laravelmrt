@@ -10,20 +10,20 @@
                                     class="rounded-circle author-box-picture">
                                 <div class="clearfix"></div>
                                 <div class="author-box-name">
-                                    <a href="#">Sarah Smith</a>
+                                    <a href="javascript:;">
+                                        {{ user?.name }}
+                                    </a>
                                 </div>
-                                <div class="author-box-job">Web Developer</div>
+                                <div class="author-box-job">{{ user?.designation }}</div>
                             </div>
                             <div class="text-center">
                                 <div class="author-box-description">
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur voluptatum alias
-                                        molestias
-                                        minus quod dignissimos.
+                                        {{ user?.bio }}
                                     </p>
                                 </div>
                                 <div class="mb-2 mt-3">
-                                    <div class="text-small font-weight-bold">Follow Hasan On</div>
+                                    <div class="text-small font-weight-bold">Follow {{ user?.name }} On</div>
                                 </div>
                                 <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
                                     <i class="fab fa-facebook-f"></i>
@@ -52,7 +52,7 @@
                                         Birthday
                                     </span>
                                     <span class="float-right text-muted">
-                                        30-05-1998
+                                        {{ user?.date_of_birth }}
                                     </span>
                                 </p>
                                 <p class="clearfix">
@@ -60,31 +60,15 @@
                                         Phone
                                     </span>
                                     <span class="float-right text-muted">
-                                        (0123)123456789
+                                        <a :href="'tel:' + user.phone">{{ user?.phone }}</a>
                                     </span>
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Mail
+                                        Email
                                     </span>
                                     <span class="float-right text-muted">
-                                        test@example.com
-                                    </span>
-                                </p>
-                                <p class="clearfix">
-                                    <span class="float-left">
-                                        Facebook
-                                    </span>
-                                    <span class="float-right text-muted">
-                                        <a href="#">John Deo</a>
-                                    </span>
-                                </p>
-                                <p class="clearfix">
-                                    <span class="float-left">
-                                        Twitter
-                                    </span>
-                                    <span class="float-right text-muted">
-                                        <a href="#">@johndeo</a>
+                                        <a :href="'mailto:' + user.email">{{ user?.email }}</a>
                                     </span>
                                 </p>
                             </div>
@@ -147,76 +131,6 @@
                             </ul>
                             <div class="tab-content tab-bordered" id="myTab3Content">
                                 <div class="tab-pane fade show active" id="about" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-3 col-6 b-r">
-                                            <strong>Full Name</strong>
-                                            <br>
-                                            <p class="text-muted">Emily Smith</p>
-                                        </div>
-                                        <div class="col-md-3 col-6 b-r">
-                                            <strong>Mobile</strong>
-                                            <br>
-                                            <p class="text-muted">(123) 456 7890</p>
-                                        </div>
-                                        <div class="col-md-3 col-6 b-r">
-                                            <strong>Email</strong>
-                                            <br>
-                                            <p class="text-muted">johndeo@example.com</p>
-                                        </div>
-                                        <div class="col-md-3 col-6">
-                                            <strong>Location</strong>
-                                            <br>
-                                            <p class="text-muted">India</p>
-                                        </div>
-                                    </div>
-                                    <p class="m-t-30">Completed my graduation in Arts from the well known and
-                                        renowned institution
-                                        of India – SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was
-                                        affiliated
-                                        to M.S. University. I ranker in University exams from the same
-                                        university
-                                        from 1996-01.</p>
-                                    <p>Worked as Professor and Head of the department at Sarda Collage, Rajkot,
-                                        Gujarat
-                                        from 2003-2015 </p>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                        industry. Lorem
-                                        Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        when
-                                        an unknown printer took a galley of type and scrambled it to make a
-                                        type
-                                        specimen book. It has survived not only five centuries, but also the
-                                        leap
-                                        into electronic typesetting, remaining essentially unchanged.</p>
-                                    <div class="section-title">Education</div>
-                                    <ul>
-                                        <li>B.A.,Gujarat University, Ahmedabad,India.</li>
-                                        <li>M.A.,Gujarat University, Ahmedabad, India.</li>
-                                        <li>P.H.D., Shaurashtra University, Rajkot</li>
-                                    </ul>
-                                    <div class="section-title">Experience</div>
-                                    <ul>
-                                        <li>One year experience as Jr. Professor from April-2009 to march-2010
-                                            at B.
-                                            J. Arts College, Ahmedabad.</li>
-                                        <li>Three year experience as Jr. Professor at V.S. Arts &amp; Commerse
-                                            Collage
-                                            from April - 2008 to April - 2011.</li>
-                                        <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                            industry.
-                                        </li>
-                                        <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                            industry.
-                                        </li>
-                                        <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                            industry.
-                                        </li>
-                                        <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                            industry.
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tab-pane fade" id="settings" role="tabpanel">
                                     <form method="post" class="needs-validation">
                                         <div class="card-header">
                                             <h4>Edit Profile</h4>
@@ -254,9 +168,7 @@
                                             <div class="row">
                                                 <div class="form-group col-12">
                                                     <label>Bio</label>
-                                                    <textarea class="form-control summernote-simple">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur voluptatum alias molestias minus quod dignissimos.
-                                                    </textarea>
+                                                    <textarea class="form-control summernote-simple"></textarea>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -275,7 +187,42 @@
                                             </div>
                                         </div>
                                         <div class="card-footer text-right">
-                                            <button class="btn btn-primary">
+                                            <button type="button" class="btn btn-warning mr-2">
+                                                Clear
+                                            </button>
+                                            <button type="button" class="btn btn-primary">
+                                                Save Changes
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="settings" role="tabpanel">
+                                    <form @submit.prevent="updatePassword()">
+                                        <div class="card-header">
+                                            <h4>Update Password</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="form-group col-md-12 col-sm-12">
+                                                    <label>Old Password</label>
+                                                    <input type="text" v-model="password.old_password" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-12 col-sm-12">
+                                                    <label>New Password</label>
+                                                    <input type="text" v-model="password.password" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-12 col-sm-12">
+                                                    <label>Confirm Password</label>
+                                                    <input type="text" v-model="password.password_confirmation"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-right">
+                                            <button type="button" class="btn btn-warning mr-2">
+                                                Clear
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
                                                 Save Changes
                                             </button>
                                         </div>
@@ -292,8 +239,37 @@
 
 <script>
 export default {
-
-}
+    props: [],
+    data: function () {
+        return {
+            password: {},
+            user: {},
+            message: "",
+            errors: {},
+            main_url: window.location.origin + "/",
+        };
+    },
+    beforeMount() {
+        this.loadUser();
+    },
+    methods: {
+        loadUser() {
+            axios.get("/profile-info").then((response) => {
+                // console.log(response);
+                this.user = response.data;
+            }).catch((error) => {
+                console.error("Error fetching profile information: ", error);
+            });
+        },
+        updatePassword() {
+            axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
+                console.log([response]);
+            }).catch((error) => {
+                console.log([error]);
+            });
+        }
+    },
+};
 </script>
 
 <style lang="scss" scoped></style>

@@ -18,6 +18,7 @@ class Admin extends Authenticatable
         'password',
         'username',
         'phone',
+        'image',
         'address',
         'country',
         'gender',

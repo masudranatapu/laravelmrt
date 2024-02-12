@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
+            $table->string('image')->nullable();
             $table->string('country')->nullable();
             $table->integer('package_id')->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'phone',
         'address',
         'country',
+        'image',
         'package_id',
         'gender',
         'status',
