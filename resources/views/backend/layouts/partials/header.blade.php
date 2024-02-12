@@ -152,21 +152,17 @@
         </div>
     </li>
     <li class="dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+        <a href="javascript:;" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="{{ asset('backend/img/user.png') }}" class="user-img-radious-style">
             <span class="d-sm-none d-lg-inline-block"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right pullDown">
-            <div class="dropdown-title">Hello {{ Auth::user()->name }}</div>
+            <div class="dropdown-title">
+                Hello {{ Auth::user()->name }}
+            </div>
             <a href="{{ route('backend.user.profile') }}" class="dropdown-item has-icon">
                 <i class="far fa-user"></i>
                 Profile
-            </a>
-            <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
-                Activities
-            </a>
-            <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
-                Settings
             </a>
             <div class="dropdown-divider"></div>
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item has-icon text-danger">
