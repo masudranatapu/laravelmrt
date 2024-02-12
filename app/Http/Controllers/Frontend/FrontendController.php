@@ -12,11 +12,4 @@ class FrontendController extends Controller
     {
         return view('index');
     }
-    public function error()
-    {
-        // return view('errors.404');
-        // return view('errors.403');
-        return view('errors.500');
-        // return view('errors.503');
-    }
 }
