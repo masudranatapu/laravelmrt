@@ -16,10 +16,23 @@ class Admin extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'phone',
+        'address',
+        'country',
+        'gender',
+        'status',
+        'date',
+        'added_by',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 }
