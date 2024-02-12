@@ -24,6 +24,7 @@ class Admin extends Authenticatable
         'status',
         'date',
         'added_by',
+        'date_of_birth',
     ];
 
     protected $hidden = [

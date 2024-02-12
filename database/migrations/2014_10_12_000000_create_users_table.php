@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->integer('package_id')->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('status', ['Active', 'Inactive', 'Blocked', 'Pending'])->default('Active');
             $table->date('date')->nullable();
