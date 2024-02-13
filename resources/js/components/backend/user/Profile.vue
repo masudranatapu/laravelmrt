@@ -262,6 +262,10 @@ export default {
             });
         },
         updatePassword() {
+            this.$iziToast.success({
+                title: 'Success',
+                message: 'This is a success message',
+            });
             axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
                 console.log(response);
             }).catch((error) => {

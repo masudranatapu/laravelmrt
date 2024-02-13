@@ -1,7 +1,17 @@
 import './bootstrap';
 import { createApp } from 'vue';
 
+import 'izitoast/dist/css/iziToast.min.css';
+import iziToast from 'izitoast';
+
 const app = createApp({});
+
+iziToast.settings({
+    position: 'topRight',
+});
+
+app.config.globalProperties.$iziToast = iziToast;
+
 // import admin component template
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
 import AdminProfile from "./components/admin/profile/Profile.vue";
