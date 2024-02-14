@@ -208,20 +208,21 @@
                                                         Old Password <span class="text-danger">*</span>
                                                     </label>
                                                     <input type="password" v-model="password.old_password"
-                                                        class="form-control">
+                                                        class="form-control" placeholder="Old Password">
                                                 </div>
                                                 <div class="form-group col-md-12 col-sm-12">
                                                     <label>
                                                         New Password <span class="text-danger">*</span>
                                                     </label>
-                                                    <input type="password" v-model="password.password" class="form-control">
+                                                    <input type="password" v-model="password.password" class="form-control"
+                                                        placeholder="New Password">
                                                 </div>
                                                 <div class="form-group col-md-12 col-sm-12">
                                                     <label>
                                                         Confirm Password <span class="text-danger">*</span>
                                                     </label>
                                                     <input type="password" v-model="password.password_confirmation"
-                                                        class="form-control">
+                                                        class="form-control" placeholder="Password Confirmation">
                                                 </div>
                                             </div>
                                         </div>
@@ -273,12 +274,19 @@ export default {
         updatePassword() {
             this.isButtonDisabled = true;
             axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
-                console.log(response.data);
-                this.$iziToast.success({
-                    title: 'Success',
-                    message: 'This is a success message',
-                });
-                this.clearFormValue();
+                this.isButtonDisabled = false;
+                if (response.data.status == true) {
+                    this.$iziToast.success({
+                        title: 'Success',
+                        message: response.data.message,
+                    });
+                    this.clearFormValue();
+                } else {
+                    this.$iziToast.success({
+                        title: 'Error',
+                        message: response.data.message,
+                    });
+                }
             }).catch((error) => {
                 this.isButtonDisabled = false;
                 let errors = error.response.data.errors;

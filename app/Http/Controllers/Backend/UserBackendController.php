@@ -32,16 +32,22 @@ class UserBackendController extends Controller
         try {
             DB::beginTransaction();
 
-            $user = User::where("id", Auth::user()->id)->first();
+            $user = User::where("id", $id)->first();
 
-            if ($user && Hash::check($request->password, $user->password)) {
+            if (Hash::check($request->old_password, $user->password)) {
                 $user->password = Hash::make($request->password);
                 $user->save();
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password not match',
+                ]);
             }
 
             DB::commit();
+
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => 'Password successfully updated',
             ]);
         } catch (\Throwable $th) {
