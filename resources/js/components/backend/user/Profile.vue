@@ -273,11 +273,12 @@ export default {
         updatePassword() {
             this.isButtonDisabled = true;
             axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
-                console.log(response);
+                console.log(response.data);
                 this.$iziToast.success({
                     title: 'Success',
                     message: 'This is a success message',
                 });
+                this.clearFormValue();
             }).catch((error) => {
                 this.isButtonDisabled = false;
                 let errors = error.response.data.errors;
