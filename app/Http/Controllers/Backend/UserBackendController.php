@@ -28,6 +28,7 @@ class UserBackendController extends Controller
 
     public function passwordUpdate(PasswordUpdateRequest $request, $id)
     {
+        dd($request->all());
         try {
             DB::beginTransaction();
 

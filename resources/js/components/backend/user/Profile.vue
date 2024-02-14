@@ -204,16 +204,23 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="form-group col-md-12 col-sm-12">
-                                                    <label>Old Password</label>
-                                                    <input type="text" v-model="password.old_password" class="form-control">
+                                                    <label>
+                                                        Old Password <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="password" v-model="password.old_password"
+                                                        class="form-control">
                                                 </div>
                                                 <div class="form-group col-md-12 col-sm-12">
-                                                    <label>New Password</label>
-                                                    <input type="text" v-model="password.password" class="form-control">
+                                                    <label>
+                                                        New Password <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="password" v-model="password.password" class="form-control">
                                                 </div>
                                                 <div class="form-group col-md-12 col-sm-12">
-                                                    <label>Confirm Password</label>
-                                                    <input type="text" v-model="password.password_confirmation"
+                                                    <label>
+                                                        Confirm Password <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="password" v-model="password.password_confirmation"
                                                         class="form-control">
                                                 </div>
                                             </div>
@@ -222,7 +229,8 @@
                                             <button type="button" class="btn btn-warning mr-2" @click="clearFormValue()">
                                                 Clear
                                             </button>
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-primary"
+                                                :class="{ 'btn-progress': isButtonDisabled }" :disabled="isButtonDisabled">
                                                 Save Changes
                                             </button>
                                         </div>
@@ -246,6 +254,7 @@ export default {
             user: {},
             message: "",
             errors: {},
+            isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
     },
@@ -262,14 +271,23 @@ export default {
             });
         },
         updatePassword() {
-            this.$iziToast.success({
-                title: 'Success',
-                message: 'This is a success message',
-            });
+            this.isButtonDisabled = true;
             axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
                 console.log(response);
+                this.$iziToast.success({
+                    title: 'Success',
+                    message: 'This is a success message',
+                });
             }).catch((error) => {
-                console.log(error);
+                this.isButtonDisabled = false;
+                let errors = error.response.data.errors;
+                Object.keys(errors).forEach((key) => {
+                    const value = errors[key];
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: `${value}`,
+                    });
+                });
             });
         },
         clearFormValue() {
