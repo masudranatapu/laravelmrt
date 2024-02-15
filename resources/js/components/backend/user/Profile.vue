@@ -119,139 +119,21 @@
                         <div class="padding-20">
                             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#about" role="tab">
-                                        About
+                                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab"
+                                        @click="activeTab('profileUpdate')">
+                                        Profile Update
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#settings" role="tab">
-                                        Setting
+                                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab"
+                                        @click="activeTab('passwordUpdate')">
+                                        Password
                                     </a>
                                 </li>
                             </ul>
                             <div class="tab-content tab-bordered" id="myTab3Content">
-                                <div class="tab-pane fade show active" id="about" role="tabpanel">
-                                    <form method="post" class="needs-validation">
-                                        <div class="card-header">
-                                            <h4>Edit Profile</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="form-group col-md-6 col-12">
-                                                    <label>Name</label>
-                                                    <input type="text" class="form-control" placeholder="Name">
-                                                </div>
-                                                <div class="form-group col-md-6 col-12">
-                                                    <label>User Name</label>
-                                                    <input type="text" class="form-control" placeholder="Username">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-md-6 col-12">
-                                                    <label>Email</label>
-                                                    <input type="email" class="form-control" placeholder="Email">
-                                                </div>
-                                                <div class="form-group col-md-6 col-12">
-                                                    <label>Phone</label>
-                                                    <input type="number" class="form-control" placeholder="Phone">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-md-4 col-12">
-                                                    <div class="form-group">
-                                                        <label>File</label>
-                                                        <input type="file" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-4 col-12">
-                                                    <label>Gender</label>
-                                                    <select class="form-control selectric">
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-md-4 col-12">
-                                                    <label>Date of Birth</label>
-                                                    <input type="text" class="form-control datepicker"
-                                                        placeholder="Date fo birth">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-md-4 col-12">
-                                                    <label>Country</label>
-                                                    <select class="form-control selectric">
-                                                        <option value="Bangladesh">Bangladesh</option>
-                                                        <option value="Pakistan">Pakistan</option>
-                                                        <option value="Bhutan">Bhutan</option>
-                                                        <option value="Nepal">Nepal</option>
-                                                        <option value="Maldives">Maldives</option>
-                                                        <option value="Sri Lanka">Sri Lanka</option>
-                                                        <option value="India">India</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-md-8 col-12">
-                                                    <label>Address</label>
-                                                    <input type="text" class="form-control" placeholder="Address">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-12">
-                                                    <label>Bio</label>
-                                                    <textarea class="form-control" placeholder="Bio"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer text-right">
-                                            <button type="button" class="btn btn-warning mr-2">
-                                                Clear
-                                            </button>
-                                            <button type="button" class="btn btn-primary">
-                                                Save Changes
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane fade" id="settings" role="tabpanel">
-                                    <form @submit.prevent="updatePassword()">
-                                        <div class="card-header">
-                                            <h4>Update Password</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="form-group col-md-12 col-sm-12">
-                                                    <label>
-                                                        Old Password <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input type="password" v-model="password.old_password"
-                                                        class="form-control" placeholder="Old Password">
-                                                </div>
-                                                <div class="form-group col-md-12 col-sm-12">
-                                                    <label>
-                                                        New Password <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input type="password" v-model="password.password" class="form-control"
-                                                        placeholder="New Password">
-                                                </div>
-                                                <div class="form-group col-md-12 col-sm-12">
-                                                    <label>
-                                                        Confirm Password <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input type="password" v-model="password.password_confirmation"
-                                                        class="form-control" placeholder="Password Confirmation">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer text-right">
-                                            <button type="button" class="btn btn-warning mr-2" @click="clearFormValue()">
-                                                Clear
-                                            </button>
-                                            <button type="submit" class="btn btn-primary"
-                                                :class="{ 'btn-progress': isButtonDisabled }" :disabled="isButtonDisabled">
-                                                Save Changes
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <ProfileUpdate />
+                                <PasswordUpdate />
                             </div>
                         </div>
                     </div>
@@ -262,7 +144,13 @@
 </template>
 
 <script>
+import ProfileUpdate from './ProfileUpdate.vue'
+import PasswordUpdate from './PasswordUpdate.vue'
 export default {
+    components: {
+        ProfileUpdate,
+        PasswordUpdate
+    },
     props: [],
     data: function () {
         return {
@@ -286,38 +174,15 @@ export default {
                 console.error("Error fetching profile information: ", error);
             });
         },
-        updatePassword() {
-            this.isButtonDisabled = true;
-            axios.post(`/password-update/${this.user.id}`, this.password).then((response) => {
-                this.isButtonDisabled = false;
-                if (response.data.status == true) {
-                    this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
-                    });
-                    this.clearFormValue();
-                } else {
-                    this.$iziToast.success({
-                        title: 'Error',
-                        message: response.data.message,
-                    });
-                }
-            }).catch((error) => {
-                this.isButtonDisabled = false;
-                let errors = error.response.data.errors;
-                Object.keys(errors).forEach((key) => {
-                    const value = errors[key];
-                    this.$iziToast.error({
-                        title: 'Error',
-                        message: `${value}`,
-                    });
-                });
-            });
-        },
-        clearFormValue() {
-            this.password.old_password = '';
-            this.password.password = '';
-            this.password.password_confirmation = '';
+        activeTab(value) {
+            alert(value);
+            if (value == "profileUpdate") {
+                $("#profileInfo").addClass('fade show active')
+                $("#profileInfo").removeClass('fade show active')
+            } else {
+                $("#passwordUpdate").addClass('fade show active')
+                $("#profileInfo").removeClass('fade show active')
+            }
         }
     },
 };
