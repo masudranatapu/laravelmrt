@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/dashboard', [BackendController::class, 'index'])->name('home');
         Route::get('profile', [UserBackendController::class, 'index'])->name('user.profile');
         Route::get('profile-info', [UserBackendController::class, 'info'])->name('profile.info');
+        Route::post('profile-update/{id}', [UserBackendController::class, 'profileUpdate'])->name('profile.update');
         Route::post('password-update/{id}', [UserBackendController::class, 'passwordUpdate'])->name('password.update');
     });
 });

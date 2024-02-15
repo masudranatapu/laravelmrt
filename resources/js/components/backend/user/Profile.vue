@@ -118,7 +118,7 @@
                     <div class="card">
                         <div class="padding-20">
                             <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab"
                                         @click="activeTab('profileUpdate')">
                                         Profile Update
@@ -129,11 +129,31 @@
                                         @click="activeTab('passwordUpdate')">
                                         Password
                                     </a>
+                                </li> -->
+                                <li class="nav-item">
+                                    <a class="nav-link" :class="{ 'active': activeTab === 'profileUpdate' }"
+                                        data-toggle="tab" href="#profileUpdate" role="tab"
+                                        @click="changeTab('profileUpdate')">
+                                        Profile Update
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" :class="{ 'active': activeTab === 'passwordUpdate' }"
+                                        data-toggle="tab" href="#passwordUpdate" role="tab"
+                                        @click="changeTab('passwordUpdate')">
+                                        Password
+                                    </a>
                                 </li>
                             </ul>
                             <div class="tab-content tab-bordered" id="myTab3Content">
-                                <ProfileUpdate />
-                                <PasswordUpdate />
+                                <div class="tab-pane" :class="{ 'fade show active': activeTab === 'profileUpdate' }"
+                                    id="profileUpdate">
+                                    <ProfileUpdate :userinfo="user" />
+                                </div>
+                                <div class="tab-pane fade" :class="{ 'fade show active': activeTab === 'passwordUpdate' }"
+                                    id="passwordUpdate">
+                                    <PasswordUpdate :userinfo="user" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -156,9 +176,8 @@ export default {
         return {
             password: {},
             user: {},
-            message: "",
-            errors: {},
             isButtonDisabled: false,
+            activeTab: 'profileUpdate',
             main_url: window.location.origin + "/",
         };
     },
@@ -174,16 +193,9 @@ export default {
                 console.error("Error fetching profile information: ", error);
             });
         },
-        activeTab(value) {
-            alert(value);
-            if (value == "profileUpdate") {
-                $("#profileInfo").addClass('fade show active')
-                $("#profileInfo").removeClass('fade show active')
-            } else {
-                $("#passwordUpdate").addClass('fade show active')
-                $("#profileInfo").removeClass('fade show active')
-            }
-        }
+        changeTab(tabId) {
+            this.activeTab = tabId;
+        },
     },
 };
 </script>

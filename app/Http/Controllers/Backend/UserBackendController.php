@@ -58,4 +58,19 @@ class UserBackendController extends Controller
             ]);
         }
     }
+
+    public function profileUpdate(UserProfileUpdateRequest $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
 }
