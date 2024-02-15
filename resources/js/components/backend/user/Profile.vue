@@ -138,51 +138,66 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="form-group col-md-6 col-12">
-                                                    <label>First Name</label>
-                                                    <input type="text" class="form-control" value="John">
-                                                    <div class="invalid-feedback">
-                                                        Please fill in the first name
-                                                    </div>
+                                                    <label>Name</label>
+                                                    <input type="text" class="form-control" placeholder="Name">
                                                 </div>
                                                 <div class="form-group col-md-6 col-12">
-                                                    <label>Last Name</label>
-                                                    <input type="text" class="form-control" value="Deo">
-                                                    <div class="invalid-feedback">
-                                                        Please fill in the last name
-                                                    </div>
+                                                    <label>User Name</label>
+                                                    <input type="text" class="form-control" placeholder="Username">
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="form-group col-md-7 col-12">
+                                                <div class="form-group col-md-6 col-12">
                                                     <label>Email</label>
-                                                    <input type="email" class="form-control" value="test@example.com">
-                                                    <div class="invalid-feedback">
-                                                        Please fill in the email
+                                                    <input type="email" class="form-control" placeholder="Email">
+                                                </div>
+                                                <div class="form-group col-md-6 col-12">
+                                                    <label>Phone</label>
+                                                    <input type="number" class="form-control" placeholder="Phone">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-12">
+                                                    <div class="form-group">
+                                                        <label>File</label>
+                                                        <input type="file" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-5 col-12">
-                                                    <label>Phone</label>
-                                                    <input type="tel" class="form-control" value="">
+                                                <div class="form-group col-md-4 col-12">
+                                                    <label>Gender</label>
+                                                    <select class="form-control selectric">
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4 col-12">
+                                                    <label>Date of Birth</label>
+                                                    <input type="text" class="form-control datepicker"
+                                                        placeholder="Date fo birth">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-12">
+                                                    <label>Country</label>
+                                                    <select class="form-control selectric">
+                                                        <option value="Bangladesh">Bangladesh</option>
+                                                        <option value="Pakistan">Pakistan</option>
+                                                        <option value="Bhutan">Bhutan</option>
+                                                        <option value="Nepal">Nepal</option>
+                                                        <option value="Maldives">Maldives</option>
+                                                        <option value="Sri Lanka">Sri Lanka</option>
+                                                        <option value="India">India</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-8 col-12">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control" placeholder="Address">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-12">
                                                     <label>Bio</label>
-                                                    <textarea class="form-control summernote-simple"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group mb-0 col-12">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="remember" class="custom-control-input"
-                                                            id="newsletter">
-                                                        <label class="custom-control-label" for="newsletter">Subscribe to
-                                                            newsletter</label>
-                                                        <div class="text-muted form-text">
-                                                            You will get new information about products, offers and
-                                                            promotions
-                                                        </div>
-                                                    </div>
+                                                    <textarea class="form-control" placeholder="Bio"></textarea>
                                                 </div>
                                             </div>
                                         </div>

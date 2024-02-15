@@ -1,5 +1,7 @@
 <!-- General CSS Files -->
 <link rel="stylesheet" href="{{ asset('backend/css/app.css') }}">
+{{-- add css  --}}
+@stack('css')
 <!-- toastr -->
 <link rel="stylesheet" href="assets/bundles/izitoast/css/iziToast.min.css">
 <!-- Template CSS -->
