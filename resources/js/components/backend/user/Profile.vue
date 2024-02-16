@@ -52,7 +52,7 @@
                                         Birthday
                                     </span>
                                     <span class="float-right text-muted">
-                                        {{ user?.date_of_birth }}
+                                        <!-- {{ user?.date_of_birth }} -->
                                     </span>
                                 </p>
                                 <p class="clearfix">

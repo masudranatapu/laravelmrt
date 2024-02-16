@@ -8,21 +8,21 @@
                 <div class="row">
                     <div class="form-group col-md-6 col-12">
                         <label>Name</label>
-                        <input type="text" class="form-control" placeholder="Name">
+                        <input type="text" class="form-control" v-model="userinfo.name" placeholder="Name">
                     </div>
                     <div class="form-group col-md-6 col-12">
                         <label>User Name</label>
-                        <input type="text" class="form-control" placeholder="Username">
+                        <input type="text" class="form-control" v-model="userinfo.username" placeholder="Username">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6 col-12">
                         <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" v-model="userinfo.email" placeholder="Email">
                     </div>
                     <div class="form-group col-md-6 col-12">
                         <label>Phone</label>
-                        <input type="number" class="form-control" placeholder="Phone">
+                        <input type="number" class="form-control" v-model="userinfo.phone" placeholder="Phone">
                     </div>
                 </div>
                 <div class="row">
@@ -34,20 +34,21 @@
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>Gender</label>
-                        <select class="form-control selectric">
+                        <select class="form-control selectric" v-model="userinfo.gender">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>Date of Birth</label>
-                        <input type="text" class="form-control datepicker" placeholder="Date fo birth">
+                        <input type="text" class="form-control datepicker" v-model="userinfo.date_of_birth"
+                            placeholder="Date fo birth">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 col-12">
                         <label>Country</label>
-                        <select class="form-control selectric">
+                        <select class="form-control selectric" v-model="userinfo.country">
                             <option value="Bangladesh">Bangladesh</option>
                             <option value="Pakistan">Pakistan</option>
                             <option value="Bhutan">Bhutan</option>
@@ -59,13 +60,13 @@
                     </div>
                     <div class="form-group col-md-8 col-12">
                         <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Address">
+                        <input type="text" class="form-control" v-model="userinfo.address" placeholder="Address">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12">
                         <label>Bio</label>
-                        <textarea class="form-control" placeholder="Bio"></textarea>
+                        <textarea class="form-control" placeholder="Bio">{{ userinfo.bio }}</textarea>
                     </div>
                 </div>
             </div>
@@ -87,7 +88,6 @@ export default {
     props: ['userinfo'],
     data: function () {
         return {
-            password: {},
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -98,14 +98,13 @@ export default {
     methods: {
         updateProfile() {
             this.isButtonDisabled = true;
-            axios.post(`/profile-update/${this.userinfo.id}`, this.password).then((response) => {
+            axios.post(`/profile-update/${this.userinfo.id}`, this.userinfo).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
                         message: response.data.message,
                     });
-                    this.clearFormValue();
                 } else {
                     this.$iziToast.success({
                         title: 'Error',
@@ -125,7 +124,7 @@ export default {
             });
         },
         clearFormValue() {
-            alert(1);
+            
         }
     },
 }

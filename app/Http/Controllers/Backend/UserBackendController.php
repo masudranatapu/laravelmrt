@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordUpdateRequest;
+use App\Http\Requests\UserProfileUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UserBackendController extends Controller
 {
@@ -61,6 +63,7 @@ class UserBackendController extends Controller
 
     public function profileUpdate(UserProfileUpdateRequest $request, $id)
     {
+        dd($request->all());
         try {
             DB::beginTransaction();
             
