@@ -63,11 +63,24 @@ class UserBackendController extends Controller
 
     public function profileUpdate(UserProfileUpdateRequest $request, $id)
     {
-        dd($request->all());
         try {
             DB::beginTransaction();
-            
+            $user = User::where('id', $id)->first();
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->country = $request->country;
+            $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
+            $user->gender = $request->gender;
+            $user->bio = $request->bio;
+            $user->save();
             DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'User successfully updated',
+            ]);
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
