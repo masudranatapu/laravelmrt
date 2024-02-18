@@ -2,7 +2,7 @@ import './bootstrap'
 // vue
 import { createApp } from 'vue'
 // javascript
-import 'bootstrap-daterangepicker/daterangepicker'
+
 // toastr
 import 'izitoast/dist/css/iziToast.min.css'
 import iziToast from 'izitoast'

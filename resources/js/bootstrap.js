@@ -1,5 +1,4 @@
 import 'bootstrap'
-import 'bootstrap-daterangepicker/daterangepicker.css'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

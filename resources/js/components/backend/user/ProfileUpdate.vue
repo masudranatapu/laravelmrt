@@ -34,21 +34,21 @@
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>Gender</label>
-                        <select class="form-control selectric" v-model="userinfo.gender">
+                        <select class="form-control" v-model="userinfo.gender">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>Date of Birth</label>
-                        <input type="text" class="form-control datepicker" v-model="userinfo.date_of_birth"
+                        <input type="date" class="form-control" v-model="userinfo.date_of_birth"
                             placeholder="Date fo birth">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 col-12">
                         <label>Country</label>
-                        <select class="form-control selectric" v-model="userinfo.country">
+                        <select class="form-control" v-model="userinfo.country">
                             <option value="Bangladesh">Bangladesh</option>
                             <option value="Pakistan">Pakistan</option>
                             <option value="Bhutan">Bhutan</option>
@@ -124,7 +124,7 @@ export default {
             });
         },
         clearFormValue() {
-            
+
         }
     },
 }
