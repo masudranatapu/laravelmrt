@@ -49,10 +49,18 @@
                             <div class="py-4">
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Birthday
+                                        Username
                                     </span>
                                     <span class="float-right text-muted">
-                                        <!-- {{ user?.date_of_birth }} -->
+                                        {{ user?.username }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span class="float-left">
+                                        Email
+                                    </span>
+                                    <span class="float-right text-muted">
+                                        <a :href="'mailto:' + user.email">{{ user?.email }}</a>
                                     </span>
                                 </p>
                                 <p class="clearfix">
@@ -65,10 +73,10 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Email
+                                        Birthday
                                     </span>
                                     <span class="float-right text-muted">
-                                        <a :href="'mailto:' + user.email">{{ user?.email }}</a>
+                                        <!-- {{ user?.date_of_birth }} -->
                                     </span>
                                 </p>
                             </div>

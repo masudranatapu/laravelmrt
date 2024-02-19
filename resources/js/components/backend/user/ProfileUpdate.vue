@@ -29,13 +29,13 @@
                     <div class="form-group col-md-4 col-12">
                         <div class="form-group">
                             <label>File</label>
-                            <input type="file" class="form-control">
+                            <input type="file" class="form-control" id="profileImage">
                         </div>
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>Gender</label>
                         <select class="form-control" v-model="userinfo.gender">
-                            <option value="Male">Male</option>
+                            <option value="Male" selected>Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
@@ -50,7 +50,7 @@
                         <label>Country</label>
                         <select class="form-control" v-model="userinfo.country">
                             <option value="Bangladesh">Bangladesh</option>
-                            <option value="Pakistan">Pakistan</option>
+                            <option value="Pakistan" selected>Pakistan</option>
                             <option value="Bhutan">Bhutan</option>
                             <option value="Nepal">Nepal</option>
                             <option value="Maldives">Maldives</option>
@@ -66,7 +66,8 @@
                 <div class="row">
                     <div class="form-group col-12">
                         <label>Bio</label>
-                        <textarea class="form-control" placeholder="Bio">{{ userinfo.bio }}</textarea>
+                        <textarea class="form-control" placeholder="Bio"
+                            v-model="userinfo.bio">{{ userinfo.bio }}</textarea>
                     </div>
                 </div>
             </div>
@@ -97,8 +98,41 @@ export default {
     },
     methods: {
         updateProfile() {
+
             this.isButtonDisabled = true;
-            axios.post(`/profile-update/${this.userinfo.id}`, this.userinfo).then((response) => {
+
+            var profileImage = $("#profileImage")[0].files;
+            if (profileImage.length > 0) {
+
+                var formData = new FormData();
+
+                var name = profileImage[0].name;
+
+                var extension = name.split('.').pop().toLowerCase();
+
+                if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
+                    this.$iziToast.error({
+                        title: 'Success',
+                        message: "Invalid Include Image File Extension",
+                    });
+                    $("#profileImage").val();
+                } else {
+                    formData.append("image", profileImage[0]);
+                }
+
+            }
+
+            formData.append("name", this.userinfo.name);
+            formData.append("username", this.userinfo.username);
+            formData.append("email", this.userinfo.email);
+            formData.append("phone", this.userinfo.phone);
+            formData.append("gender", this.userinfo.gender);
+            formData.append("date_of_birth", this.userinfo.date_of_birth);
+            formData.append("country", this.userinfo.country);
+            formData.append("address", this.userinfo.address);
+            formData.append("bio", this.userinfo.bio);
+            formData.append("_method", "POST");
+            axios.post(`/profile-update/${this.userinfo.id}`, formData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
@@ -106,7 +140,7 @@ export default {
                         message: response.data.message,
                     });
                 } else {
-                    this.$iziToast.success({
+                    this.$iziToast.error({
                         title: 'Error',
                         message: response.data.message,
                     });
