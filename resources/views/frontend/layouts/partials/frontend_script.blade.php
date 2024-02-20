@@ -10,3 +10,36 @@
 <script src="{{ asset('frontend/lib/lightbox/js/lightbox.min.js') }}"></script>
 <!-- Template Javascript -->
 <script src="{{ asset('frontend/js/main.js') }}"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $(".submitNewsletter").submit(function(e) {
+            e.preventDefault();
+            var formData = {
+                email: $(".newsletter_email").val(),
+                _token: CSRF_TOKEN,
+            };
+            if (formData) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('frontend.newsletter') }}",
+                    data: formData,
+                    success: function(response) {
+                        if (response.status == true) {
+                            $(".newsletter_email").val('');
+                            alert(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error.responseJSON.errors);
+                    }
+                });
+            } else {
+                alert('Email not write for newsletter');
+            }
+        });
+    });
+</script>

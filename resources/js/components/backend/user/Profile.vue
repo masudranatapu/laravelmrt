@@ -6,7 +6,7 @@
                     <div class="card author-box">
                         <div class="card-body">
                             <div class="author-box-center">
-                                <img alt="image" src="assets/img/users/user-1.png"
+                                <img src="assets/img/users/user-1.png" :alt="user?.name"
                                     class="rounded-circle author-box-picture">
                                 <div class="clearfix"></div>
                                 <div class="author-box-name">
@@ -23,7 +23,9 @@
                                     </p>
                                 </div>
                                 <div class="mb-2 mt-3">
-                                    <div class="text-small font-weight-bold">Follow {{ user?.name }} On</div>
+                                    <div class="text-small font-weight-bold">
+                                    Follow {{ user?.name }} On
+                                    </div>
                                 </div>
                                 <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
                                     <i class="fab fa-facebook-f"></i>
@@ -73,10 +75,34 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
+                                        Address
+                                    </span>
+                                    <span class="float-right text-muted">
+                                        {{ user?.address }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span class="float-left">
+                                        Gender
+                                    </span>
+                                    <span class="float-right text-muted">
+                                        {{ user?.gender }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span class="float-left">
+                                        Country
+                                    </span>
+                                    <span class="float-right text-muted">
+                                        {{ user?.country }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span class="float-left">
                                         Birthday
                                     </span>
                                     <span class="float-right text-muted">
-                                        <!-- {{ user?.date_of_birth }} -->
+                                        {{ user?.date_of_birth }}
                                     </span>
                                 </p>
                             </div>
@@ -126,18 +152,6 @@
                     <div class="card">
                         <div class="padding-20">
                             <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab"
-                                        @click="activeTab('profileUpdate')">
-                                        Profile Update
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab"
-                                        @click="activeTab('passwordUpdate')">
-                                        Password
-                                    </a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a class="nav-link" :class="{ 'active': activeTab === 'profileUpdate' }"
                                         data-toggle="tab" href="#profileUpdate" role="tab"

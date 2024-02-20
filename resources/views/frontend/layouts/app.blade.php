@@ -11,6 +11,9 @@
     <link href="{{ asset('frontend/img/favicon.ico') }}" rel="icon">
     {{-- style --}}
     @include('frontend.layouts.partials.frontend_style')
+    <script>
+        const CSRF_TOKEN = "{{ csrf_token() }}";
+    </script>
 </head>
 
 <body>

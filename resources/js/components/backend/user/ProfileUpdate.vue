@@ -101,11 +101,12 @@ export default {
 
             this.isButtonDisabled = true;
 
+            var formData = new FormData();
+
             var profileImage = $("#profileImage")[0].files;
+
             if (profileImage.length > 0) {
-
-                var formData = new FormData();
-
+                
                 var name = profileImage[0].name;
 
                 var extension = name.split('.').pop().toLowerCase();

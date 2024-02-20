@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', 'Home')
+
 @section('content')
     <!-- Navbar & Hero Start -->
     <div class="container-xxl position-relative p-0">
