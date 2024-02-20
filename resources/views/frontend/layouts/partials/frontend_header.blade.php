@@ -23,7 +23,7 @@
     </div>
     @guest
         @if (Route::has('login'))
-            <a href="{{ route('login') }}" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Get Started</a>
+            <a href="{{ route('login') }}" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Login</a>
         @endif
     @else
         <a href="{{ route('backend.home') }}" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Dashoard</a>

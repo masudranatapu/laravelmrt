@@ -18,4 +18,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 
 Route::get('/', [FrontendController::class, 'index']);
 
-Auth::routes();
+Auth::routes(); // ['register' => false]
+
+Route::get('/about', [FrontendController::class, 'about'])->name('frontend.about');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('frontend.contact');

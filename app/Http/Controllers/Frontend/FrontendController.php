@@ -12,4 +12,12 @@ class FrontendController extends Controller
     {
         return view('index');
     }
+    public function about()
+    {
+        return view('frontend.pages.about');
+    }
+    public function contact()
+    {
+        return view('frontend.pages.contact');
+    }
 }
