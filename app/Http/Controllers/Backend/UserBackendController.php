@@ -9,7 +9,6 @@ use App\Http\Requests\BackendRequest\UserProfileUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
 
 class UserBackendController extends Controller
 {
