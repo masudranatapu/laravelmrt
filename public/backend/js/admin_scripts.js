@@ -696,16 +696,16 @@ $(function () {
     toggle_sticky_header(true);
   });
 
-    //start up class add
+  //start up class add
 
-    //   add default class on body tag
-    //   jQuery("body").addClass("light");
-    //   jQuery("body").addClass("light-sidebar");
-    //   jQuery("body").addClass("theme-white");
+  //   add default class on body tag
+  jQuery("body").addClass("light");
+  jQuery("body").addClass("light-sidebar");
+  jQuery("body").addClass("theme-white");
 
-    jQuery("body").addClass("dark");
-    jQuery("body").addClass("dark-sidebar");
-    jQuery("body").addClass("theme-black");
+  // jQuery("body").addClass("dark");
+  // jQuery("body").addClass("dark-sidebar");
+  // jQuery("body").addClass("theme-black");
 
   // set theme default color
   $(".choose-theme li").removeClass("active");

@@ -27,7 +27,7 @@
                 </span>
             </a>
             <ul class="dropdown-menu">
-                <li>
+                <li class="{{ Route::is('admin.businesses.index') && Route::is('admin.businesses.create') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.businesses.index') }}">
                         Business List
                     </a>

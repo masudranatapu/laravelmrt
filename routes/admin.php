@@ -31,4 +31,5 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
 
     // businesses
     Route::resource('businesses', AdminBusinessController::class);
+    Route::get('businesses-list', [AdminBusinessController::class, 'businessList'])->name('business.list');
 });
