@@ -28,9 +28,10 @@ Route::group(['as' => 'frontend.'], function () {
     Route::get('/service', [FrontendController::class, 'service'])->name('service');
     Route::get('/testimonial', [FrontendController::class, 'testimonial'])->name('testimonial');
     Route::get('/team', [FrontendController::class, 'team'])->name('team');
+    Route::get('/faq', [FrontendController::class, 'faq'])->name('faq');
     // project
     Route::get('/project', [ProjectController::class, 'project'])->name('project');
     Route::get('/project/details', [ProjectController::class, 'projectDetails'])->name('project.details');
-    
+
     Route::post('/newsletter', [FrontendController::class, 'newsletter'])->name('newsletter');
 });

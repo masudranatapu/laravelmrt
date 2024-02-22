@@ -35,10 +35,10 @@
             <p class="section-title text-white h5 mb-4">
                 Quick Link
             </p>
-            <a class="btn btn-link" href="">
+            <a class="btn btn-link" href="{{ route('frontend.about') }}">
                 About Us
             </a>
-            <a class="btn btn-link" href="">
+            <a class="btn btn-link" href="{{ route('frontend.contact') }}">
                 Contact Us
             </a>
             <a class="btn btn-link" href="">
@@ -110,7 +110,7 @@
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <div class="footer-menu">
-                    <a href="">
+                    <a href="{{ route('frontend.index') }}">
                         Home
                     </a>
                     <a href="">
@@ -119,7 +119,7 @@
                     <a href="">
                         Help
                     </a>
-                    <a href="">
+                    <a href="{{ route('frontend.faq') }}">
                         FQAs
                     </a>
                 </div>
