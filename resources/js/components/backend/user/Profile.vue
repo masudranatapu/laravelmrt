@@ -22,24 +22,6 @@
                                         {{ user?.bio }}
                                     </p>
                                 </div>
-                                <div class="mb-2 mt-3">
-                                    <div class="text-small font-weight-bold">
-                                    Follow {{ user?.name }} On
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-github">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-instagram">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <div class="w-100 d-sm-none"></div>
                             </div>
                         </div>
                     </div>

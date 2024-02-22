@@ -20,8 +20,8 @@
             Our Team
         </a>
         <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                Pages
+            <a href="javascript:;" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                Projects
             </a>
             <div class="dropdown-menu m-0">
                 <a href="team.html" class="dropdown-item">

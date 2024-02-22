@@ -72,9 +72,6 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="button" class="btn btn-warning mr-2" @click="clearFormValue()">
-                    Clear
-                </button>
                 <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                     :disabled="isButtonDisabled">
                     Save Changes
@@ -106,7 +103,7 @@ export default {
             var profileImage = $("#profileImage")[0].files;
 
             if (profileImage.length > 0) {
-                
+
                 var name = profileImage[0].name;
 
                 var extension = name.split('.').pop().toLowerCase();
@@ -140,6 +137,7 @@ export default {
                         title: 'Success',
                         message: response.data.message,
                     });
+                    $("#profileImage").val('');
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -158,9 +156,6 @@ export default {
                 });
             });
         },
-        clearFormValue() {
-
-        }
     },
 }
 </script>
