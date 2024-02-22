@@ -20,21 +20,21 @@
             </a>
         </li>
         <li class="dropdown">
-            <a href="#" class="menu-toggle nav-link has-dropdown">
+            <a href="javascript:;" class="menu-toggle nav-link has-dropdown">
                 <i data-feather="briefcase"></i>
                 <span>
-                    Widgets
+                    Business
                 </span>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="nav-link" href="widget-chart.html">
-                        Chart Widgets
+                    <a class="nav-link" href="{{ route('admin.businesses.index') }}">
+                        Business List
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="widget-data.html">
-                        Data Widgets
+                    <a class="nav-link" href="{{ route('admin.businesses.create') }}">
+                        Add New Business
                     </a>
                 </li>
             </ul>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 // admin
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AdminBusinessController;
 use App\Http\Controllers\Auth\LoginController;
 
 
@@ -27,4 +28,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('profile-info', [DashboardController::class, 'info'])->name('profile.info');
     Route::post('profile-update/{id}', [DashboardController::class, 'profileUpdate'])->name('profile.update');
     Route::post('password-update/{id}', [DashboardController::class, 'passwordUpdate'])->name('password.update');
+
+    // businesses
+    Route::resource('businesses', AdminBusinessController::class);
 });
