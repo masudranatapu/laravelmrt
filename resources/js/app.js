@@ -25,6 +25,7 @@ import AdminEditBusinesse from './components/admin/businesse/EditBusinesse.vue'
 // import backend component template
 import Dashboard from './components/backend/Dashboard.vue'
 import UserProfile from './components/backend/user/Profile.vue'
+import BackendCustomer from './components/backend/customer/Customer.vue'
 
 // admin component
 app.component('admin-dashboard', AdminDashboard)
@@ -36,5 +37,6 @@ app.component('admin-businesse-edit', AdminEditBusinesse)
 // backend component
 app.component('backend-dashboard', Dashboard)
 app.component('backend-profile', UserProfile)
+app.component('backend-customer', BackendCustomer)
 
 app.mount('#app')
