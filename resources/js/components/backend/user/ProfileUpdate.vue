@@ -138,6 +138,7 @@ export default {
                         message: response.data.message,
                     });
                     $("#profileImage").val('');
+                    this.$emit('load-user');
                 } else {
                     this.$iziToast.error({
                         title: 'Error',

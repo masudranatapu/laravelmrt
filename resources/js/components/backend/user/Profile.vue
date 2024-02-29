@@ -6,7 +6,7 @@
                     <div class="card author-box">
                         <div class="card-body">
                             <div class="author-box-center">
-                                <img src="assets/img/users/user-1.png" :alt="user?.name"
+                                <img :src='user.image' :alt="user?.name"
                                     class="rounded-circle author-box-picture">
                                 <div class="clearfix"></div>
                                 <div class="author-box-name">
@@ -90,45 +90,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Skills</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media-title">Java</div>
-                                    </div>
-                                    <div class="media-progressbar p-t-10">
-                                        <div class="progress" data-height="6">
-                                            <div class="progress-bar bg-primary" data-width="70%"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media-title">Web Design</div>
-                                    </div>
-                                    <div class="media-progressbar p-t-10">
-                                        <div class="progress" data-height="6">
-                                            <div class="progress-bar bg-warning" data-width="80%"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media-title">Photoshop</div>
-                                    </div>
-                                    <div class="media-progressbar p-t-10">
-                                        <div class="progress" data-height="6">
-                                            <div class="progress-bar bg-green" data-width="48%"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-8">
                     <div class="card">
@@ -152,7 +113,7 @@
                             <div class="tab-content tab-bordered" id="myTab3Content">
                                 <div class="tab-pane" :class="{ 'fade show active': activeTab === 'profileUpdate' }"
                                     id="profileUpdate">
-                                    <ProfileUpdate :userinfo="user" />
+                                    <ProfileUpdate :userinfo="user" @load-user="refreshUser" />
                                 </div>
                                 <div class="tab-pane fade" :class="{ 'fade show active': activeTab === 'passwordUpdate' }"
                                     id="passwordUpdate">
@@ -199,6 +160,9 @@ export default {
         },
         changeTab(tabId) {
             this.activeTab = tabId;
+        },
+        refreshUser() {
+            this.loadUser();
         },
     },
 };

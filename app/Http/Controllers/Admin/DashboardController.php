@@ -9,6 +9,7 @@ use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\Admin\SadminInfoResource;
 
 class DashboardController extends Controller
 {
@@ -27,9 +28,8 @@ class DashboardController extends Controller
     {
         try {
             $admin = Admin::where("id", Auth::user()->id)->first();
-            return response()->json($admin);
+            return new SadminInfoResource($admin);
         } catch (\Throwable $th) {
-            //throw $th;
             return response()->json($th->getMessage());
         }
     }
@@ -80,6 +80,12 @@ class DashboardController extends Controller
             $admin->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
             $admin->gender = $request->gender;
             $admin->bio = $request->bio;
+
+            if($request->hasFile("image")) {
+                $image_url = imageUploader($request->file('image'), 'backend', $admin->image);
+                $admin->image = $image_url;
+            }
+
             $admin->save();
             DB::commit();
             return response()->json([
