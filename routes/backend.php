@@ -27,5 +27,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('password-update/{id}', [UserBackendController::class, 'passwordUpdate'])->name('password.update');
         // customer 
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
+        Route::get('customer-list', [CustomerController::class, 'customerList'])->name('customer.list');
+        Route::post('customer/store', [CustomerController::class, 'store'])->name('customer.store');
     });
 });

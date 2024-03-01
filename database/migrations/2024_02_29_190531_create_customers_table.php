@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('image')->nullable();
             $table->string('area')->nullable();
-            $table->string('city')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('country')->nullable();
             $table->string('address')->nullable();
@@ -33,7 +32,6 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->double('balance', 12, 4)->default(0);
             $table->double('paid_amount', 12, 4)->default(0);
-            $table->string('designation')->nullable();
             $table->enum('status', ['Active', 'Inactive', 'Blocked', 'Pending'])->default('Active');
             $table->date('date')->nullable();
             $table->timestamps();

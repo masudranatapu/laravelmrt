@@ -3,7 +3,5 @@
 @section('title', 'Customers')
 
 @section('content')
-    <section class="section">
-        <backend-customer></backend-customer>
-    </section>
+    <backend-customer></backend-customer>
 @endsection
