@@ -43,7 +43,7 @@
             <a href="javascript:;" class="menu-toggle nav-link has-dropdown">
                 <i data-feather="command"></i>
                 <span>
-                    customer
+                    Customer
                 </span>
             </a>
             <ul class="dropdown-menu">

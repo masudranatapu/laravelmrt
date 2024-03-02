@@ -18,7 +18,15 @@ class CustomerController extends Controller
 
     public function customerList(Request $request)
     {
-        $customer = Customer::get();
+        try {
+            $customer = Customer::get();
+            return CustomerResource::collection($customer);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
     }
     
     public function store(CustomerRequest $request)
@@ -34,12 +42,13 @@ class CustomerController extends Controller
             $customer->date_of_birth = $request->date_of_birth;
             $customer->due = $request->due;
             $customer->customer_group_id = $request->customer_group_id;
-            $customer->date = $request->date;
+            $customer->date = $request->date ? $request->date : date('Y-m-d');
             $customer->area = $request->area;
             $customer->country = $request->country;
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
+            $customer->status = 'Active';
 
             if($request->hasFile("image")) {
                 $image_url = imageUploader($request->file('image'), 'customer', $customer->image);

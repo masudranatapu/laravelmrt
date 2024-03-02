@@ -144,8 +144,8 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="customer.customer_group_id">
-                                                <option value="One">One</option>
-                                                <option value="Two">Two</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
                                             </select>
                                         </div>
                                     </div>
