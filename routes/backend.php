@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\BackendController;
 use App\Http\Controllers\Backend\UserBackendController;
 use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\CustomerGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +30,9 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
         Route::get('customer-list', [CustomerController::class, 'customerList'])->name('customer.list');
         Route::post('customer/store', [CustomerController::class, 'store'])->name('customer.store');
+        // customer group
+        Route::get('customers-group', [CustomerGroupController::class, 'index'])->name('customerGroup');
+        Route::get('group-list', [CustomerGroupController::class, 'groupList'])->name('group.list');
+        Route::post('group/store', [CustomerGroupController::class, 'index'])->name('customerGroup');
     });
 });

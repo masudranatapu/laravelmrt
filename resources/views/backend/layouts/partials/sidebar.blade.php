@@ -63,8 +63,8 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="calendar.html">
-                        Calendar
+                    <a class="nav-link" href="{{ route('backend.customerGroup') }}">
+                        Customer Group
                     </a>
                 </li>
             </ul>

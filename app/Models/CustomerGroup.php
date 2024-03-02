@@ -10,4 +10,14 @@ class CustomerGroup extends Model
     use HasFactory;
 
     protected $guarded = [];
+    
+    public function customers()
+    {
+        $this->hasMany(Customer::class);    
+    }
+
+    public function user()
+    {
+        $this->belongsTo(User::class, 'create_by', 'id');
+    }
 }
