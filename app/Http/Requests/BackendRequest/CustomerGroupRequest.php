@@ -22,7 +22,8 @@ class CustomerGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'amount' => 'required|numeric|min:1',
         ];
     }
 }
