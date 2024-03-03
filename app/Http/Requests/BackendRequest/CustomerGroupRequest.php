@@ -21,16 +21,9 @@ class CustomerGroupRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->_method == 'POST') {
-            return [
-                'name' => ['required', 'string'],
-                'amount' => ['required', 'numeric', 'min:1'],
-            ];
-        } else {
-            return [
-                'name' => ['required', 'string'],
-                'amount' => ['required', 'numeric', 'min:1'],
-            ];
-        }
+        return [
+            'name' => ['required', 'string'],
+            'amount' => ['required', 'numeric', 'min:1'],
+        ];
     }
 }

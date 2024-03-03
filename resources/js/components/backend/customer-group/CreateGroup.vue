@@ -83,8 +83,7 @@ export default {
     methods: {
         addNewGroup() {
             this.isButtonDisabled = true;
-            this.group._method = 'POST';
-            axios.post(`/group/store`, this.group).then((response) => {
+            axios.post('/group/store', this.group).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
@@ -93,7 +92,8 @@ export default {
                     });
                     this.$emit('load-group');
                     $("#createNewGroup").modal('hide');
-                    this.group = "";
+                    this.group.name = "";
+                    this.group.amount = "";
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -102,20 +102,28 @@ export default {
                 }
             }).catch((error) => {
                 this.isButtonDisabled = false;
-                let errors = error.response.data.errors;
-                Object.keys(errors).forEach((key) => {
-                    const value = errors[key];
+                if (error) {
+                    let errors = error.response.data.errors;
+                    Object.keys(errors).forEach((key) => {
+                        const value = errors[key];
+                        this.$iziToast.error({
+                            title: 'Error',
+                            message: `${value}`,
+                        });
+                    });
+                } else {
                     this.$iziToast.error({
                         title: 'Error',
-                        message: `${value}`,
+                        message: 'An error occurred while processing your request.',
                     });
-                });
+                }
             });
         },
         closeCreateGroup() {
             $("#createNewGroup").modal('hide');
             this.isButtonDisabled = false;
-            this.group = "";
+            this.group.name = "";
+            this.group.amount = "";
         },
     },
 }

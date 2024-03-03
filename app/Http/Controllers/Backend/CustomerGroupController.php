@@ -23,6 +23,8 @@ class CustomerGroupController extends Controller
         try {
             $customer_group = CustomerGroup::query()
                 // ->where('business_id', 1)
+                ->when($request->create_by, fn($q) => $q->where('create_by', $request->create_by))
+                ->when($request->keyword, fn($q) => $q->where('name', 'LIKE', '%' . $request->keyword . '%'))
                 ->get();
             return CustomerGroupResource::collection($customer_group);
         } catch (\Throwable $th) {
@@ -62,7 +64,7 @@ class CustomerGroupController extends Controller
     {
         try {
             $customer_group = CustomerGroup::query()
-                ->where('business_id', 1)
+                // ->where('business_id', 1)
                 ->findOrFail($id);
             return new CustomerGroupResource($customer_group);
         } catch (\Throwable $th) {
@@ -78,7 +80,7 @@ class CustomerGroupController extends Controller
         try {
             DB::beginTransaction();
             $customer_group = CustomerGroup::findOrFail($id);
-            $customer_group->business_id = 1;
+            // $customer_group->business_id = 1;
             $customer_group->name = $request->name;
             $customer_group->amount = $request->amount;
             $customer_group->create_by = Auth::user()->id;
@@ -97,13 +99,12 @@ class CustomerGroupController extends Controller
             ]);
         }
     }
-
     public function delete($id)
     {
         try {
             DB::beginTransaction();
             $customer_group = CustomerGroup::query()
-                ->where('business_id', 1)
+                // ->where('business_id', 1)
                 ->with('customers')
                 ->findOrFail($id);
 
@@ -113,6 +114,7 @@ class CustomerGroupController extends Controller
                     'message' => "Group has has customer. You can not delete this group",
                 ]);
             }
+
             $customer_group->delete();
 
             DB::commit();

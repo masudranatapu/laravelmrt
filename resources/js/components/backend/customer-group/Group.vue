@@ -15,6 +15,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-md-2">
+                                    <select class="form-control">
+                                        <option value="">User</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" placeholder="Searching"
+                                        v-model="query.keyword">
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group mb-3" role="group">
+                                        <button type="button" class="btn btn-success" @click="loadGroups()">
+                                            Search
+                                        </button>
+                                        <button type="button" class="btn btn-warning">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -52,10 +75,10 @@
                                             <td>{{ group?.create_by }}</td>
                                             <td>
                                                 <div class="btn-group mb-3" role="group">
-                                                    <button class="btn btn-icon btn-primary">
+                                                    <button class="btn btn-icon btn-primary" title="Edit">
                                                         <i class="far fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-icon btn-danger"
+                                                    <button type="button" class="btn btn-icon btn-danger" title="Delete"
                                                         @click="deleteGroup(group?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
@@ -87,6 +110,11 @@ export default {
     data: function () {
         return {
             groups: {},
+            query: {
+                parpage: 20,
+                keyword: '',
+                create_by: '',
+            },
             main_url: window.location.origin + "/",
         };
     },
@@ -95,7 +123,8 @@ export default {
     },
     methods: {
         loadGroups() {
-            axios.get("/group-list").then((response) => {
+            console.log(this.query);
+            axios.get("/group-list?", this.query).then((response) => {
                 this.groups = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
@@ -130,6 +159,7 @@ export default {
                                 title: 'Success',
                                 message: response.data.message,
                             });
+                            this.loadGroups();
                         } else {
                             this.$iziToast.error({
                                 title: 'Error',
@@ -137,19 +167,26 @@ export default {
                             });
                         }
                     }).catch((error) => {
-                        let errors = error.response.data.errors;
-                        Object.keys(errors).forEach((key) => {
-                            const value = errors[key];
+                        if (error) {
+                            let errors = error.response.data.errors;
+                            Object.keys(errors).forEach((key) => {
+                                const value = errors[key];
+                                this.$iziToast.error({
+                                    title: 'Error',
+                                    message: `${value}`,
+                                });
+                            });
+                        } else {
                             this.$iziToast.error({
                                 title: 'Error',
-                                message: `${value}`,
+                                message: 'An error occurred while processing your request.',
                             });
-                        });
+                        }
                     });
                 } else {
                     this.$iziToast.info({
                         title: 'Cancelled',
-                        message: 'Your data is safe :)',
+                        message: 'Your data is safe now :)',
                     });
                 }
             });
