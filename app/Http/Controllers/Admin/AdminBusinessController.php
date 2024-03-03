@@ -12,7 +12,7 @@ class AdminBusinessController extends Controller
     //
     public function index()
     {
-        return view("admin.businesse.index");
+        return view("admin.business.index");
     }
 
     public function businessList(Request $request)
@@ -31,6 +31,6 @@ class AdminBusinessController extends Controller
 
     public function create()
     {
-        return view("admin.businesse.create");
+        return view("admin.business.create");
     }
 }

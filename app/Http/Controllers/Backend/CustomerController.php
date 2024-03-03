@@ -14,7 +14,7 @@ class CustomerController extends Controller
     //
     public function index()
     {
-        return view('backend.customer.index');    
+        return view('backend.customer.index');
     }
 
     public function customerList(Request $request)
@@ -29,7 +29,7 @@ class CustomerController extends Controller
             ]);
         }
     }
-    
+
     public function store(CustomerRequest $request)
     {
         try {
@@ -51,7 +51,7 @@ class CustomerController extends Controller
             $customer->note = $request->note;
             $customer->status = 'Active';
 
-            if($request->hasFile("image")) {
+            if ($request->hasFile("image")) {
                 $image_url = imageUploader($request->file('image'), 'customer', $customer->image);
                 $customer->image = $image_url;
             }
@@ -59,7 +59,7 @@ class CustomerController extends Controller
             $customer->save();
 
             DB::commit();
-            
+
             return response()->json([
                 'status' => true,
                 'message' => 'User successfully updated',
@@ -71,6 +71,6 @@ class CustomerController extends Controller
                 'status' => false,
                 'message' => $th->getMessage(),
             ]);
-        }    
+        }
     }
 }

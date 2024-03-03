@@ -74,14 +74,14 @@ class UserBackendController extends Controller
             $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
             $user->gender = $request->gender;
             $user->bio = $request->bio;
-            
-            if($request->hasFile("image")) {
+
+            if ($request->hasFile("image")) {
                 $image_url = imageUploader($request->file('image'), 'user', $user->image);
                 $user->image = $image_url;
             }
-            
+
             $user->save();
-            
+
             DB::commit();
             return response()->json([
                 'status' => true,

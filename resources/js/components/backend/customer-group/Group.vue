@@ -32,6 +32,7 @@
                                             </th>
                                             <th>Group Name</th>
                                             <th>Amount</th>
+                                            <th>Create By</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -47,21 +48,18 @@
                                                 </div>
                                             </td>
                                             <td>{{ group?.name }}</td>
-                                            <td class="align-middle">
-                                                <div class="progress" data-height="4" data-toggle="tooltip" title="100%">
-                                                    <div class="progress-bar bg-success" data-width="100"></div>
+                                            <td>{{ group?.amount }}</td>
+                                            <td>{{ group?.create_by }}</td>
+                                            <td>
+                                                <div class="btn-group mb-3" role="group">
+                                                    <button class="btn btn-icon btn-primary">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-icon btn-danger"
+                                                        @click="deleteGroup(group?.id)">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle"
-                                                    width="35" data-toggle="tooltip" title="Wildan Ahdian">
-                                            </td>
-                                            <td>2018-01-20</td>
-                                            <td>
-                                                <div class="badge badge-success">Completed</div>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary">Detail</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -72,7 +70,7 @@
                 </div>
             </div>
         </section>
-        <CreateCustomerGroup />
+        <CreateCustomerGroup @load-group="refreshGroup" />
         <UpdateCustomerGroup />
     </div>
 </template>
@@ -98,10 +96,12 @@ export default {
     methods: {
         loadGroups() {
             axios.get("/group-list").then((response) => {
-                // console.log(response);
                 this.groups = response.data.data;
             }).catch((error) => {
-                console.error("Error fetching profile information: ", error);
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
             });
         },
         addGroup() {
@@ -110,7 +110,50 @@ export default {
         editGroup() {
             $("#editGroup").modal('show');
         },
-
+        refreshGroup() {
+            this.loadGroups();
+        },
+        deleteGroup(id) {
+            this.$swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Delete it!',
+                cancelButtonText: 'No, Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.get(`/group/delete/${id}`).then((response) => {
+                        this.isButtonDisabled = false;
+                        if (response.data.status == true) {
+                            this.$iziToast.success({
+                                title: 'Success',
+                                message: response.data.message,
+                            });
+                        } else {
+                            this.$iziToast.error({
+                                title: 'Error',
+                                message: response.data.message,
+                            });
+                        }
+                    }).catch((error) => {
+                        let errors = error.response.data.errors;
+                        Object.keys(errors).forEach((key) => {
+                            const value = errors[key];
+                            this.$iziToast.error({
+                                title: 'Error',
+                                message: `${value}`,
+                            });
+                        });
+                    });
+                } else {
+                    this.$iziToast.info({
+                        title: 'Cancelled',
+                        message: 'Your data is safe :)',
+                    });
+                }
+            });
+        }
     },
 }
 </script>

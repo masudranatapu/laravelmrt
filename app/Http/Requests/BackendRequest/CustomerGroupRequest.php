@@ -11,7 +11,7 @@ class CustomerGroupRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,9 +21,16 @@ class CustomerGroupRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required',
-            'amount' => 'required|numeric|min:1',
-        ];
+        if ($this->_method == 'POST') {
+            return [
+                'name' => ['required', 'string'],
+                'amount' => ['required', 'numeric', 'min:1'],
+            ];
+        } else {
+            return [
+                'name' => ['required', 'string'],
+                'amount' => ['required', 'numeric', 'min:1'],
+            ];
+        }
     }
 }

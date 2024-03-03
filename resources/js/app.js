@@ -6,8 +6,11 @@ import { createApp } from 'vue'
 // toastr
 import 'izitoast/dist/css/iziToast.min.css'
 import iziToast from 'izitoast'
+import SweetAlert from './sweetalert'
 
 const app = createApp({})
+
+app.use(SweetAlert)
 
 iziToast.settings({
     position: 'topRight'

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\CustomerGroup;
 use App\Http\Resources\Backend\CustomerGroupResource;
 use App\Http\Requests\BackendRequest\CustomerGroupRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CustomerGroupController extends Controller
 {
@@ -20,8 +22,8 @@ class CustomerGroupController extends Controller
     {
         try {
             $customer_group = CustomerGroup::query()
-                        ->where('business_id', 1)
-                        ->get();
+                // ->where('business_id', 1)
+                ->get();
             return CustomerGroupResource::collection($customer_group);
         } catch (\Throwable $th) {
             return response()->json([
@@ -30,7 +32,7 @@ class CustomerGroupController extends Controller
             ]);
         }
     }
-    
+
     public function store(CustomerGroupRequest $request)
     {
         try {
@@ -55,13 +57,13 @@ class CustomerGroupController extends Controller
             ]);
         }
     }
-    
+
     public function edit($id)
     {
         try {
             $customer_group = CustomerGroup::query()
-                        ->where('business_id', 1)
-                        ->findOrFail($id);
+                ->where('business_id', 1)
+                ->findOrFail($id);
             return new CustomerGroupResource($customer_group);
         } catch (\Throwable $th) {
             return response()->json([
@@ -101,20 +103,20 @@ class CustomerGroupController extends Controller
         try {
             DB::beginTransaction();
             $customer_group = CustomerGroup::query()
-                        ->where('business_id', 1)
-                        ->with('customers')
-                        ->findOrFail($id);
+                ->where('business_id', 1)
+                ->with('customers')
+                ->findOrFail($id);
 
-            if($customer_group?->customers?->count() > 0) {
+            if ($customer_group?->customers?->count() > 0) {
                 return response()->json([
                     'status' => false,
                     'message' => "Group has has customer. You can not delete this group",
                 ]);
             }
             $customer_group->delete();
-            
+
             DB::commit();
-            
+
             return response()->json([
                 'status' => true,
                 'message' => "Customer Group Successfully Deleted",

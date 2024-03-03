@@ -15,7 +15,10 @@ class CustomerGroupResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            
+            'id' => $this->id,
+            'name' => $this->name,
+            'amount' => $this->amount,
+            'create_by' => $this->createBy?->name,
         ];
     }
 }

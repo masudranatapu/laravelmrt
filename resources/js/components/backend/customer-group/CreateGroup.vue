@@ -44,7 +44,7 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="numbar" class="form-control" step="0.01" v-model="group.amount"
+                                            <input type="number" class="form-control" step="0.01" v-model="group.amount"
                                                 placeholder="Amount">
                                         </div>
                                     </div>
@@ -82,9 +82,8 @@ export default {
     },
     methods: {
         addNewGroup() {
-
             this.isButtonDisabled = true;
-
+            this.group._method = 'POST';
             axios.post(`/group/store`, this.group).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
@@ -92,9 +91,9 @@ export default {
                         title: 'Success',
                         message: response.data.message,
                     });
-                    this.$emit('load--group');
+                    this.$emit('load-group');
                     $("#createNewGroup").modal('hide');
-                    this._group = "";
+                    this.group = "";
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -116,7 +115,7 @@ export default {
         closeCreateGroup() {
             $("#createNewGroup").modal('hide');
             this.isButtonDisabled = false;
-            this._group = "";
+            this.group = "";
         },
     },
 }
