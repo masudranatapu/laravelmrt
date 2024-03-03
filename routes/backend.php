@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('customers-group', [CustomerGroupController::class, 'index'])->name('customerGroup');
         Route::get('group-list', [CustomerGroupController::class, 'groupList'])->name('group.list');
         Route::post('group/store', [CustomerGroupController::class, 'store'])->name('group.store');
-        Route::get('group/edit/{id}', [CustomerGroupController::class, 'edit'])->name('group.edit');
         Route::post('group/update/{id}', [CustomerGroupController::class, 'update'])->name('group.update');
         Route::get('group/delete/{id}', [CustomerGroupController::class, 'delete'])->name('group.delete');
     });

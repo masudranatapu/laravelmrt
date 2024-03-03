@@ -103,7 +103,7 @@
             </div>
         </section>
         <CreateCustomerGroup @load-group="refreshGroup" />
-        <UpdateCustomerGroup />
+        <UpdateCustomerGroup @load-group="refreshGroup" :groupInfo="updateGroupInfo"/>
     </div>
 </template>
 
@@ -119,6 +119,7 @@ export default {
     data: function () {
         return {
             groups: {},
+            updateGroupInfo: {},
             creators: {},
             checked_ids: {},
             quarry: {
@@ -157,7 +158,8 @@ export default {
         addGroup() {
             $("#createNewGroup").modal('show');
         },
-        editGroup(group) {
+        editGroup(groupInfo) {
+            this.updateGroupInfo = groupInfo;
             $("#editGroup").modal('show');
         },
         refreshGroup() {

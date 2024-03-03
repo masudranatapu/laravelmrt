@@ -8,11 +8,11 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             Edit New Group
                         </h5>
-                        <a href="javascript:;" @click="closeCreateGroup()">
+                        <a href="javascript:;" @click="closeUpdateGroup()">
                             <span aria-hidden="true">&times;</span>
                         </a>
                     </div>
-                    <form @submit.prevent="addNewGroup()">
+                    <form @submit.prevent="updateGroup(groupInfo?.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -27,8 +27,8 @@
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="group.name" placeholder="Name"
-                                                required>
+                                            <input type="text" class="form-control" v-model="groupInfo.name"
+                                                placeholder="Name" required>
                                         </div>
                                     </div>
                                 </div>
@@ -44,15 +44,15 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="numbar" class="form-control" step="0.01" v-model="group.amount"
-                                                placeholder="Amount">
+                                            <input type="numbar" class="form-control" step="0.01"
+                                                v-model="groupInfo.amount" placeholder="Amount">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeCreateGroup()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateGroup()">
                                 Close
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -69,32 +69,25 @@
 
 <script>
 export default {
-    props: [],
+    props: ['groupInfo'],
     data: function () {
         return {
-            group: {},
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
     },
-    beforeMount() {
-
-    },
     methods: {
-        addNewGroup() {
-
+        updateGroup(id) {
             this.isButtonDisabled = true;
-
-            axios.post(`/group/store`, this.group).then((response) => {
+            axios.post(`/group/update/${this.groupInfo?.id}`, this.groupInfo).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
                         message: response.data.message,
                     });
-                    this.$emit('load--group');
+                    this.$emit('load-group');
                     $("#editGroup").modal('hide');
-                    this._group = "";
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -103,20 +96,27 @@ export default {
                 }
             }).catch((error) => {
                 this.isButtonDisabled = false;
-                let errors = error.response.data.errors;
-                Object.keys(errors).forEach((key) => {
-                    const value = errors[key];
+                if (error) {
+                    let errors = error.response.data.errors;
+                    Object.keys(errors).forEach((key) => {
+                        const value = errors[key];
+                        this.$iziToast.error({
+                            title: 'Error',
+                            message: `${value}`,
+                        });
+                    });
+                } else {
                     this.$iziToast.error({
                         title: 'Error',
-                        message: `${value}`,
+                        message: 'An error occurred while processing your request.',
                     });
-                });
+                }
             });
         },
-        closeCreateGroup() {
+        closeUpdateGroup() {
             $("#editGroup").modal('hide');
+            this.$emit('load-group');
             this.isButtonDisabled = false;
-            this._group = "";
         },
     },
 }
