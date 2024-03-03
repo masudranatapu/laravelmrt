@@ -24,16 +24,26 @@
                                 </div>
                                 <div class="col-md-2">
                                     <input type="text" class="form-control" placeholder="Searching"
-                                        v-model="query.keyword">
+                                        v-model="quarry.keyword">
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="btn-group mb-3" role="group">
+                                    <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadGroups()">
                                             Search
                                         </button>
-                                        <button type="button" class="btn btn-warning">
+                                        <button type="button" class="btn btn-warning" @click="clearLoadGroups()">
                                             Cancel
                                         </button>
+                                        <button class="btn btn-success dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                        </button>
+                                        <div class="dropdown-menu" x-placement="bottom-start"
+                                            style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                            <a class="dropdown-item" href="javascript:;">
+                                                Delete
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -45,10 +55,8 @@
                                         <tr>
                                             <th class="text-center">
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroup"
-                                                        data-checkbox-role="dad" class="custom-control-input"
-                                                        id="checkbox-all">
-                                                    <label for="checkbox-all" class="custom-control-label">
+                                                    <input type="checkbox" class="custom-control-input" id="allGroup">
+                                                    <label for="allGroup" class="custom-control-label">
                                                         SL No
                                                     </label>
                                                 </div>
@@ -63,10 +71,10 @@
                                         <tr v-for="(group, index) in groups">
                                             <td class="p-0 text-center">
                                                 <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroup"
-                                                        class="custom-control-input" :id="'checked_' + group?.id">
-                                                    <label :for="'checked_' + group?.id" class="custom-control-label">
-                                                        # {{ index + 1 }}
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        :id="'group_' + group?.id" :value='group?.id'>
+                                                    <label :for="'group_' + group?.id" class="custom-control-label">
+                                                        {{ index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
@@ -75,7 +83,8 @@
                                             <td>{{ group?.create_by }}</td>
                                             <td>
                                                 <div class="btn-group mb-3" role="group">
-                                                    <button class="btn btn-icon btn-primary" title="Edit">
+                                                    <button class="btn btn-icon btn-primary" title="Edit"
+                                                        @click="editGroup(group)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger" title="Delete"
@@ -110,7 +119,9 @@ export default {
     data: function () {
         return {
             groups: {},
-            query: {
+            creators: {},
+            checked_ids: {},
+            quarry: {
                 parpage: 20,
                 keyword: '',
                 create_by: '',
@@ -120,12 +131,22 @@ export default {
     },
     beforeMount() {
         this.loadGroups();
+        this.loadUsers();
     },
     methods: {
         loadGroups() {
-            console.log(this.query);
-            axios.get("/group-list?", this.query).then((response) => {
+            axios.get("/group-list", { params: this.quarry }).then((response) => {
                 this.groups = response.data.data;
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+            });
+        },
+        loadUsers() {
+            axios.get("/group-list", { params: this.quarry }).then((response) => {
+                this.creators = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: 'Error',
@@ -136,7 +157,7 @@ export default {
         addGroup() {
             $("#createNewGroup").modal('show');
         },
-        editGroup() {
+        editGroup(group) {
             $("#editGroup").modal('show');
         },
         refreshGroup() {
@@ -190,6 +211,12 @@ export default {
                     });
                 }
             });
+        },
+        clearLoadGroups() {
+            this.quarry.parpage = 20;
+            this.quarry.keyword = '';
+            this.quarry.create_by = '';
+            this.loadGroups();
         }
     },
 }
