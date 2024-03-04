@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,6 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(Business::class)->nullable();
             $table->string('name')->nullable();
             $table->double('amount', 12, 4)->default(0);
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('create_by')->nullable();
             $table->timestamps();
         });

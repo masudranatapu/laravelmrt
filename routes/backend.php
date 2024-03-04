@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('group/edit/{id}', [CustomerGroupController::class, 'edit'])->name('group.edit');
         Route::post('group/update/{id}', [CustomerGroupController::class, 'update'])->name('group.update');
         Route::get('group/delete/{id}', [CustomerGroupController::class, 'delete'])->name('group.delete');
+        Route::get('group/status/change/{id}', [CustomerGroupController::class, 'statusChange'])->name('group.status.change');
         // area
         Route::get('area', [AreaController::class, 'index'])->name('area');
         Route::get('area-list', [AreaController::class, 'areaList'])->name('area.list');

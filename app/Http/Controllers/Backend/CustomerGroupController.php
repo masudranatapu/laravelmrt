@@ -25,6 +25,7 @@ class CustomerGroupController extends Controller
                 // ->where('business_id', 1)
                 ->when($request->create_by, fn($q) => $q->where('create_by', $request->create_by))
                 ->when($request->keyword, fn($q) => $q->where('name', 'LIKE', '%' . $request->keyword . '%'))
+                ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->get();
             return CustomerGroupResource::collection($customer_group);
         } catch (\Throwable $th) {
@@ -43,6 +44,7 @@ class CustomerGroupController extends Controller
             $customer_group->business_id = 1;
             $customer_group->name = $request->name;
             $customer_group->amount = $request->amount;
+            $customer_group->status = 'Active';
             $customer_group->create_by = Auth::user()->id;
             $customer_group->save();
 
@@ -83,6 +85,7 @@ class CustomerGroupController extends Controller
             // $customer_group->business_id = 1;
             $customer_group->name = $request->name;
             $customer_group->amount = $request->amount;
+            $customer_group->status = $request->status ? $request->status : $customer_group->status;
             $customer_group->create_by = Auth::user()->id;
             $customer_group->save();
 
@@ -125,6 +128,33 @@ class CustomerGroupController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function statusChange($id)
+    {
+        try {
+            DB::beginTransaction();
+            $customer_group = CustomerGroup::query()
+                // ->where()
+                ->findOrFail($id);
+            if ($customer_group->status == 'Active') {
+                $customer_group->status = 'Inactive';
+            } else {
+                $customer_group->status = 'Active';
+            }
+            $customer_group->save();
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => "Customer Group $customer_group->status Successfully Done",
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),

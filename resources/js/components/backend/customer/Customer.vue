@@ -56,9 +56,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <img alt="image" src="assets/img/users/user-5.png"
-                                                    class="rounded-circle" width="35" data-toggle="tooltip"
-                                                    title="Wildan Ahdian">
+                                                <img alt="image" src="" class="rounded-circle" width="35"
+                                                    data-toggle="tooltip">
                                             </td>
                                             <td>2018-01-20</td>
                                             <td>
@@ -94,12 +93,14 @@ export default {
         return {
             customers: {},
             groups: {},
+            areas: {},
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
         this.loadCustomer();
         this.loadGroups();
+        this.loadAreas();
     },
     methods: {
         loadCustomer() {
@@ -119,6 +120,9 @@ export default {
                     message: `Error fetching data for ${error}`,
                 });
             });
+        },
+        loadAreas() {
+
         },
         addCustomer() {
             $("#createCustomer").modal('show');

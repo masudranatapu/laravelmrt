@@ -34,7 +34,7 @@
                                             Search
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearLoadAreas()">
-                                            Cancel
+                                            Clear
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

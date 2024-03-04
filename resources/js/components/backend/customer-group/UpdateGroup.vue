@@ -49,6 +49,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            Status
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select class="form-control" v-model="groupInfo.status">
+                                                <option value="Active" :selected="groupInfo.status === 'Active'">
+                                                    Active
+                                                </option>
+                                                <option value="Inactive" :selected="groupInfo.status === 'Inactive'">
+                                                    Inactive
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">

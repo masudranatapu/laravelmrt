@@ -18,6 +18,7 @@ class CustomerGroupResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'amount' => $this->amount,
+            'status' => $this->status,
             'create_by' => $this->createBy?->name,
         ];
     }

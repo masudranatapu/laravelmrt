@@ -26,6 +26,13 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
+                                    <select class="form-control" v-model="quarry.status">
+                                        <option value="">All</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
                                     <input type="text" class="form-control" placeholder="Searching"
                                         v-model="quarry.keyword">
                                 </div>
@@ -35,7 +42,7 @@
                                             Search
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearLoadGroups()">
-                                            Cancel
+                                            Clear
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,6 +73,7 @@
                                             </th>
                                             <th class="text-center">Group Name</th>
                                             <th class="text-center">Amount</th>
+                                            <th class="text-center">Status</th>
                                             <th class="text-center">Create By</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -83,15 +91,29 @@
                                             </td>
                                             <td class="text-center">{{ group?.name }}</td>
                                             <td class="text-center">{{ group?.amount }}</td>
-                                            <td class="text-center">{{ group?.create_by }}</td>
+                                            <td class="text-center">
+                                                <label class="custom-switch mt-2">
+                                                    <input type="checkbox" name="custom-switch-checkbox"
+                                                        class="custom-switch-input"
+                                                        :checked="group?.status === 'Active'"
+                                                        @change="groupStatusChange(group?.id)">
+                                                    <span class="custom-switch-indicator"></span>
+                                                    <span class="custom-switch-description">
+                                                        {{ group?.status }}
+                                                    </span>
+                                                </label>
+                                            </td>
+                                            <td class="text-center">
+                                                {{ group?.create_by }}
+                                            </td>
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary btn-sm" title="Edit"
                                                         @click="editGroup(group?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-icon btn-danger btn-sm" title="Delete"
-                                                        @click="deleteGroup(group?.id)">
+                                                    <button type="button" class="btn btn-icon btn-danger btn-sm"
+                                                        title="Delete" @click="deleteGroup(group?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -126,6 +148,7 @@ export default {
             quarry: {
                 parpage: 20,
                 keyword: '',
+                status: '',
                 create_by: '',
             },
             main_url: window.location.origin + "/",
@@ -227,6 +250,39 @@ export default {
             this.quarry.keyword = '';
             this.quarry.create_by = '';
             this.loadGroups();
+        },
+        groupStatusChange(id) {
+            axios.get(`/group/status/change/${id}`).then((response) => {
+                this.isButtonDisabled = false;
+                if (response.data.status == true) {
+                    this.$iziToast.success({
+                        title: 'Success',
+                        message: response.data.message,
+                    });
+                    this.loadGroups();
+                } else {
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: response.data.message,
+                    });
+                }
+            }).catch((error) => {
+                if (error) {
+                    let errors = error.response.data.errors;
+                    Object.keys(errors).forEach((key) => {
+                        const value = errors[key];
+                        this.$iziToast.error({
+                            title: 'Error',
+                            message: `${value}`,
+                        });
+                    });
+                } else {
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: 'An error occurred while processing your request.',
+                    });
+                }
+            });
         }
     },
 }
