@@ -17,16 +17,16 @@ class AssetCategoryController extends Controller
         return view('backend.asset.asset_category');
     }
 
-    public function asset_category_list()
+    public function asset_category_list(Request $request)
     {
         try {
             $asset_categories = AssetCategory::query()
-                    // ->where()
-                    ->when($request->status, fn($q) => $q->where('status', $request->status))
-                    ->when($request->keyword, fn($q) => $q->where('asset_category_name', '%'.$request->keyword .'%'))
-                    ->get():
+                // ->where()
+                ->when($request->status, fn($q) => $q->where('status', $request->status))
+                ->when($request->keyword, fn($q) => $q->where('asset_category_name', '%' . $request->keyword . '%'))
+                ->get();
             return AssetCategoryResource::collection($asset_categories);
-        } catch (Throwable $th) {
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
@@ -34,7 +34,7 @@ class AssetCategoryController extends Controller
         }
     }
 
-     public function store(AssetCategoryRequest $request)
+    public function store(AssetCategoryRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -65,7 +65,7 @@ class AssetCategoryController extends Controller
                 // ->where()
                 // ->withCount()
                 ->findOrFail($id);
-            return new AssetResource($asset_category);
+            return new AssetCategoryResource($asset_category);
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
@@ -75,11 +75,11 @@ class AssetCategoryController extends Controller
         }
     }
 
-     public function update(AssetCategoryRequest $request, $id)
+    public function update(AssetCategoryRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $asset_category = new AssetCategory::query()
+            $asset_category = AssetCategory::query()
                 // ->where()
                 ->findOrFail($id);
             // $asset_category->business_id = 1;
@@ -131,7 +131,7 @@ class AssetCategoryController extends Controller
     {
         try {
             DB::beginTransaction();
-            $asset_category = Area::query()
+            $asset_category = AssetCategory::query()
                 // ->where()
                 ->findOrFail($id);
             if ($asset_category->status == 'Active') {

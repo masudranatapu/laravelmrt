@@ -17,16 +17,16 @@ class AssetController extends Controller
         return view('backend.asset.index');
     }
 
-    public function asset_list()
+    public function asset_list(Request $request)
     {
         try {
             $assets = Asset::query()
-                    // ->where()
-                    ->when($request->status, fn($q) => $q->where('status', $request->status))
-                    ->when($request->keyword, fn($q) => $q->where('asset_name', '%'.$request->keyword .'%'))
-                    ->get():
+                // ->where()
+                ->when($request->status, fn($q) => $q->where('status', $request->status))
+                ->when($request->keyword, fn($q) => $q->where('asset_name', '%' . $request->keyword . '%'))
+                ->get();
             return AssetResource::collection($assets);
-        } catch (Throwable $th) {
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
@@ -34,7 +34,7 @@ class AssetController extends Controller
         }
     }
 
-     public function store(AssetRequest $request)
+    public function store(AssetRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -80,11 +80,11 @@ class AssetController extends Controller
         }
     }
 
-     public function update(AssetRequest $request, $id)
+    public function update(AssetRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $asset = new Asset::query()
+            $asset = Asset::query()
                 // ->where()
                 ->findOrFail($id);
             $asset->business_id = 1;
@@ -140,7 +140,7 @@ class AssetController extends Controller
     {
         try {
             DB::beginTransaction();
-            $asset = Area::query()
+            $asset = Asset::query()
                 // ->where()
                 ->findOrFail($id);
             if ($asset->status == 'Active') {
