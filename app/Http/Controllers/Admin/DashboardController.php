@@ -81,7 +81,7 @@ class DashboardController extends Controller
             $admin->gender = $request->gender;
             $admin->bio = $request->bio;
 
-            if($request->hasFile("image")) {
+            if ($request->hasFile("image")) {
                 $image_url = imageUploader($request->file('image'), 'backend', $admin->image);
                 $admin->image = $image_url;
             }

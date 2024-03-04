@@ -28,7 +28,7 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="group.name"
-                                                placeholder="Name" required>
+                                                placeholder="Group Name" required>
                                         </div>
                                     </div>
                                 </div>

@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="form-group col-md-4 col-12">
                         <div class="form-group">
-                            <label>File</label>
+                            <label>File <span class="text-success">(Image Ratio: 500X500)</span></label>
                             <input type="file" class="form-control" id="profileImage">
                         </div>
                     </div>
@@ -138,7 +138,7 @@ export default {
                         message: response.data.message,
                     });
                     $("#profileImage").val('');
-                    
+
                     this.$emit('load-user');
                 } else {
                     this.$iziToast.error({

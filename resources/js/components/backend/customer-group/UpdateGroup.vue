@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Edit New Group
+                            Edit Group
                         </h5>
                         <a href="javascript:;" @click="closeUpdateGroup()">
                             <span aria-hidden="true">&times;</span>
@@ -28,7 +28,7 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="groupInfo.name"
-                                                placeholder="Name" required>
+                                                placeholder="Group Name" required>
                                         </div>
                                     </div>
                                 </div>
@@ -44,8 +44,8 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="numbar" class="form-control" step="0.01"
-                                                v-model="groupInfo.amount" placeholder="Amount">
+                                            <input type="number" class="form-control" step="0.01" v-model="groupInfo.amount"
+                                                placeholder="Amount">
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,6 @@ export default {
         },
         closeUpdateGroup() {
             $("#editGroup").modal('hide');
-            this.$emit('load-group');
             this.isButtonDisabled = false;
         },
     },

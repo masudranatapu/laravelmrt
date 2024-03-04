@@ -61,15 +61,15 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <th>Group Name</th>
-                                            <th>Amount</th>
-                                            <th>Create By</th>
-                                            <th>Action</th>
+                                            <th class="text-center">Group Name</th>
+                                            <th class="text-center">Amount</th>
+                                            <th class="text-center">Create By</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(group, index) in groups">
-                                            <td class="p-0 text-center">
+                                            <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
                                                         :id="'group_' + group?.id" :value='group?.id'>
@@ -78,13 +78,13 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ group?.name }}</td>
-                                            <td>{{ group?.amount }}</td>
-                                            <td>{{ group?.create_by }}</td>
-                                            <td>
+                                            <td class="text-center">{{ group?.name }}</td>
+                                            <td class="text-center">{{ group?.amount }}</td>
+                                            <td class="text-center">{{ group?.create_by }}</td>
+                                            <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary" title="Edit"
-                                                        @click="editGroup(group)">
+                                                        @click="editGroup(group?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger" title="Delete"
@@ -103,7 +103,7 @@
             </div>
         </section>
         <CreateCustomerGroup @load-group="refreshGroup" />
-        <UpdateCustomerGroup @load-group="refreshGroup" :groupInfo="updateGroupInfo"/>
+        <UpdateCustomerGroup @load-group="refreshGroup" :groupInfo="updateGroupInfo" />
     </div>
 </template>
 
@@ -115,7 +115,6 @@ export default {
         CreateCustomerGroup,
         UpdateCustomerGroup
     },
-    props: [],
     data: function () {
         return {
             groups: {},
@@ -158,9 +157,16 @@ export default {
         addGroup() {
             $("#createNewGroup").modal('show');
         },
-        editGroup(groupInfo) {
-            this.updateGroupInfo = groupInfo;
-            $("#editGroup").modal('show');
+        editGroup(id) {
+            axios.get(`/group/edit/${id}`).then((response) => {
+                this.updateGroupInfo = response.data.data;
+                $("#editGroup").modal('show');
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+            });
         },
         refreshGroup() {
             this.loadGroups();

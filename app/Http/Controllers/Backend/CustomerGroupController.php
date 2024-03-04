@@ -60,6 +60,21 @@ class CustomerGroupController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        try {
+            $customer_group = CustomerGroup::query()
+                ->where('business_id', 1)
+                ->findOrFail($id);
+            return new CustomerGroupResource($customer_group);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
     public function update(CustomerGroupRequest $request, $id)
     {
         try {
