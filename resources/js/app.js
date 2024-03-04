@@ -31,6 +31,8 @@ import UserProfile from './components/backend/user/Profile.vue'
 import BackendCustomer from './components/backend/customer/Customer.vue'
 import BackendCustomerGroup from './components/backend/customer-group/Group.vue'
 import BackendArea from './components/backend/area/Area.vue'
+import BackendAsset from './components/backend/asset/Asset.vue'
+import BackendAssetCategory from './components/backend/asset-category/AreaCategory.vue'
 
 // admin component
 app.component('admin-dashboard', AdminDashboard)
@@ -45,5 +47,7 @@ app.component('backend-profile', UserProfile)
 app.component('backend-customer', BackendCustomer)
 app.component('backend-customers-group', BackendCustomerGroup)
 app.component('backend-area', BackendArea)
+app.component('backend-asset', BackendAsset)
+app.component('backend-asset-category', BackendAreaCategory)
 
 app.mount('#app')

@@ -58,7 +58,24 @@ class AssetCategoryController extends Controller
         }
     }
 
-     public function store(AssetCategoryRequest $request, $id)
+    public function edit($id)
+    {
+        try {
+            $asset_category = AssetCategory::query()
+                // ->where()
+                // ->withCount()
+                ->findOrFail($id);
+            return new AssetResource($asset_category);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+     public function update(AssetCategoryRequest $request, $id)
     {
         try {
             DB::beginTransaction();
