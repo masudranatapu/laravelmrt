@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(Business::class)->nullable();
             $table->string('name')->nullable();
-            $table->double('amount', 12, 4)->default(0);
+            $table->double('amount', 14, 4)->default(0);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('create_by')->nullable();
             $table->timestamps();

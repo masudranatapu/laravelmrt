@@ -29,10 +29,10 @@ return new class extends Migration
             $table->string('valid_thru_month')->nullable();
             $table->string('valid_thru_year')->nullable();
             $table->string('cvv_code')->nullable();
-            $table->float('amount', 14, 2)->default(0)->nullable();
-            $table->float('transfer_amount', 14, 2)->default(0)->nullable();
+            $table->double('amount', 14, 4)->default(0)->nullable();
+            $table->double('transfer_amount', 14, 4)->default(0)->nullable();
             $table->integer('status')->default(1)->comment('0=Inactive; 1=Active;');
-            $table->float('pm_charge', 14, 2)->default(0);
+            $table->double('pm_charge', 14, 4)->default(0);
             $table->timestamps();
         });
     }
