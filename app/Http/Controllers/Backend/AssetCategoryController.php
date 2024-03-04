@@ -4,30 +4,29 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\BackendRequest\AreaRequest;
-use App\Http\Resources\Backend\AreaResource;
-use App\Models\Area;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\BackendRequest\AssetCategoryRequest;
+use App\Http\Resources\Backend\AssetCategoryResource;
+use App\Models\AssetCategory;
 use Illuminate\Support\Facades\DB;
 
-class AreaController extends Controller
+class AssetCategoryController extends Controller
 {
     //
     public function index()
     {
-        return view('backend.area.index');
+        return view('backend.asset.asset_category');
     }
 
-    public function areaList(Request $request)
+    public function asset_category_list()
     {
         try {
-            $areas = Area::query()
-                // ->where('bu')
-                ->when($request->keyword, fn($q) => $q->where('name', 'LIKE', '%' . $request->keyword . '%'))
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
-                ->get();
-            return AreaResource::collection($areas);
-        } catch (\Throwable $th) {
+            $asset_categories = AssetCategory::query()
+                    // ->where()
+                    ->when($request->status, fn($q) => $q->where('status', $request->status))
+                    ->when($request->keyword, fn($q) => $q->where('asset_category_name', '%'.$request->keyword .'%'))
+                    ->get():
+            return AssetCategoryResource::collection($asset_categories);
+        } catch (Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
@@ -35,20 +34,20 @@ class AreaController extends Controller
         }
     }
 
-    public function store(AreaRequest $request)
+     public function store(AssetCategoryRequest $request)
     {
         try {
             DB::beginTransaction();
-            $area = new Area();
-            $area->business_id = 1;
-            $area->name = $request->name;
-            $area->status = 'Active';
-            $area->save();
+            $asset_category = new AssetCategory();
+            $asset_category->business_id = 1;
+            $asset_category->asset_category_name = $request->name;
+            $asset_category->status = 'Active';
+            $asset_category->save();
 
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Area Successfully Created",
+                'message' => "Asset Category Successfully Created",
             ]);
         } catch (\Throwable $th) {
             DB::rollback();
@@ -59,37 +58,22 @@ class AreaController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        try {
-            $areas = Area::query()
-                // ->where('bu')
-                ->findOrFail($id);
-            return new AreaResource($areas);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage(),
-            ]);
-        }
-    }
-
-    public function update(AreaRequest $request, $id)
+     public function store(AssetCategoryRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $area = Area::query()
+            $asset_category = new AssetCategory::query()
                 // ->where()
                 ->findOrFail($id);
-            $area->business_id = 1;
-            $area->name = $request->name;
-            $area->status = $request->status ? $request->status : $area->status;
-            $area->save();
+            // $asset_category->business_id = 1;
+            $asset_category->asset_category_name = $request->name;
+            $asset_category->status = $request->name ? $request->name : $asset_category->status;
+            $asset_category->save();
 
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Area Successfully Update",
+                'message' => "Asset Category Successfully Updated",
             ]);
         } catch (\Throwable $th) {
             DB::rollback();
@@ -104,17 +88,17 @@ class AreaController extends Controller
     {
         try {
             DB::beginTransaction();
-            $area = Area::query()
+            $asset_category = AssetCategory::query()
                 // ->where()
                 // ->withCount()
                 ->findOrFail($id);
 
-            $area->delete();
+            $asset_category->delete();
 
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Area Successfully Deleted",
+                'message' => "Asset Category Successfully Deleted",
             ]);
         } catch (\Throwable $th) {
             DB::rollback();
@@ -125,23 +109,24 @@ class AreaController extends Controller
         }
     }
 
+
     public function statusChange($id)
     {
         try {
             DB::beginTransaction();
-            $area = Area::query()
+            $asset_category = Area::query()
                 // ->where()
                 ->findOrFail($id);
-            if ($area->status == 'Active') {
-                $area->status = 'Inactive';
+            if ($asset_category->status == 'Active') {
+                $asset_category->status = 'Inactive';
             } else {
-                $area->status = 'Active';
+                $asset_category->status = 'Active';
             }
-            $area->save();
+            $asset_category->save();
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Area $area->status Successfully Done",
+                'message' => "Asset Category $asset_category->status Successfully Done",
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -151,4 +136,5 @@ class AreaController extends Controller
             ]);
         }
     }
+
 }
