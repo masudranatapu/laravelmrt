@@ -58,13 +58,13 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="blog.html">
-                        Blog
+                    <a class="nav-link" href="{{ route('backend.customerGroup') }}">
+                        Customer Group
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="{{ route('backend.customerGroup') }}">
-                        Customer Group
+                    <a class="nav-link" href="{{ route('backend.area') }}">
+                        Area
                     </a>
                 </li>
             </ul>

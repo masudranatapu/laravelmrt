@@ -95,4 +95,22 @@ class UserBackendController extends Controller
             ]);
         }
     }
+
+    public function userList()
+    {
+        try {
+            $users = User::query()
+                // ->where('')
+                ->get();
+            return response()->json([
+                'status' => true,
+                'data' => $users,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
 }

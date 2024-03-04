@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
 use App\Models\CustomerGroup;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('area')->nullable();
             $table->string('zip_code')->nullable();
-            $table->string('country')->nullable();
             $table->string('address')->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->date('date_of_birth')->nullable();

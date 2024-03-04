@@ -144,8 +144,9 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="customer.customer_group_id">
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
+                                                <option v-for="(group, index) in groups" :value='group?.id'>
+                                                    {{ group?.name }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -227,8 +228,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Note</label>
-                                        <textarea name="" class="form-control" v-model="customer.note" placeholder="Note"
-                                            cols="30" rows="10"></textarea>
+                                        <textarea name="" class="form-control" v-model="customer.note"
+                                            placeholder="Note" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +252,7 @@
 
 <script>
 export default {
-    props: [],
+    props: ['groups'],
     data: function () {
         return {
             customer: {},

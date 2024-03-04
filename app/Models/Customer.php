@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
-    
+
     protected $guarded = [];
-    
+
     public function customers()
     {
         $this->belongsTo(CustomerGroup::class);

@@ -42,20 +42,23 @@
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
                                                         class="custom-control-input" :id="'checked_' + customer?.id">
-                                                    <label :for="'checked_' + customer?.id" class="custom-control-label">
+                                                    <label :for="'checked_' + customer?.id"
+                                                        class="custom-control-label">
                                                         # {{ index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
                                             <td>{{ customer?.name }}</td>
                                             <td class="align-middle">
-                                                <div class="progress" data-height="4" data-toggle="tooltip" title="100%">
+                                                <div class="progress" data-height="4" data-toggle="tooltip"
+                                                    title="100%">
                                                     <div class="progress-bar bg-success" data-width="100"></div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle"
-                                                    width="35" data-toggle="tooltip" title="Wildan Ahdian">
+                                                <img alt="image" src="assets/img/users/user-5.png"
+                                                    class="rounded-circle" width="35" data-toggle="tooltip"
+                                                    title="Wildan Ahdian">
                                             </td>
                                             <td>2018-01-20</td>
                                             <td>
@@ -73,8 +76,8 @@
                 </div>
             </div>
         </section>
-        <CreateCustomer />
-        <UpdateCustomer />
+        <CreateCustomer :groups="groups" />
+        <UpdateCustomer :groups="groups" />
     </div>
 </template>
 
@@ -90,11 +93,13 @@ export default {
     data: function () {
         return {
             customers: {},
+            groups: {},
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
         this.loadCustomer();
+        this.loadGroups();
     },
     methods: {
         loadCustomer() {
@@ -103,6 +108,16 @@ export default {
                 this.user = response.data;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
+            });
+        },
+        loadGroups() {
+            axios.get("/group-list").then((response) => {
+                this.groups = response.data.data;
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
             });
         },
         addCustomer() {
