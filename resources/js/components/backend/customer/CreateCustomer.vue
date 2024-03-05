@@ -174,7 +174,7 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="customer.area">
+                                            <select class="form-control" v-model="customer.area_id">
                                                 <option v-for="(area, index) in areas" :value='area?.id'>
                                                     {{ area?.name }}
                                                 </option>
@@ -250,7 +250,7 @@ export default {
                 due: "",
                 customer_group_id: "",
                 date: "",
-                area: "",
+                area_id: "",
                 zip_code: "",
                 address: "",
                 note: "",
@@ -300,7 +300,7 @@ export default {
             formData.append('due', this.customer.due);
             formData.append('customer_group_id', this.customer.customer_group_id);
             formData.append('date', this.customer.date);
-            formData.append('area', this.customer.area);
+            formData.append('area_id', this.customer.area_id);
             formData.append('zip_code', this.customer.zip_code);
             formData.append('address', this.customer.address);
             formData.append('note', this.customer.note);
@@ -324,7 +324,7 @@ export default {
                     this.customer.due = "";
                     this.customer.customer_group_id = "";
                     this.customer.date = "";
-                    this.customer.area = "";
+                    this.customer.area_id = "";
                     this.customer.zip_code = "";
                     this.customer.address = "";
                     this.customer.note = "";

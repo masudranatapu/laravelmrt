@@ -18,3 +18,19 @@ function imageUploader($file, $path, $old_image = null)
     $file_url = $upload_path . $file_name;
     return $file_url;
 }
+
+
+function getImagePath($imagePath)
+{
+    $path = '';
+    if ($imagePath) {
+        if (file_exists($imagePath)) {
+            $path = asset($imagePath);
+        } else {
+            $path = asset('default/demo_user.png');
+        }
+    } else {
+        $path = asset('default/demo_user.png');
+    }
+    return $path;
+}

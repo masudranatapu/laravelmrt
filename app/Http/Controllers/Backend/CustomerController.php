@@ -23,6 +23,9 @@ class CustomerController extends Controller
         try {
             $customer = Customer::query()
                 // ->where()
+                ->with([
+                    'customerInitialDue' => fn($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
+                ])
                 ->get();
             return CustomerResource::collection($customer);
         } catch (\Throwable $th) {
@@ -46,7 +49,7 @@ class CustomerController extends Controller
             $customer->date_of_birth = $request->date_of_birth;
             $customer->customer_group_id = $request->customer_group_id;
             $customer->date = $request->date ? $request->date : date('Y-m-d');
-            $customer->area = $request->area;
+            $customer->area_id = $request->area_id;
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
@@ -63,6 +66,61 @@ class CustomerController extends Controller
                 $due = new InitialDue();
                 $due->business_id = 1;
                 $due->customer_id = $customer->id;
+                $due->date = $request->date ? $request->date : date('Y-m-d');
+                $due->amount = $request->due;
+                $due->save();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User successfully Created',
+            ]);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function update(CustomerRequest $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $customer = Customer::query()
+                // ->where()
+                ->findOrFail($id);
+            $customer->name = $request->name;
+            $customer->email = $request->email;
+            $customer->phone = $request->phone;
+            $customer->gender = $request->gender;
+            $customer->member_ship_id = $request->member_ship_id;
+            $customer->date_of_birth = $request->date_of_birth;
+            $customer->customer_group_id = $request->customer_group_id;
+            $customer->date = $request->date ? $request->date : date('Y-m-d');
+            $customer->area_id = $request->area_id;
+            $customer->zip_code = $request->zip_code;
+            $customer->address = $request->address;
+            $customer->note = $request->note;
+            $customer->status = 'Active';
+
+            if ($request->hasFile("image")) {
+                $image_url = imageUploader($request->file('image'), 'customer', $customer->image);
+                $customer->image = $image_url;
+            }
+
+            $customer->save();
+
+            if ($request->due && $request->due > 0) {
+                $due = InitialDue::query()
+                    // ->where()
+                    ->where('customer_id', $customer->id)
+                    ->first();
+                $due->business_id = 1;
                 $due->date = $request->date ? $request->date : date('Y-m-d');
                 $due->amount = $request->due;
                 $due->save();

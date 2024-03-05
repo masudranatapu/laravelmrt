@@ -11,8 +11,28 @@ class Customer extends Model
 
     protected $guarded = [];
 
-    public function customers()
+    public function business()
     {
-        $this->belongsTo(CustomerGroup::class);
+        return $this->belongsTo(Business::class);
+    }
+
+    public function customerGroup()
+    {
+        return $this->belongsTo(CustomerGroup::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
+    public function customerInitialDue()
+    {
+        return $this->hasOne(InitialDue::class, "customer_id");
+    }
+
+    public function customerInitialDues()
+    {
+        return $this->hasMany(InitialDue::class, "customer_id");
     }
 }
