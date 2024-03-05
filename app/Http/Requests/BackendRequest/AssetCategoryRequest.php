@@ -11,7 +11,7 @@ class AssetCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class AssetCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "asset_category_name" => ["required", 'string', 'min:3'],
+            "asset_category_name" => ["required", "string", "min:3"],
         ];
     }
 }

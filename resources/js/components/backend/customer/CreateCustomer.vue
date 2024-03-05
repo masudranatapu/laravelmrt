@@ -175,8 +175,9 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="customer.area">
-                                                <option value="One">One</option>
-                                                <option value="Two">Two</option>
+                                                <option v-for="(area, index) in areas" :value='area?.id'>
+                                                    {{ area?.name }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -236,10 +237,24 @@
 
 <script>
 export default {
-    props: ['groups'],
+    props: ['groups', 'areas'],
     data: function () {
         return {
-            customer: {},
+            customer: {
+                name: "",
+                email: "",
+                phone: "",
+                gender: "",
+                member_ship_id: "",
+                date_of_birth: "",
+                due: "",
+                customer_group_id: "",
+                date: "",
+                area: "",
+                zip_code: "",
+                address: "",
+                note: "",
+            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -286,7 +301,6 @@ export default {
             formData.append('customer_group_id', this.customer.customer_group_id);
             formData.append('date', this.customer.date);
             formData.append('area', this.customer.area);
-            formData.append('country', this.customer.country);
             formData.append('zip_code', this.customer.zip_code);
             formData.append('address', this.customer.address);
             formData.append('note', this.customer.note);
@@ -301,6 +315,20 @@ export default {
                     });
                     $("#customer_image").val('');
                     this.$emit('load-customer');
+                    this.customer.name = "";
+                    this.customer.email = "";
+                    this.customer.phone = "";
+                    this.customer.gender = "";
+                    this.customer.member_ship_id = "";
+                    this.customer.date_of_birth = "";
+                    this.customer.due = "";
+                    this.customer.customer_group_id = "";
+                    this.customer.date = "";
+                    this.customer.area = "";
+                    this.customer.zip_code = "";
+                    this.customer.address = "";
+                    this.customer.note = "";
+                    $("#createCustomer").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: 'Error',

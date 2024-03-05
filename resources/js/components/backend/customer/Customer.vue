@@ -75,8 +75,8 @@
                 </div>
             </div>
         </section>
-        <CreateCustomer :groups="groups" />
-        <UpdateCustomer :groups="groups" />
+        <CreateCustomer :groups="groups" :areas="areas" />
+        <UpdateCustomer :groups="groups" :areas="areas" />
     </div>
 </template>
 
@@ -112,7 +112,7 @@ export default {
             });
         },
         loadGroups() {
-            axios.get("/group-list").then((response) => {
+            axios.get("/load-group").then((response) => {
                 this.groups = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
@@ -122,7 +122,14 @@ export default {
             });
         },
         loadAreas() {
-
+            axios.get("/load-area").then((response) => {
+                this.areas = response.data.data;
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+            });
         },
         addCustomer() {
             $("#createCustomer").modal('show');

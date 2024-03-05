@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\UserBackendController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\CustomerGroupController;
 use App\Http\Controllers\Backend\AreaController;
+use App\Http\Controllers\Backend\LoadCatalogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,9 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('area/update/{id}', [AreaController::class, 'update'])->name('area.update');
         Route::get('area/delete/{id}', [AreaController::class, 'delete'])->name('area.delete');
         Route::get('area/status/change/{id}', [AreaController::class, 'statusChange'])->name('area.status.change');
+
+        // load catalog
+        Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
+        Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');
     });
 });

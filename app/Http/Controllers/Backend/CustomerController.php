@@ -8,6 +8,7 @@ use App\Http\Requests\BackendRequest\CustomerRequest;
 use App\Http\Resources\Backend\CustomerResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
+use App\Models\InitialDue;
 
 class CustomerController extends Controller
 {
@@ -20,7 +21,9 @@ class CustomerController extends Controller
     public function customerList(Request $request)
     {
         try {
-            $customer = Customer::get();
+            $customer = Customer::query()
+                // ->where()
+                ->get();
             return CustomerResource::collection($customer);
         } catch (\Throwable $th) {
             return response()->json([
@@ -41,11 +44,9 @@ class CustomerController extends Controller
             $customer->gender = $request->gender;
             $customer->member_ship_id = $request->member_ship_id;
             $customer->date_of_birth = $request->date_of_birth;
-            $customer->due = $request->due;
             $customer->customer_group_id = $request->customer_group_id;
             $customer->date = $request->date ? $request->date : date('Y-m-d');
             $customer->area = $request->area;
-            $customer->country = $request->country;
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
@@ -57,6 +58,15 @@ class CustomerController extends Controller
             }
 
             $customer->save();
+
+            if ($request->due && $request->due > 0) {
+                $due = new InitialDue();
+                $due->business_id = 1;
+                $due->customer_id = $customer->id;
+                $due->date = $request->date ? $request->date : date('Y-m-d');
+                $due->amount = $request->due;
+                $due->save();
+            }
 
             DB::commit();
 

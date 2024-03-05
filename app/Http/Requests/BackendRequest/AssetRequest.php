@@ -11,7 +11,7 @@ class AssetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,11 @@ class AssetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "asset_category_id" => ["required"],
-            "account_id" => ["required"],
+            "asset_category_id" => ["required", "numeric", "exists:asset_categories,id"],
+            "account_id" => ["required", "numeric", "exists:accounts,id"],
             "pay_by" => ["required"],
             "date" => ["required"],
-            "amount" => ["required"],
+            "amount" => ["required", "min:0"],
         ];
     }
 }
