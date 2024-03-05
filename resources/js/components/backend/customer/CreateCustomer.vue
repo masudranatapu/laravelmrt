@@ -314,7 +314,7 @@ export default {
                         message: response.data.message,
                     });
                     $("#customer_image").val('');
-                    this.$emit('load-customer');
+                    this.$emit('create-load-customer');
                     this.customer.name = "";
                     this.customer.email = "";
                     this.customer.phone = "";

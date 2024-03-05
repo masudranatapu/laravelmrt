@@ -19,12 +19,14 @@ class CustomerResource extends JsonResource
             "uid" => $this->uid,
             "member_ship_id" => $this->member_ship_id,
             "business_id" => $this->business?->name,
-            "customer_group_id" => $this->customerGroup?->name,
+            "customer_group_name" => $this->customerGroup?->name,
+            "customer_group_id" => $this->customer_group_id,
             "name" => $this->name,
             "email" => $this->email,
             "phone" => $this->phone,
             "image" => getImagePath($this->image),
             "area" => $this->area?->name,
+            "area_id" => $this->area_id,
             "zip_code" => $this->zip_code,
             "address" => $this->address,
             "gender" => $this->gender,
@@ -34,6 +36,7 @@ class CustomerResource extends JsonResource
             "paid_amount" => $this->paid_amount,
             "status" => $this->status,
             "date" => $this->date,
+            "due" => $this->customerInitialDue?->amount,
         ];
     }
 }

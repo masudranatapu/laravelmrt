@@ -99,7 +99,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <img :alt='customer?.name' :src='customer?.image' class="rounded-circle" width="35" data-toggle="tooltip">
+                                                <img :alt='customer?.name' :src='customer?.image' class="rounded-circle"
+                                                    width="35" data-toggle="tooltip">
                                                 {{ customer?.name }}
                                             </td>
                                             <td class="text-center">
@@ -123,16 +124,16 @@
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                        <button class="dropdown-item" type="button">
+                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Inactive' || customer?.status === 'Pending' || customer?.status === 'Blocked'">
                                                             Make Active
                                                         </button>
-                                                        <button class="dropdown-item" type="button">
+                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
                                                             Make Inactive
                                                         </button>
-                                                        <button class="dropdown-item" type="button">
+                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
                                                             Block User
                                                         </button>
-                                                        <button class="dropdown-item" type="button">
+                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
                                                             Pending
                                                         </button>
                                                     </div>
@@ -147,18 +148,19 @@
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                        <button class="dropdown-item has-icon" type="button">
+                                                        <a class="dropdown-item has-icon" href="javascript:;">
                                                             <i class="fa fa-eye"></i>
                                                             View
-                                                        </button>
-                                                        <button class="dropdown-item has-icon" type="button">
+                                                        </a>
+                                                        <a class="dropdown-item has-icon" href="javascript:;"
+                                                            @click="editCustomer(customer?.id)">
                                                             <i class="fas fa-pen"></i>
                                                             Edit
-                                                        </button>
-                                                        <button class="dropdown-item has-icon" type="button">
+                                                        </a>
+                                                        <a class="dropdown-item has-icon" href="javascript:;">
                                                             <i class="fa fa-times"></i>
                                                             Delete
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -171,8 +173,8 @@
                 </div>
             </div>
         </section>
-        <CreateCustomer :groups="groups" :areas="areas" />
-        <UpdateCustomer :groups="groups" :areas="areas" />
+        <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer"/>
+        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers" @update-load-customer="refreshCustomer"/>
     </div>
 </template>
 
@@ -188,6 +190,7 @@ export default {
     data: function () {
         return {
             customers: {},
+            updateCustomers: {},
             groups: {},
             areas: {},
             main_url: window.location.origin + "/",
@@ -230,9 +233,6 @@ export default {
         addCustomer() {
             $("#createCustomer").modal('show');
         },
-        editCustomer() {
-            $("#editCustomer").modal('show');
-        },
         refreshCustomer() {
             this.loadCustomer();
         },
@@ -243,6 +243,17 @@ export default {
                 'btn-secondary': status === 'Inactive',
                 'btn-danger': status === 'Blocked'
             };
+        },
+        editCustomer(id) {
+            axios.get(`/customer/edit/${id}`).then((response) => {
+                this.updateCustomers = response.data.data;
+                $("#editCustomer").modal('show');
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+            });
         }
     },
 }

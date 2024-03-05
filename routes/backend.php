@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
         Route::get('customer-list', [CustomerController::class, 'customerList'])->name('customer.list');
         Route::post('customer/store', [CustomerController::class, 'store'])->name('customer.store');
+        Route::get('customer/edit/{id}', [CustomerController::class, 'edit'])->name('customer.edit');
         // customer group
         Route::get('customers-group', [CustomerGroupController::class, 'index'])->name('customerGroup');
         Route::get('group-list', [CustomerGroupController::class, 'groupList'])->name('group.list');
