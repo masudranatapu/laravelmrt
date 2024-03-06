@@ -158,6 +158,21 @@ class CustomerController extends Controller
         }
     }
 
+    public function view($id)
+    {
+        try {
+            $customer = Customer::query()
+                // ->where()
+                ->findOrFail($id);
+            return new CustomerResource($customer);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
     public function changeStatus($id)
     {
         try {

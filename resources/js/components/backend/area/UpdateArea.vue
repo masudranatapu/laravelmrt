@@ -8,8 +8,8 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             Edit Area
                         </h5>
-                        <a href="javascript:;" @click="closeUpdateArea()">
-                            <span aria-hidden="true">&times;</span>
+                        <a href="javascript:;" @click="closeUpdateArea()" class="btn btn-icon btn-danger">
+                            <i class="fas fa-times"></i>
                         </a>
                     </div>
                     <form @submit.prevent="updateArea(areaInfo?.id)">

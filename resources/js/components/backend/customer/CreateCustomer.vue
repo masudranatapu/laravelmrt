@@ -8,8 +8,8 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             Create Customer
                         </h5>
-                        <a href="javascript:;" @click="closeCreateCustomer()">
-                            <span aria-hidden="true">&times;</span>
+                        <a href="javascript:;" @click="closeCreateCustomer()" class="btn btn-icon btn-danger">
+                            <i class="fas fa-times"></i>
                         </a>
                     </div>
                     <form @submit.prevent="addNewCustomer()">

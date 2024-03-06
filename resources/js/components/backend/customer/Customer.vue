@@ -157,7 +157,8 @@
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                        <a class="dropdown-item has-icon" href="javascript:;">
+                                                        <a class="dropdown-item has-icon" href="javascript:;"
+                                                            @click="viewCustomerInfo(customer?.id)">
                                                             <i class="fa fa-eye"></i>
                                                             View
                                                         </a>
@@ -185,22 +186,27 @@
         <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer" />
         <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers"
             @update-load-customer="refreshCustomer" />
+
+        <ViewCustomer :customerView="viewCustomers" />
     </div>
 </template>
 
 <script>
 import CreateCustomer from './CreateCustomer.vue'
 import UpdateCustomer from './UpdateCustomer.vue'
+import ViewCustomer from './ViewCustomer.vue'
 export default {
     components: {
         CreateCustomer,
-        UpdateCustomer
+        UpdateCustomer,
+        ViewCustomer,
     },
     props: [],
     data: function () {
         return {
             customers: {},
             updateCustomers: {},
+            viewCustomers: {},
             groups: {},
             areas: {},
             main_url: window.location.origin + "/",
@@ -267,7 +273,6 @@ export default {
         },
         changeStatus(id, changeStatus) {
             axios.get(`/customer/status-change/${id}?status=${changeStatus}`).then((response) => {
-                console.log(response.data);
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
@@ -283,6 +288,20 @@ export default {
 
             }).catch((error) => {
 
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+
+            });
+        },
+        viewCustomerInfo(id) {
+            axios.get(`/customer/view/${id}`).then((response) => {
+                if (response.data.data) {
+                    this.viewCustomers = response.data.data;
+                    $("#viewCustomer").modal('show');
+                }
+            }).catch((error) => {
                 this.$iziToast.error({
                     title: 'Error',
                     message: `Error fetching data for ${error}`,

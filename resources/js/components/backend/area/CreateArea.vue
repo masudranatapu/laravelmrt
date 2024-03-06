@@ -8,8 +8,8 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             Create New Group
                         </h5>
-                        <a href="javascript:;" @click="closeCreateArea()">
-                            <span aria-hidden="true">&times;</span>
+                        <a href="javascript:;" @click="closeCreateArea()" class="btn btn-icon btn-danger">
+                            <i class="fas fa-times"></i>
                         </a>
                     </div>
                     <form @submit.prevent="addNewArea()">
