@@ -7,8 +7,7 @@ use App\Models\Business;
 use App\Models\AssetCategory;
 use App\Models\Account;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */

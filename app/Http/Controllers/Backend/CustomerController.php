@@ -195,4 +195,31 @@ class CustomerController extends Controller
             ]);
         }
     }
+
+    public function delete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $asset_category = Customer::query()
+                // ->where()
+                // ->withCount()
+                ->findOrFail($id);
+
+            fileUnlink($asset_category->image);
+
+            $asset_category->delete();
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => "Asset Category Successfully Deleted",
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
 }

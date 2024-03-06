@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('customer/update/{id}', [CustomerController::class, 'update'])->name('customer.update');
         Route::get('customer/view/{id}', [CustomerController::class, 'view'])->name('customer.view');
         Route::get('customer/status-change/{id}', [CustomerController::class, 'changeStatus'])->name('customer.status.change');
+        Route::get('customer/delete/{id}', [CustomerController::class, 'delete'])->name('customer.delete');
         // customer group
         Route::get('customers-group', [CustomerGroupController::class, 'index'])->name('customerGroup');
         Route::get('group-list', [CustomerGroupController::class, 'groupList'])->name('group.list');

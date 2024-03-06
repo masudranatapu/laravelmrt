@@ -49,7 +49,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control" v-model="quarry.keyword" placeholder="Searching customer name, phone, email, membership id, uid etc.">
+                                    <input type="text" class="form-control" v-model="quarry.keyword"
+                                        placeholder="Searching customer name, phone, email, membership id, uid etc.">
                                 </div>
                                 <div class="col-md-2">
                                     <div class="btn-group" role="group">
@@ -189,7 +190,8 @@
                                                             <i class="fas fa-pen"></i>
                                                             Edit
                                                         </a>
-                                                        <a class="dropdown-item has-icon" href="javascript:;">
+                                                        <a class="dropdown-item has-icon" href="javascript:;"
+                                                            @click="deleteCustomer(customer?.id)">
                                                             <i class="fa fa-times"></i>
                                                             Delete
                                                         </a>
@@ -206,7 +208,8 @@
             </div>
         </section>
         <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer" />
-        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers" @update-load-customer="refreshCustomer" />
+        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers"
+            @update-load-customer="refreshCustomer" />
         <ViewCustomer :customerView="viewCustomers" />
     </div>
 </template>
@@ -324,6 +327,20 @@ export default {
         },
         viewCustomerInfo(id) {
             axios.get(`/customer/view/${id}`).then((response) => {
+                if (response.data.data) {
+                    this.viewCustomers = response.data.data;
+                    $("#viewCustomer").modal('show');
+                }
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+
+            });
+        },
+        deleteCustomer(id) {
+            axios.get(`/customer/delete/${id}`).then((response) => {
                 if (response.data.data) {
                     this.viewCustomers = response.data.data;
                     $("#viewCustomer").modal('show');

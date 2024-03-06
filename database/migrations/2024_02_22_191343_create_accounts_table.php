@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
+use App\Models\Bank;
 
 return new class extends Migration {
     /**
@@ -14,10 +15,10 @@ return new class extends Migration {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Business::class)->nullable();
-            $table->string('account_type')->nullable();
+            $table->foreignIdFor(Bank::class)->nullable();
+            $table->enum('account_type', ['Cash', 'Mobile Banking', 'Card', 'Bank Account', 'Other'])->nullable();
             $table->string('mobile_bank_name')->nullable();
             $table->string('mobile_number')->nullable();
-            $table->integer('bank_list_id')->nullable();
             $table->string('bank_account_type')->nullable();
             $table->string('bank_account_name')->nullable();
             $table->string('bank_account_number')->nullable();
@@ -28,9 +29,9 @@ return new class extends Migration {
             $table->string('valid_thru_month')->nullable();
             $table->string('valid_thru_year')->nullable();
             $table->string('cvv_code')->nullable();
-            $table->double('amount', 14, 4)->default(0)->nullable();
-            $table->double('transfer_amount', 14, 4)->default(0)->nullable();
-            $table->integer('status')->default(1)->comment('0=Inactive; 1=Active;');
+            $table->double('amount', 14, 4)->default(0);
+            $table->double('transfer_amount', 14, 4)->default(0);
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->double('pm_charge', 14, 4)->default(0);
             $table->timestamps();
         });
