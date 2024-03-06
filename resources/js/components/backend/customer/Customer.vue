@@ -17,24 +17,46 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
 
                                 </div>
                                 <div class="col-md-3">
-
+                                    <div class="input-group mb-3">
+                                        <input type="date" class="form-control" placeholder="Start date"
+                                            v-model="quarry.start_date">
+                                        <span class="input-group-text bg-success">To</span>
+                                        <input type="date" class="form-control" placeholder="End Date"
+                                            v-model="quarry.end_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-control" v-model="quarry.status">
+                                        <option value="">
+                                            All
+                                        </option>
+                                        <option value="Active">
+                                            Active
+                                        </option>
+                                        <option value="Inactive">
+                                            Inactive
+                                        </option>
+                                        <option value="Blocked">
+                                            Blocked
+                                        </option>
+                                        <option value="Pending">
+                                            Pending
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
-
+                                    <input type="text" class="form-control" v-model="quarry.keyword" placeholder="Searching customer name, phone, email, membership id, uid etc.">
                                 </div>
-                                <div class="col-md-3">
-
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success">
+                                        <button type="button" class="btn btn-success" @click="loadCustomer()">
                                             Search
                                         </button>
-                                        <button type="button" class="btn btn-warning">
+                                        <button type="button" class="btn btn-warning" @click="clearSearch()">
                                             Clear
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
@@ -44,7 +66,7 @@
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
                                             <a class="dropdown-item" href="javascript:;">
-                                                Delete
+                                                Bulk Delete
                                             </a>
                                         </div>
                                     </div>
@@ -184,9 +206,7 @@
             </div>
         </section>
         <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer" />
-        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers"
-            @update-load-customer="refreshCustomer" />
-
+        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers" @update-load-customer="refreshCustomer" />
         <ViewCustomer :customerView="viewCustomers" />
     </div>
 </template>
@@ -204,6 +224,13 @@ export default {
     props: [],
     data: function () {
         return {
+            quarry: {
+                parPage: 20,
+                keyword: '',
+                start_date: '',
+                end_date: '',
+                status: ''
+            },
             customers: {},
             updateCustomers: {},
             viewCustomers: {},
@@ -219,7 +246,7 @@ export default {
     },
     methods: {
         loadCustomer() {
-            axios.get("/customer-list").then((response) => {
+            axios.get("/customer-list", { params: this.quarry }).then((response) => {
                 // console.log(response);
                 this.customers = response.data.data;
             }).catch((error) => {
@@ -308,6 +335,14 @@ export default {
                 });
 
             });
+        },
+        clearSearch() {
+            this.quarry.parPage = 20;
+            this.quarry.keyword = '';
+            this.quarry.start_date = '';
+            this.quarry.end_date = '';
+            this.quarry.status = '';
+            this.loadCustomer();
         }
     },
 }
