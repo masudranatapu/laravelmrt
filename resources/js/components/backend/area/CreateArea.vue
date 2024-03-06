@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create New Group
+                            Create New Area
                         </h5>
                         <a href="javascript:;" @click="closeCreateArea()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
