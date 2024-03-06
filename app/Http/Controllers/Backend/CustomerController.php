@@ -157,4 +157,27 @@ class CustomerController extends Controller
             ]);
         }
     }
+
+    public function changeStatus($id)
+    {
+        try {
+            DB::beginTransaction();
+            $request = request();
+            $customer = Customer::query()
+                // ->where()
+                ->findOrFail($id);
+            $customer->status = $request->status;
+            $customer->save();
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => "Customer $customer->status Successfully Done",
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
 }

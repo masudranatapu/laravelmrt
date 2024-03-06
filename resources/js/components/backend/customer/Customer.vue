@@ -124,16 +124,25 @@
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Inactive' || customer?.status === 'Pending' || customer?.status === 'Blocked'">
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(customer?.id, 'Active')" type="button"
+                                                            v-if="customer?.status === 'Inactive' || customer?.status === 'Pending' || customer?.status === 'Blocked'">
                                                             Make Active
                                                         </button>
-                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(customer?.id, 'Inactive')"
+                                                            type="button"
+                                                            v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
                                                             Make Inactive
                                                         </button>
-                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(customer?.id, 'Blocked')" type="button"
+                                                            v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
                                                             Block User
                                                         </button>
-                                                        <button class="dropdown-item" type="button" v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(customer?.id, 'Pending')" type="button"
+                                                            v-if="customer?.status === 'Active'">
                                                             Pending
                                                         </button>
                                                     </div>
@@ -173,8 +182,9 @@
                 </div>
             </div>
         </section>
-        <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer"/>
-        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers" @update-load-customer="refreshCustomer"/>
+        <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer" />
+        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers"
+            @update-load-customer="refreshCustomer" />
     </div>
 </template>
 
@@ -253,6 +263,31 @@ export default {
                     title: 'Error',
                     message: `Error fetching data for ${error}`,
                 });
+            });
+        },
+        changeStatus(id, changeStatus) {
+            axios.get(`/customer/status-change/${id}?status=${changeStatus}`).then((response) => {
+                console.log(response.data);
+                if (response.data.status == true) {
+                    this.$iziToast.success({
+                        title: 'Success',
+                        message: response.data.message,
+                    });
+                    this.loadCustomer();
+                } else {
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: response.data.message,
+                    });
+                }
+
+            }).catch((error) => {
+
+                this.$iziToast.error({
+                    title: 'Error',
+                    message: `Error fetching data for ${error}`,
+                });
+
             });
         }
     },
