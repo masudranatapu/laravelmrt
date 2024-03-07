@@ -28,6 +28,7 @@ import AdminEditBusinesse from './components/admin/businesse/EditBusinesse.vue'
 // import backend component template
 import Dashboard from './components/backend/Dashboard.vue'
 import UserProfile from './components/backend/user/Profile.vue'
+import BackendSupplier from './components/backend/supplier/Supplier.vue'
 import BackendCustomer from './components/backend/customer/Customer.vue'
 import BackendCustomerGroup from './components/backend/customer-group/Group.vue'
 import BackendArea from './components/backend/area/Area.vue'
@@ -44,6 +45,7 @@ app.component('admin-businesse-edit', AdminEditBusinesse)
 // backend component
 app.component('backend-dashboard', Dashboard)
 app.component('backend-profile', UserProfile)
+app.component('backend-supplier', BackendSupplier)
 app.component('backend-customer', BackendCustomer)
 app.component('backend-customers-group', BackendCustomerGroup)
 app.component('backend-area', BackendArea)

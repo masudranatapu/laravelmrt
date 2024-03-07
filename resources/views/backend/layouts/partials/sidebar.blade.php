@@ -23,18 +23,18 @@
             <a href="#" class="menu-toggle nav-link has-dropdown">
                 <i data-feather="briefcase"></i>
                 <span>
-                    Widgets
+                    Supplier
                 </span>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="nav-link" href="widget-chart.html">
-                        Chart Widgets
+                    <a class="nav-link" href="{{ route('backend.supplier') }}">
+                        Supplier
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="widget-data.html">
-                        Data Widgets
+                    <a class="nav-link" href="portfolio.html">
+                        Portfolio
                     </a>
                 </li>
             </ul>

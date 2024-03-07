@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\AreaController;
 use App\Http\Controllers\Backend\AssetCategoryController;
 use App\Http\Controllers\Backend\AssetController;
 use App\Http\Controllers\Backend\LoadCatalogController;
+use App\Http\Controllers\Backend\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,15 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('profile-update/{id}', [UserBackendController::class, 'profileUpdate'])->name('profile.update');
         Route::post('password-update/{id}', [UserBackendController::class, 'passwordUpdate'])->name('password.update');
         Route::get('user/list', [UserBackendController::class, 'userList'])->name('user.list');
+        // supplier
+        Route::get('supplier', [SupplierController::class, 'index'])->name('supplier');
+        Route::get('supplier-list', [SupplierController::class, 'supplierList'])->name('supplier.list');
+        Route::post('supplier/store', [SupplierController::class, 'store'])->name('supplier.store');
+        Route::get('supplier/edit/{id}', [SupplierController::class, 'edit'])->name('supplier.edit');
+        Route::post('supplier/update/{id}', [SupplierController::class, 'update'])->name('supplier.update');
+        Route::get('supplier/view/{id}', [SupplierController::class, 'view'])->name('supplier.view');
+        Route::get('supplier/status-change/{id}', [SupplierController::class, 'changeStatus'])->name('supplier.status.change');
+        Route::get('supplier/delete/{id}', [SupplierController::class, 'delete'])->name('supplier.delete');
         // customer
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
         Route::get('customer-list', [CustomerController::class, 'customerList'])->name('customer.list');

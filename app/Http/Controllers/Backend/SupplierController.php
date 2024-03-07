@@ -3,70 +3,70 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BackendRequest\SupplierRequest;
+use App\Http\Resources\Backend\SupplierResource;
 use Illuminate\Http\Request;
-use App\Http\Requests\BackendRequest\CustomerRequest;
-use App\Http\Resources\Backend\CustomerResource;
 use Illuminate\Support\Facades\DB;
-use App\Models\Customer;
+use App\Models\Supplier;
 use App\Models\InitialDue;
 
-class CustomerController extends Controller
+class SupplierController extends Controller
 {
     //
     public function index()
     {
-        return view('backend.customer.index');
+        return view('backend.supplier.index');
     }
 
-    public function customerList(Request $request)
+    public function supplierList(Request $request)
     {
         try {
-            $customer = Customer::query()
+            $customer = Supplier::query()
                 // ->where()
                 ->with([
-                    'customerInitialDue' => fn($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
+                    'supplierInitialDue' => fn($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
                 ])
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->get();
-            return CustomerResource::collection($customer);
+            return SupplierResource::collection($customer);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
             ]);
         }
-    }
 
-    public function store(CustomerRequest $request)
+    }
+    public function store(SupplierRequest $request)
     {
         try {
             DB::beginTransaction();
-            $customer = new Customer();
-            $customer->name = $request->name;
-            $customer->email = $request->email;
-            $customer->phone = $request->phone;
-            $customer->gender = $request->gender;
-            $customer->member_ship_id = $request->member_ship_id;
-            $customer->date_of_birth = $request->date_of_birth;
-            $customer->customer_group_id = $request->customer_group_id;
-            $customer->date = $request->date ? $request->date : date('Y-m-d');
-            $customer->area_id = $request->area_id;
-            $customer->zip_code = $request->zip_code;
-            $customer->address = $request->address;
-            $customer->note = $request->note;
-            $customer->status = 'Active';
+            $supplier = new Supplier();
+            $supplier->business_id = 1;
+            $supplier->name = $request->name;
+            $supplier->email = $request->email;
+            $supplier->supplier_business_name = $request->supplier_business_name;
+            $supplier->phone = $request->phone;
+            $supplier->gender = $request->gender;
+            $supplier->date_of_birth = $request->date_of_birth;
+            $supplier->date = $request->date ? $request->date : date('Y-m-d');
+            $supplier->area_id = $request->area_id;
+            $supplier->zip_code = $request->zip_code;
+            $supplier->address = $request->address;
+            $supplier->note = $request->note;
+            $supplier->status = 'Active';
 
             if ($request->hasFile("image")) {
-                $image_url = imageUploader($request->file('image'), 'customer', $customer->image);
-                $customer->image = $image_url;
+                $image_url = imageUploader($request->file('image'), 'supplier', $supplier->image);
+                $supplier->image = $image_url;
             }
 
-            $customer->save();
+            $supplier->save();
 
             if ($request->due && $request->due > 0) {
                 $due = new InitialDue();
                 $due->business_id = 1;
-                $due->customer_id = $customer->id;
+                $due->supplier_id = $supplier->id;
                 $due->date = $request->date ? $request->date : date('Y-m-d');
                 $due->amount = $request->due;
                 $due->save();
@@ -76,7 +76,7 @@ class CustomerController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'User successfully Created',
+                'message' => 'Supplier successfully Created',
             ]);
 
         } catch (\Throwable $th) {
@@ -87,15 +87,13 @@ class CustomerController extends Controller
             ]);
         }
     }
-
-
     public function edit($id)
     {
         try {
-            $customer = Customer::query()
+            $customer = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            return new CustomerResource($customer);
+            return new SupplierResource($customer);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -103,41 +101,40 @@ class CustomerController extends Controller
             ]);
         }
     }
-
-    public function update(CustomerRequest $request, $id)
+    public function update(SupplierRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $customer = Customer::query()
+            $supplier = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            $customer->name = $request->name;
-            $customer->email = $request->email;
-            $customer->phone = $request->phone;
-            $customer->gender = $request->gender;
-            $customer->member_ship_id = $request->member_ship_id;
-            $customer->date_of_birth = $request->date_of_birth;
-            $customer->customer_group_id = $request->customer_group_id;
-            $customer->date = $request->date ? $request->date : date('Y-m-d');
-            $customer->area_id = $request->area_id;
-            $customer->zip_code = $request->zip_code;
-            $customer->address = $request->address;
-            $customer->note = $request->note;
-            $customer->status = 'Active';
+            $supplier->business_id = 1;
+            $supplier->name = $request->name;
+            $supplier->email = $request->email;
+            $supplier->supplier_business_name = $request->supplier_business_name;
+            $supplier->phone = $request->phone;
+            $supplier->gender = $request->gender;
+            $supplier->date_of_birth = $request->date_of_birth;
+            $supplier->date = $request->date ? $request->date : date('Y-m-d');
+            $supplier->area_id = $request->area_id;
+            $supplier->zip_code = $request->zip_code;
+            $supplier->address = $request->address;
+            $supplier->note = $request->note;
 
             if ($request->hasFile("image")) {
-                $image_url = imageUploader($request->file('image'), 'customer', $customer->image);
-                $customer->image = $image_url;
+                $image_url = imageUploader($request->file('image'), 'supplier', $supplier->image);
+                $supplier->image = $image_url;
             }
 
-            $customer->save();
+            $supplier->save();
 
             if ($request->due && $request->due > 0) {
                 $due = InitialDue::query()
                     // ->where()
-                    ->where('customer_id', $customer->id)
+                    ->where('supplier_id', $supplier->id)
                     ->first();
                 $due->business_id = 1;
+                $due->supplier_id = $supplier->id;
                 $due->date = $request->date ? $request->date : date('Y-m-d');
                 $due->amount = $request->due;
                 $due->save();
@@ -147,7 +144,7 @@ class CustomerController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Customer successfully updated',
+                'message' => 'Supplier successfully Updated',
             ]);
 
         } catch (\Throwable $th) {
@@ -158,28 +155,27 @@ class CustomerController extends Controller
             ]);
         }
     }
-
     public function view($id)
     {
         try {
-            $customer = Customer::query()
+            $customer = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            return new CustomerResource($customer);
+            return new SupplierResource($customer);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
             ]);
         }
-    }
 
+    }
     public function changeStatus($id)
     {
         try {
             DB::beginTransaction();
             $request = request();
-            $customer = Customer::query()
+            $customer = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
             $customer->status = $request->status;
@@ -196,24 +192,23 @@ class CustomerController extends Controller
             ]);
         }
     }
-
     public function delete($id)
     {
         try {
             DB::beginTransaction();
-            $customer = Customer::query()
+            $supplier = Supplier::query()
                 // ->where()
                 // ->withCount()
                 ->findOrFail($id);
 
-            fileUnlink($customer->image);
+            fileUnlink($supplier->image);
 
-            $customer->delete();
+            $supplier->delete();
 
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Customer Successfully Deleted",
+                'message' => "Supplier Successfully Deleted",
             ]);
         } catch (\Throwable $th) {
             DB::rollback();

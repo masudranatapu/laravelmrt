@@ -18,8 +18,11 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="col-md-2">
-                                    <select class="form-control" v-model="quarry.asset_category">
+                                    <select class="form-control" v-model="quarry.asset_category_id">
                                         <option value="">All</option>
+                                        <option v-for="(category, index) in assetCategories" :value='category?.id'>
+                                            {{ category?.asset_category_name }}
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -137,7 +140,7 @@ export default {
             quarry: {
                 parpage: 20,
                 keyword: '',
-                asset_category: '',
+                asset_category_id: '',
             },
             main_url: window.location.origin + "/",
         };
@@ -237,7 +240,7 @@ export default {
         clearAssetCategories() {
             this.quarry.parpage = 20;
             this.quarry.keyword = '';
-            this.quarry.asset_category = '';
+            this.quarry.asset_category_id = '';
             this.loadAsset();
         },
     },

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignIdFor(Business::class)->nullable();
             $table->foreignIdFor(Customer::class)->nullable();
             $table->foreignIdFor(Supplier::class)->nullable();
-            $table->date('data')->nullable();
+            $table->date('date')->nullable();
             $table->double('amount', 14, 4)->default(0);
             $table->timestamps();
         });

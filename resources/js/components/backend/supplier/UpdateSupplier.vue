@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="modal fade" id="editCustomer" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="editSupplier" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Edit Customer
+                            Edit Supplier
                         </h5>
-                        <a href="javascript:;" @click="closeUpdateCustomer()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeUpdateSupplier()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updateCustomer()">
+                    <form @submit.prevent="updateSupplier(supplierEdit?.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -27,22 +27,23 @@
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="customerEdit.name"
+                                            <input type="text" class="form-control" v-model="supplierEdit.name"
                                                 placeholder="Name" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email</label>
+                                        <label>Supplier Business Name</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                    <i class="far fa-envelope"></i>
+                                                    <i class="fas fa-shopping-bag"></i>
                                                 </div>
                                             </div>
-                                            <input type="email" class="form-control" v-model="customerEdit.email"
-                                                placeholder="Email">
+                                            <input type="text" class="form-control"
+                                                v-model="supplierEdit.supplier_business_name"
+                                                placeholder="Supplier Business Name">
                                         </div>
                                     </div>
                                 </div>
@@ -58,8 +59,22 @@
                                                     <i class="fas fa-phone"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="customerEdit.phone"
+                                            <input type="number" class="form-control" v-model="supplierEdit.phone"
                                                 placeholder="Phone" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="far fa-envelope"></i>
+                                                </div>
+                                            </div>
+                                            <input type="email" class="form-control" v-model="supplierEdit.email"
+                                                placeholder="Email">
                                         </div>
                                     </div>
                                 </div>
@@ -72,11 +87,11 @@
                                                     <i class="far fa-file-image"></i>
                                                 </div>
                                             </div>
-                                            <input type="file" class="form-control" id="edit_customer_image">
+                                            <input type="file" class="form-control" id="edit_supplier_image">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Gender</label>
                                         <div class="input-group">
@@ -85,24 +100,10 @@
                                                     <i class="fas fa-transgender"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="customerEdit.gender">
+                                            <select class="form-control" v-model="supplierEdit.gender">
                                                 <option value="Male" selected>Male</option>
                                                 <option value="Female">Female</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Membership Number</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-users"></i>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control"
-                                                v-model="customerEdit.member_ship_id" placeholder="Membership Number">
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +116,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="date" class="form-control" v-model="customerEdit.date_of_birth"
+                                            <input type="date" class="form-control" v-model="supplierEdit.date_of_birth"
                                                 placeholder="Date of Birth">
                                         </div>
                                     </div>
@@ -129,25 +130,8 @@
                                                     <i class="fas fa-sort-amount-up"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="customerEdit.due"
+                                            <input type="number" class="form-control" v-model="supplierEdit.due"
                                                 placeholder="Due">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Customer Group</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-users"></i>
-                                                </div>
-                                            </div>
-                                            <select class="form-control" v-model="customerEdit.customer_group_id">
-                                                <option v-for="(group, index) in groups" :value='group?.id' :selected="customerEdit.customer_group_id == group?.id">
-                                                    {{ group?.name }}
-                                                </option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +144,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="date" class="form-control" v-model="customerEdit.date"
+                                            <input type="date" class="form-control" v-model="supplierEdit.date"
                                                 placeholder="Date">
                                         </div>
                                     </div>
@@ -174,8 +158,8 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="customerEdit.area_id">
-                                                <option v-for="(area, index) in areas" :value='area?.id' :selected="customerEdit.area_id == area?.id">
+                                            <select class="form-control" v-model="supplierEdit.area_id">
+                                                <option v-for="(area, index) in areas" :value='area?.id'>
                                                     {{ area?.name }}
                                                 </option>
                                             </select>
@@ -191,7 +175,7 @@
                                                     <i class="fas fa-infinity"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="customerEdit.zip_code"
+                                            <input type="number" class="form-control" v-model="supplierEdit.zip_code"
                                                 placeholder="Zip Code">
                                         </div>
                                     </div>
@@ -205,7 +189,7 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="customerEdit.address"
+                                            <input type="text" class="form-control" v-model="supplierEdit.address"
                                                 placeholder="Address">
                                         </div>
                                     </div>
@@ -213,14 +197,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Note</label>
-                                        <textarea name="" class="form-control" v-model="customerEdit.note"
+                                        <textarea name="" class="form-control" v-model="supplierEdit.note"
                                             placeholder="Note" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeUpdateCustomer()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateSupplier()">
                                 Close
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -238,7 +222,7 @@
 <script>
 
 export default {
-    props: ['groups', 'areas', 'customerEdit'],
+    props: ['areas', 'supplierEdit'],
     data: function () {
         return {
             isButtonDisabled: false,
@@ -249,17 +233,17 @@ export default {
 
     },
     methods: {
-        updateCustomer() {
+        updateSupplier(id) {
 
             this.isButtonDisabled = true;
 
             var formData = new FormData();
 
-            var customerImage = $("#edit_customer_image")[0].files;
+            var supplierImage = $("#edit_supplier_image")[0].files;
 
-            if (customerImage.length > 0) {
+            if (supplierImage.length > 0) {
 
-                var name = customerImage[0].name;
+                var name = supplierImage[0].name;
 
                 var extension = name.split('.').pop().toLowerCase();
 
@@ -268,40 +252,38 @@ export default {
                         title: 'Success',
                         message: "Invalid Include Image File Extension",
                     });
-                    $("#customerImage").val();
+                    $("#edit_supplier_image").val();
                 } else {
-                    formData.append("image", customerImage[0]);
+                    formData.append("image", supplierImage[0]);
                 }
 
             } else {
                 formData.append("image", '');
             }
 
-            formData.append('name', this.customerEdit.name ? this.customerEdit.name : '');
-            formData.append('email', this.customerEdit.email ? this.customerEdit.email : '');
-            formData.append('phone', this.customerEdit.phone ? this.customerEdit.phone : '');
-            formData.append('gender', this.customerEdit.gender ? this.customerEdit.gender : '');
-            formData.append('member_ship_id', this.customerEdit.member_ship_id ? this.customerEdit.member_ship_id : '');
-            formData.append('date_of_birth', this.customerEdit.date_of_birth ? this.customerEdit.date_of_birth : '');
-            formData.append('due', this.customerEdit.due ? this.customerEdit.due : '');
-            formData.append('customer_group_id', this.customerEdit.customer_group_id ? this.customerEdit.customer_group_id : '');
-            formData.append('date', this.customerEdit.date ? this.customerEdit.date : '');
-            formData.append('area_id', this.customerEdit.area_id ? this.customerEdit.area_id : '');
-            formData.append('zip_code', this.customerEdit.zip_code ? this.customerEdit.zip_code : '');
-            formData.append('address', this.customerEdit.address ? this.customerEdit.address : '');
-            formData.append('note', this.customerEdit.note ? this.customerEdit.note : '');
-            formData.append("_method", "POST");
+            formData.append('name', this.supplierEdit.name ? this.supplierEdit.name : '');
+            formData.append('email', this.supplierEdit.email ? this.supplierEdit.email : '');
+            formData.append('supplier_business_name', this.supplierEdit.supplier_business_name ? this.supplierEdit.supplier_business_name : '');
+            formData.append('phone', this.supplierEdit.phone ? this.supplierEdit.phone : '');
+            formData.append('gender', this.supplierEdit.gender ? this.supplierEdit.gender : '');
+            formData.append('date_of_birth', this.supplierEdit.date_of_birth ? this.supplierEdit.date_of_birth : '');
+            formData.append('due', this.supplierEdit.due ? this.supplierEdit.due : '');
+            formData.append('date', this.supplierEdit.date ? this.supplierEdit.date : '');
+            formData.append('area_id', this.supplierEdit.area_id ? this.supplierEdit.area_id : '');
+            formData.append('zip_code', this.supplierEdit.zip_code ? this.supplierEdit.zip_code : '');
+            formData.append('address', this.supplierEdit.address ? this.supplierEdit.address : '');
+            formData.append('note', this.supplierEdit.note ? this.supplierEdit.note : '');
 
-            axios.post(`/customer/update/${this.customerEdit.id}`, formData).then((response) => {
+            axios.post(`/supplier/update/${id}`, formData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
                         message: response.data.message,
                     });
-                    $("#edit_customer_image").val('');
-                    this.$emit('update-load-customer');
-                    $("#editCustomer").modal('hide');
+                    $("#edit_supplier_image").val('');
+                    this.$emit('update-load-supplier');
+                    $("#editSupplier").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -320,8 +302,8 @@ export default {
                 });
             });
         },
-        closeUpdateCustomer() {
-            $("#editCustomer").modal('hide');
+        closeUpdateSupplier() {
+            $("#editSupplier").modal('hide');
             this.isButtonDisabled = false;
         },
     },

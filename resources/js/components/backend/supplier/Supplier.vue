@@ -5,12 +5,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Customers</h4>
+                            <h4>Suppliers</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
-                                    <button type="button" class="btn btn-primary" @click="addCustomer()">
+                                    <button type="button" class="btn btn-primary" @click="addSupplier()">
                                         <i class="fa fa-plus"></i>
-                                        Add New Customer
+                                        Add New Supplier
                                     </button>
                                 </div>
                             </div>
@@ -50,11 +50,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" class="form-control" v-model="quarry.keyword"
-                                        placeholder="Searching customer name, phone, email, membership id, uid etc.">
+                                        placeholder="Searching supplier name, phone, email, membership id, uid etc.">
                                 </div>
                                 <div class="col-md-2">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadCustomer()">
+                                        <button type="button" class="btn btn-success" @click="loadSuppliers()">
                                             Search
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearSearch()">
@@ -110,62 +110,62 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(customer, index) in customers">
+                                        <tr v-for="(supplier, index) in suppliers">
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
-                                                        class="custom-control-input" :id="'checked_' + customer?.id">
-                                                    <label :for="'checked_' + customer?.id"
+                                                        class="custom-control-input" :id="'supplier_' + supplier?.id">
+                                                    <label :for="'supplier_' + supplier?.id"
                                                         class="custom-control-label">
                                                         {{ index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
                                             <td>
-                                                <img :alt='customer?.name' :src='customer?.image' class="rounded-circle"
+                                                <img :alt='supplier?.name' :src='supplier?.image' class="rounded-circle"
                                                     width="35" data-toggle="tooltip">
-                                                {{ customer?.name }}
+                                                {{ supplier?.name }}
                                             </td>
                                             <td class="text-center">
-                                                <a :href='"tel:" + customer?.phone'>
-                                                    {{ customer?.phone }}
+                                                <a :href='"tel:" + supplier?.phone'>
+                                                    {{ supplier?.phone }}
                                                 </a>
                                             </td>
                                             <td class="text-center">
-                                                {{ customer?.area }}
+                                                {{ supplier?.area }}
                                             </td>
                                             <td class="text-center">
-                                                {{ customer?.date }}
+                                                {{ supplier?.date }}
                                             </td>
                                             <td class="text-center">
                                                 <div class="dropdown d-inline mr-2">
                                                     <button class="btn dropdown-toggle" type="button"
-                                                        :class="getStatusButtonClass(customer?.status)"
+                                                        :class="getStatusButtonClass(supplier?.status)"
                                                         id="dropdownMenuButton3" data-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
-                                                        {{ customer?.status }}
+                                                        {{ supplier?.status }}
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <button class="dropdown-item"
-                                                            @click="changeStatus(customer?.id, 'Active')" type="button"
-                                                            v-if="customer?.status === 'Inactive' || customer?.status === 'Pending' || customer?.status === 'Blocked'">
+                                                            @click="changeStatus(supplier?.id, 'Active')" type="button"
+                                                            v-if="supplier?.status === 'Inactive' || supplier?.status === 'Pending' || supplier?.status === 'Blocked'">
                                                             Make Active
                                                         </button>
                                                         <button class="dropdown-item"
-                                                            @click="changeStatus(customer?.id, 'Inactive')"
+                                                            @click="changeStatus(supplier?.id, 'Inactive')"
                                                             type="button"
-                                                            v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
+                                                            v-if="supplier?.status === 'Active' || supplier?.status === 'Pending'">
                                                             Make Inactive
                                                         </button>
                                                         <button class="dropdown-item"
-                                                            @click="changeStatus(customer?.id, 'Blocked')" type="button"
-                                                            v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
+                                                            @click="changeStatus(supplier?.id, 'Blocked')" type="button"
+                                                            v-if="supplier?.status === 'Active' || supplier?.status === 'Pending'">
                                                             Block User
                                                         </button>
                                                         <button class="dropdown-item"
-                                                            @click="changeStatus(customer?.id, 'Pending')" type="button"
-                                                            v-if="customer?.status === 'Active'">
+                                                            @click="changeStatus(supplier?.id, 'Pending')" type="button"
+                                                            v-if="supplier?.status === 'Active'">
                                                             Pending
                                                         </button>
                                                     </div>
@@ -181,17 +181,17 @@
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="viewCustomerInfo(customer?.id)">
+                                                            @click="viewSupplierInfo(supplier?.id)">
                                                             <i class="fa fa-eye"></i>
                                                             View
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="editCustomer(customer?.id)">
+                                                            @click="editSupplier(supplier?.id)">
                                                             <i class="fas fa-pen"></i>
                                                             Edit
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="deleteCustomer(customer?.id)">
+                                                            @click="deleteSupplier(supplier?.id)">
                                                             <i class="fa fa-times"></i>
                                                             Delete
                                                         </a>
@@ -207,22 +207,21 @@
                 </div>
             </div>
         </section>
-        <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer" />
-        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers"
-            @update-load-customer="refreshCustomer" />
-        <ViewCustomer :customerView="viewCustomers" />
+        <CreateSupplier :areas="areas" @create-load-supplier="refreshSupplier" />
+        <UpdateSupplier :areas="areas" :supplierEdit="updateSupplier" @update-load-supplier="refreshSupplier" />
+        <ViewSupplier :supplierView="viewSupplier" />
     </div>
 </template>
 
 <script>
-import CreateCustomer from './CreateCustomer.vue'
-import UpdateCustomer from './UpdateCustomer.vue'
-import ViewCustomer from './ViewCustomer.vue'
+import CreateSupplier from './CreateSupplier.vue'
+import UpdateSupplier from './UpdateSupplier.vue'
+import ViewSupplier from './ViewSupplier.vue'
 export default {
     components: {
-        CreateCustomer,
-        UpdateCustomer,
-        ViewCustomer,
+        CreateSupplier,
+        UpdateSupplier,
+        ViewSupplier,
     },
     props: [],
     data: function () {
@@ -234,36 +233,24 @@ export default {
                 end_date: '',
                 status: ''
             },
-            customers: {},
-            updateCustomers: {},
-            viewCustomers: {},
-            groups: {},
+            suppliers: {},
+            updateSupplier: {},
+            viewSupplier: {},
             areas: {},
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadCustomer();
-        this.loadGroups();
+        this.loadSuppliers();
         this.loadAreas();
     },
     methods: {
-        loadCustomer() {
-            axios.get("/customer-list", { params: this.quarry }).then((response) => {
+        loadSuppliers() {
+            axios.get("/supplier-list", { params: this.quarry }).then((response) => {
                 // console.log(response);
-                this.customers = response.data.data;
+                this.suppliers = response.data.data;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
-            });
-        },
-        loadGroups() {
-            axios.get("/load-group").then((response) => {
-                this.groups = response.data.data;
-            }).catch((error) => {
-                this.$iziToast.error({
-                    title: 'Error',
-                    message: `Error fetching data for ${error}`,
-                });
             });
         },
         loadAreas() {
@@ -276,11 +263,11 @@ export default {
                 });
             });
         },
-        addCustomer() {
-            $("#createCustomer").modal('show');
+        addSupplier() {
+            $("#createSupplier").modal('show');
         },
-        refreshCustomer() {
-            this.loadCustomer();
+        refreshSupplier() {
+            this.loadSuppliers();
         },
         getStatusButtonClass(status) {
             return {
@@ -290,10 +277,10 @@ export default {
                 'btn-danger': status === 'Blocked'
             };
         },
-        editCustomer(id) {
-            axios.get(`/customer/edit/${id}`).then((response) => {
-                this.updateCustomers = response.data.data;
-                $("#editCustomer").modal('show');
+        editSupplier(id) {
+            axios.get(`/supplier/edit/${id}`).then((response) => {
+                this.updateSupplier = response.data.data;
+                $("#editSupplier").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
                     title: 'Error',
@@ -302,13 +289,13 @@ export default {
             });
         },
         changeStatus(id, changeStatus) {
-            axios.get(`/customer/status-change/${id}?status=${changeStatus}`).then((response) => {
+            axios.get(`/supplier/status-change/${id}?status=${changeStatus}`).then((response) => {
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
                         message: response.data.message,
                     });
-                    this.loadCustomer();
+                    this.loadSuppliers();
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -325,11 +312,11 @@ export default {
 
             });
         },
-        viewCustomerInfo(id) {
-            axios.get(`/customer/view/${id}`).then((response) => {
+        viewSupplierInfo(id) {
+            axios.get(`/supplier/view/${id}`).then((response) => {
                 if (response.data.data) {
-                    this.viewCustomers = response.data.data;
-                    $("#viewCustomer").modal('show');
+                    this.viewSupplier = response.data.data;
+                    $("#viewSupplier").modal('show');
                 }
             }).catch((error) => {
                 this.$iziToast.error({
@@ -339,7 +326,7 @@ export default {
 
             });
         },
-        deleteCustomer(id) {
+        deleteSupplier(id) {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: 'You won\'t be able to revert this!',
@@ -349,13 +336,13 @@ export default {
                 cancelButtonText: 'No, Cancel',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/customer/delete/${id}`).then((response) => {
+                    axios.get(`/supplier/delete/${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: 'Success',
                                 message: response.data.message,
                             });
-                            this.loadCustomer();
+                            this.loadSuppliers();
                         } else {
                             this.$iziToast.error({
                                 title: 'Error',
@@ -394,7 +381,7 @@ export default {
             this.quarry.start_date = '';
             this.quarry.end_date = '';
             this.quarry.status = '';
-            this.loadCustomer();
+            this.loadSuppliers();
         }
     },
 }
