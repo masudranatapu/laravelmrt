@@ -10,21 +10,59 @@
                         <label>
                             Old Password <span class="text-danger">*</span>
                         </label>
-                        <input type="password" v-model="password.old_password" class="form-control"
-                            placeholder="Old Password">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                            </div>
+                            <input :type="showOldPassword ? 'text' : 'password'" v-model="password.old_password"
+                                class="form-control" placeholder="Old Password">
+                            <div class="input-group-prepend" @click="passwordVisibility('old_pass')">
+                                <div class="input-group-text">
+                                    <i :class="showOldPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>
                             New Password <span class="text-danger">*</span>
                         </label>
-                        <input type="password" v-model="password.password" class="form-control" placeholder="New Password">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                            </div>
+                            <input :type="showNewPassword ? 'text' : 'password'" v-model="password.password"
+                                class="form-control" placeholder="New Password">
+                            <div class="input-group-prepend" @click="passwordVisibility('new_pass')">
+                                <div class="input-group-text">
+                                    <i :class="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>
                             Confirm Password <span class="text-danger">*</span>
                         </label>
-                        <input type="password" v-model="password.password_confirmation" class="form-control"
-                            placeholder="Password Confirmation">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                            </div>
+                            <input :type="showConfirmPassword ? 'text' : 'password'"
+                                v-model="password.password_confirmation" class="form-control"
+                                placeholder="Password Confirmation">
+                            <div class="input-group-prepend" @click="passwordVisibility('confirm_pass')">
+                                <div class="input-group-text">
+                                    <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,6 +87,9 @@ export default {
         return {
             password: {},
             isButtonDisabled: false,
+            showOldPassword: false,
+            showNewPassword: false,
+            showConfirmPassword: false,
             main_url: window.location.origin + "/",
         };
     },
@@ -88,6 +129,17 @@ export default {
             this.password.old_password = '';
             this.password.password = '';
             this.password.password_confirmation = '';
+        },
+        passwordVisibility(value) {
+            if (value === 'confirm_pass') {
+                this.showConfirmPassword = !this.showConfirmPassword;
+            } else if (value === 'new_pass') {
+                this.showNewPassword = !this.showNewPassword;
+            } else if (value === 'old_pass') {
+                this.showOldPassword = !this.showOldPassword;
+            } else {
+                alert('Something went worng');
+            }
         }
     },
 };
