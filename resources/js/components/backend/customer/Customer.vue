@@ -17,10 +17,10 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
 
                                 </div>
-                                <div class="col-md-3">
+                                <div class="form-group col-md-3">
                                     <div class="input-group mb-3">
                                         <input type="date" class="form-control" placeholder="Start date"
                                             v-model="quarry.start_date">
@@ -29,7 +29,7 @@
                                             v-model="quarry.end_date">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.status">
                                         <option value="">
                                             All
@@ -48,11 +48,11 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="form-group col-md-3">
                                     <input type="text" class="form-control" v-model="quarry.keyword"
                                         placeholder="Searching customer name, phone, email, membership id, uid etc.">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadCustomer()">
                                             Search

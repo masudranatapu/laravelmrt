@@ -17,7 +17,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.asset_category_id">
                                         <option value="">All</option>
                                         <option v-for="(category, index) in assetCategories" :value='category?.id'>
@@ -25,11 +25,11 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <input type="text" class="form-control" placeholder="Searching"
                                         v-model="quarry.keyword">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadAsset()">
                                             Search

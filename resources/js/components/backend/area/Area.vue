@@ -17,18 +17,18 @@
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.status">
                                         <option value="">All</option>
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <input type="text" class="form-control" placeholder="Searching"
                                         v-model="quarry.keyword">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadAreas()">
                                             Search

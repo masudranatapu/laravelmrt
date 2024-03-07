@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Business List</h4>
@@ -15,7 +15,43 @@
                         </div>
                     </div>
                     <div class="card-body py-2">
-
+                        <div class="row">
+                            <div class="form-group col-xl-2">
+                                <select class="form-control">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-xl-2">
+                                <select class="form-control">
+                                    <option value="">Business Type</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-xl-2">
+                                <select class="form-control">
+                                    <option value="">Business Type</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-xl-3">
+                                <div class="input-group">
+                                    <input type="date" class="form-control" placeholder="Start date">
+                                    <span class="input-group-text bg-success">To</span>
+                                    <input type="date" class="form-control" placeholder="End Date">
+                                </div>
+                            </div>
+                            <div class="form-group col-xl-2">
+                                <input type="text" class="form-control" placeholder="Search by business name">
+                            </div>
+                            <div class="form-group col-md-1">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-success btn-sm">
+                                        Search
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-sm">
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -24,8 +60,9 @@
                                     <tr>
                                         <th class="text-center">
                                             <div class="custom-checkbox custom-checkbox-table custom-control">
-                                                <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad"
-                                                    class="custom-control-input" id="checkbox-all">
+                                                <input type="checkbox" data-checkboxes="mygroup"
+                                                    data-checkbox-role="dad" class="custom-control-input"
+                                                    id="checkbox-all">
                                                 <label for="checkbox-all" class="custom-control-label"></label>
                                             </div>
                                         </th>
@@ -44,7 +81,7 @@
                                                 <input type="checkbox" data-checkboxes="mygroup"
                                                     class="custom-control-input" :id="'checked_' + business?.id">
                                                 <label :for="'checked_' + business?.id" class="custom-control-label">
-                                                    # {{  index + 1 }}
+                                                    # {{ index + 1 }}
                                                 </label>
                                             </div>
                                         </td>
@@ -55,8 +92,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle"
-                                                width="35" data-toggle="tooltip" title="Wildan Ahdian">
+                                            <img alt="image" src="" class="rounded-circle" width="35" title="">
                                         </td>
                                         <td>2018-01-20</td>
                                         <td>
@@ -81,18 +117,18 @@ export default {
     props: [],
     data: function () {
         return {
-            businesse: {},
+            businesses: {},
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadbusinesse();
+        this.loadBusinesse();
     },
     methods: {
-        loadbusinesse() {
+        loadBusinesse() {
             axios.get("/admin/businesses-list").then((response) => {
                 console.log(response.data.data);
-                this.businesse = response.data.data;
+                this.businesses = response.data.data;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
             });

@@ -2721,7 +2721,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .form-group {
-    margin-bottom: 25px
+    margin-bottom: 10px
 }
 
 .form-group .control-label,
