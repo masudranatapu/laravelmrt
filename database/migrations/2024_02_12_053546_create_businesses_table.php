@@ -2,6 +2,9 @@
 
 use App\Models\Admin;
 use App\Models\Business;
+use App\Models\BusinessType;
+use App\Models\Package;
+use App\Models\PricingPlan;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +21,9 @@ return new class extends Migration {
             $table->foreignIdFor(User::class)->nullable();
             $table->foreignIdFor(Admin::class)->nullable();
             $table->foreignIdFor(Business::class)->nullable();
+            $table->foreignIdFor(Package::class)->nullable();
+            $table->foreignIdFor(PricingPlan::class)->nullable();
+            $table->foreignIdFor(BusinessType::class)->nullable();
             $table->enum('type', ['Owner', 'Branch'])->default('Owner');
             $table->string('name')->nullable();
             $table->string('email')->nullable();
