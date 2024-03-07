@@ -27,8 +27,8 @@
                 </span>
             </a>
             <ul class="dropdown-menu">
-                <li class="{{ Route::is('admin.businesses.index') && Route::is('admin.businesses.create') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.businesses.index') }}">
+                <li class="{{ Route::is('admin.businesses') && Route::is('admin.businesses.create') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.businesses') }}">
                         Business List
                     </a>
                 </li>
@@ -38,6 +38,14 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        <li>
+            <a class="nav-link" href="{{ route('admin.businesse.type') }}">
+                <i data-feather="map-pin"></i>
+                <span>
+                    Business Type
+                </span>
+            </a>
         </li>
         <li class="dropdown">
             <a href="#" class="menu-toggle nav-link has-dropdown">
@@ -493,14 +501,6 @@
                     </a>
                 </li>
             </ul>
-        </li>
-        <li>
-            <a class="nav-link" href="vector-map.html">
-                <i data-feather="map-pin"></i>
-                <span>
-                    Vector Map
-                </span>
-            </a>
         </li>
         <li class="menu-header">
             Pages

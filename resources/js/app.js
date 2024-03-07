@@ -24,6 +24,7 @@ import AdminProfile from './components/admin/profile/Profile.vue'
 import AdminBusinesse from './components/admin/businesse/BusinesseList.vue'
 import AdminCreateBusinesse from './components/admin/businesse/CreateBusinesse.vue'
 import AdminEditBusinesse from './components/admin/businesse/EditBusinesse.vue'
+import AdminBusinesseType from './components/admin/businesse-type/BusinesseType.vue'
 
 // import backend component template
 import Dashboard from './components/backend/Dashboard.vue'
@@ -41,6 +42,7 @@ app.component('admin-profile', AdminProfile)
 app.component('admin-businesse', AdminBusinesse)
 app.component('admin-businesse-create', AdminCreateBusinesse)
 app.component('admin-businesse-edit', AdminEditBusinesse)
+app.component('admin-businesse-type', AdminBusinesseType)
 
 // backend component
 app.component('backend-dashboard', Dashboard)
