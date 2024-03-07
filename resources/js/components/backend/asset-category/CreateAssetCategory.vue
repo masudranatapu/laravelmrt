@@ -27,7 +27,8 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="assetCategory.name"
+                                            <input type="text" class="form-control"
+                                                v-model="assetCategory.asset_category_name"
                                                 placeholder="Asset Category Name" required>
                                         </div>
                                     </div>
@@ -52,7 +53,6 @@
 
 <script>
 export default {
-    props: [],
     data: function () {
         return {
             assetCategory: {},
@@ -75,7 +75,7 @@ export default {
                     });
                     this.$emit('load-asset-category');
                     $("#createNewAssetCategory").modal('hide');
-                    this.assetCategory.name = "";
+                    this.assetCategory.asset_category_name = "";
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -103,7 +103,7 @@ export default {
         },
         closeCreateAssetCategory() {
             $("#createNewAssetCategory").modal('hide');
-            this.assetCategory.name = "";
+            this.assetCategory.asset_category_name = "";
         },
     },
 }

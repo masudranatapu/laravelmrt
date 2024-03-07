@@ -23,7 +23,7 @@ class AreaController extends Controller
         try {
             $areas = Area::query()
                 // ->where('bu')
-                ->when($request->keyword, fn($q) => $q->where('name', 'LIKE', '%' . $request->keyword . '%'))
+                ->when($request->keyword, fn($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->get();
             return AreaResource::collection($areas);

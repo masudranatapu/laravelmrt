@@ -17,13 +17,13 @@ class AssetCategoryController extends Controller
         return view('backend.asset.asset_category');
     }
 
-    public function asset_category_list(Request $request)
+    public function assetCategoryList(Request $request)
     {
         try {
             $asset_categories = AssetCategory::query()
                 // ->where()
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
-                ->when($request->keyword, fn($q) => $q->where('asset_category_name', '%' . $request->keyword . '%'))
+                ->when($request->keyword, fn($q) => $q->where('asset_category_name', 'like', '%' . $request->keyword . '%'))
                 ->get();
             return AssetCategoryResource::collection($asset_categories);
         } catch (\Throwable $th) {
@@ -40,7 +40,7 @@ class AssetCategoryController extends Controller
             DB::beginTransaction();
             $asset_category = new AssetCategory();
             $asset_category->business_id = 1;
-            $asset_category->asset_category_name = $request->name;
+            $asset_category->asset_category_name = $request->asset_category_name;
             $asset_category->status = 'Active';
             $asset_category->save();
 
@@ -83,8 +83,8 @@ class AssetCategoryController extends Controller
                 // ->where()
                 ->findOrFail($id);
             // $asset_category->business_id = 1;
-            $asset_category->asset_category_name = $request->name;
-            $asset_category->status = $request->name ? $request->name : $asset_category->status;
+            $asset_category->asset_category_name = $request->asset_category_name;
+            $asset_category->status = $request->status ? $request->status : $asset_category->status;
             $asset_category->save();
 
             DB::commit();
@@ -127,7 +127,7 @@ class AssetCategoryController extends Controller
     }
 
 
-    public function statusChange($id)
+    public function changeStatus($id)
     {
         try {
             DB::beginTransaction();

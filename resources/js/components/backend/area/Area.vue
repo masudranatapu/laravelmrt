@@ -215,6 +215,7 @@ export default {
                         title: 'Cancelled',
                         message: 'Your data is safe now :)',
                     });
+                    // this.$swal.fire('Your data is safe now :)');
                 }
             });
         },

@@ -81,7 +81,9 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td class="text-center">{{ assetCategory?.name }}</td>
+                                            <td class="text-center">
+                                                {{ assetCategory?.asset_category_name }}
+                                            </td>
                                             <td class="text-center">
                                                 <label class="custom-switch mt-2" :title="assetCategory?.status">
                                                     <input type="checkbox" name="custom-switch-checkbox"
@@ -116,8 +118,7 @@
             </div>
         </section>
         <CreateAssetCategory @load-asset-category="refreshAssetCategory" />
-        <UpdateAssetCategory @load-asset-category="refreshAssetCategory"
-            :asset-categoryInfo="updateAssetCategoryInfo" />
+        <UpdateAssetCategory @load-asset-category="refreshAssetCategory" :assetCategoryInfo="updateAssetCategoryInfo" />
     </div>
 </template>
 
@@ -219,6 +220,7 @@ export default {
                         title: 'Cancelled',
                         message: 'Your data is safe now :)',
                     });
+                    // this.$swal.fire('Your data is safe now :)');
                 }
             });
         },

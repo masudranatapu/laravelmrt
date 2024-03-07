@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Backend\AreaResource;
+use App\Http\Resources\Backend\AssetCategoryResource;
 use App\Http\Resources\Backend\CustomerGroupResource;
 use App\Models\Area;
+use App\Models\AssetCategory;
 use App\Models\CustomerGroup;
 use Illuminate\Http\Request;
 
@@ -36,6 +38,21 @@ class LoadCatalogController extends Controller
                 ->where('status', 'Active')
                 ->get();
             return AreaResource::collection($areas);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function loadAssetCategory()
+    {
+        try {
+            $asset_category = AssetCategory::query()
+                // ->where()
+                ->get();
+            return AssetCategoryResource::collection($asset_category);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

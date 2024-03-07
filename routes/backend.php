@@ -8,6 +8,8 @@ use App\Http\Controllers\Backend\UserBackendController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\CustomerGroupController;
 use App\Http\Controllers\Backend\AreaController;
+use App\Http\Controllers\Backend\AssetCategoryController;
+use App\Http\Controllers\Backend\AssetController;
 use App\Http\Controllers\Backend\LoadCatalogController;
 
 /*
@@ -58,5 +60,23 @@ Route::group(['middleware' => 'auth:web'], function () {
         // load catalog
         Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
         Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');
+        Route::get('load-asset-category', [LoadCatalogController::class, 'loadAssetCategory'])->name('load.asset.category');
+
+        // asset category
+        Route::get('asset-category', [AssetCategoryController::class, 'index'])->name('assetcategory');
+        Route::get('asset-category-list', [AssetCategoryController::class, 'assetCategoryList'])->name('assetcategory.list');
+        Route::post('asset-category/store', [AssetCategoryController::class, 'store'])->name('assetcategory.store');
+        Route::get('asset-category/edit/{id}', [AssetCategoryController::class, 'edit'])->name('assetcategory.edit');
+        Route::post('asset-category/update/{id}', [AssetCategoryController::class, 'update'])->name('assetcategory.update');
+        Route::get('asset-category/delete/{id}', [AssetCategoryController::class, 'delete'])->name('assetcategory.delete');
+        Route::get('asset-category/status/change/{id}', [AssetCategoryController::class, 'changeStatus'])->name('assetcategory.status.change');
+        // asset
+        Route::get('assets', [AssetController::class, 'index'])->name('assets');
+        Route::get('assets-list', [AssetController::class, 'assetsList'])->name('assets.list');
+        Route::post('assets/store', [AssetController::class, 'store'])->name('assets.store');
+        Route::get('assets/edit/{id}', [AssetController::class, 'edit'])->name('assets.edit');
+        Route::post('assets/update/{id}', [AssetController::class, 'update'])->name('assets.update');
+        Route::get('assets/delete/{id}', [AssetController::class, 'delete'])->name('assets.delete');
+
     });
 });

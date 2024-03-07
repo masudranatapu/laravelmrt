@@ -24,7 +24,7 @@ class CustomerGroupController extends Controller
             $customer_group = CustomerGroup::query()
                 // ->where('business_id', 1)
                 ->when($request->create_by, fn($q) => $q->where('create_by', $request->create_by))
-                ->when($request->keyword, fn($q) => $q->where('name', 'LIKE', '%' . $request->keyword . '%'))
+                ->when($request->keyword, fn($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->get();
             return CustomerGroupResource::collection($customer_group);

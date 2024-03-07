@@ -1,12 +1,148 @@
 <template>
     <div>
-
+        <div class="modal fade" id="createNewAsset" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myLargeModalLabel">
+                            Create Asset
+                        </h5>
+                        <a href="javascript:;" @click="closeCreateAsset()" class="btn btn-icon btn-danger">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    <form @submit.prevent="addNewAsset()">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </div>
+                                            </div>
+                                            <input type="date" class="form-control" v-model="asset.date"
+                                                placeholder="Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Asset Category</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-bars"></i>
+                                                </div>
+                                            </div>
+                                            <select class="form-control" v-model="asset.asset_category_id">
+                                                <option v-for="(category, index) in assetCategories"
+                                                    :value='category?.id'>
+                                                    {{ category?.asset_category_name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-money-bill"></i>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" v-model="asset.address"
+                                                placeholder="Amount">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Note</label>
+                                        <textarea class="form-control" v-model="asset.note" placeholder="Note" cols="30"
+                                            rows="10"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-whitesmoke br">
+                            <button type="button" class="btn btn-warning" @click="closeCreateAsset()">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
+                                :disabled="isButtonDisabled">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
+    props: ['assetCategories'],
+    data: function () {
+        return {
+            asset: {},
+            isButtonDisabled: false,
+            main_url: window.location.origin + "/",
+        };
+    },
+    beforeMount() {
 
+    },
+    methods: {
+        addNewAsset() {
+            this.isButtonDisabled = true;
+
+            axios.post(`/assets/store`, this.asset).then((response) => {
+                this.isButtonDisabled = false;
+                if (response.data.status == true) {
+                    this.$iziToast.success({
+                        title: 'Success',
+                        message: response.data.message,
+                    });
+                    this.$emit('load-asset');
+                    this.asset.date = "";
+                    this.asset.asset_category_id = "";
+                    this.asset.amount = "";
+                    this.asset.note = "";
+                    $("#createNewAsset").modal('hide');
+                } else {
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: response.data.message,
+                    });
+                }
+            }).catch((error) => {
+                this.isButtonDisabled = false;
+                let errors = error.response.data.errors;
+                Object.keys(errors).forEach((key) => {
+                    const value = errors[key];
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: `${value}`,
+                    });
+                });
+            });
+        },
+        closeCreateAsset() {
+            $("#createNewAsset").modal('hide');
+            this.isButtonDisabled = false;
+            this.asset.date = "";
+            this.asset.asset_category_id = "";
+            this.asset.amount = "";
+            this.asset.note = "";
+        },
+    },
 }
 </script>
 
