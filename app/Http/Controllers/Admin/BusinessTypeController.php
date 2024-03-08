@@ -7,6 +7,7 @@ use App\Http\Requests\AdminRequest\BusinessTypeRequest;
 use App\Http\Resources\Admin\BusinessTypeResource;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BusinessTypeController extends Controller
@@ -21,7 +22,6 @@ class BusinessTypeController extends Controller
     {
         try {
             $businessTypes = BusinessType::query()
-                // ->where("",1)
                 ->when($request->keyword, fn ($q) => $q->where("name", "LIKE", "%" . $request->keyword . "%"))
                 ->when($request->status, fn ($q) => $q->where("status", $request->status))
                 ->get();
@@ -43,6 +43,7 @@ class BusinessTypeController extends Controller
             $businessType->business_type_name = $request->business_type_name;
             $businessType->access = $request->access ? json_encode($request->access) : [];
             $businessType->status = 'Active';
+            $businessType->admin_id = Auth::user()->id;
             $businessType->save();
             DB::commit();
             return response()->json([

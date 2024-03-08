@@ -25,6 +25,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
+                                    <select class="form-control" v-model="quarry.status">
+                                        <option value="">All</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
                                     <input type="text" class="form-control" placeholder="Searching"
                                         v-model="quarry.keyword">
                                 </div>
@@ -66,6 +73,7 @@
                                             <th class="text-center">Business Type Name</th>
                                             <th class="text-center">Business Options</th>
                                             <th class="text-center">Status</th>
+                                            <th class="text-center">Created By</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -100,6 +108,9 @@
                                                         {{ busi_type?.status }}
                                                     </span>
                                                 </label>
+                                            </td>
+                                            <td class="text-center">
+                                                {{ busi_type?.created_by }}
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">

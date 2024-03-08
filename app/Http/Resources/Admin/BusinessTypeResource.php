@@ -19,6 +19,7 @@ class BusinessTypeResource extends JsonResource
             "business_type_name" => $this->business_type_name,
             "access" => json_decode($this->access, true),
             "status" => $this->status,
+            "created_by" => $this->admin?->name,
         ];
     }
 }
