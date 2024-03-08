@@ -16,6 +16,9 @@ class BusinessTypeResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "business_type_name" => $this->business_type_name,
+            "access" => (object) ($this->access),
+            "status" => $this->status,
         ];
     }
 }

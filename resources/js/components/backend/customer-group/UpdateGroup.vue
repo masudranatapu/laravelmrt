@@ -44,8 +44,8 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" step="0.01" v-model="groupInfo.amount"
-                                                placeholder="Amount">
+                                            <input type="number" class="form-control" step="0.01"
+                                                v-model="groupInfo.amount" placeholder="Amount">
                                         </div>
                                     </div>
                                 </div>
@@ -56,6 +56,11 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="far fa-check-square"></i>
+                                                </div>
+                                            </div>
                                             <select class="form-control" v-model="groupInfo.status">
                                                 <option value="Active" :selected="groupInfo.status === 'Active'">
                                                     Active

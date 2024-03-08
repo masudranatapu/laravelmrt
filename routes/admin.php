@@ -40,6 +40,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('businesse-type', [BusinessTypeController::class, 'index'])->name('businesse.type');
     Route::get('businesse-type/list', [BusinessTypeController::class, 'businessTypeList'])->name('businesseType.list');
     Route::post('businesse-type/store', [BusinessTypeController::class, 'store'])->name('businesseType.store');
+    Route::get('businesse-type/edit/{id}', [BusinessTypeController::class, 'edit'])->name('businesseType.edit');
+    Route::post('businesse-type/update/{id}', [BusinessTypeController::class, 'update'])->name('businesseType.update');
+    Route::get('businesse-type/status/change/{id}', [BusinessTypeController::class, 'statusChange'])->name('businesseType.status.change');
     Route::get('businesse-type/delete/{id}', [BusinessTypeController::class, 'delete'])->name('businesseType.delete');
 
     // load admin

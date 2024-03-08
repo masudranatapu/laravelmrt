@@ -41,11 +41,104 @@ class BusinessTypeController extends Controller
             // dd($request->all());
             DB::beginTransaction();
             $businessType = new BusinessType();
-            $businessType->business_type_name = $request->name;
+            $businessType->business_type_name = $request->business_type_name;
             $businessType->access = $request->access;
             $businessType->status = 'Active';
             $businessType->save();
             DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Business Type Successfully Created',
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $businessType = BusinessType::query()
+                ->findOrFail($id);
+            return new BusinessTypeResource($businessType);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+
+
+    public function delete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $businessType = BusinessType::query()
+                ->findOrFail($id);
+
+            $businessType->delete();
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => "Business Type Successfully Deleted",
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function update(BusinessTypeRequest $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $businessType = BusinessType::query()
+                ->findOrFail($id);
+            $businessType->business_type_name = $request->business_type_name;
+            $businessType->access = $request->access;
+            $businessType->status = 'Active';
+            $businessType->save();
+            DB::commit();
+            return response()->json([
+                'status' => false,
+                'message' => 'Business Type Successfully Updated',
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function statusChange($id)
+    {
+        try {
+            DB::beginTransaction();
+            $businessType = BusinessType::query()
+                ->findOrFail($id);
+            if ($businessType->status == 'Active') {
+                $businessType->status = 'Inactive';
+            } else {
+                $businessType->status = 'Active';
+            }
+            $businessType->save();
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => "Business Type $businessType->status Successfully Done",
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([

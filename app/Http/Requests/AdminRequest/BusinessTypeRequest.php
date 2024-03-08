@@ -22,7 +22,7 @@ class BusinessTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "min:3", "max:40", "unique:business_types"],
+            "business_type_name" => ["required", "string", "min:3", "max:40", "unique:business_types"],
             "access" => ["required", "array"],
         ];
     }

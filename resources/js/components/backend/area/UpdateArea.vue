@@ -39,6 +39,11 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="far fa-check-square"></i>
+                                                </div>
+                                            </div>
                                             <select class="form-control" v-model="areaInfo.status">
                                                 <option value="Active" :selected="areaInfo.status === 'Active'">
                                                     Active

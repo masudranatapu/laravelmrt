@@ -36,8 +36,8 @@
                                         <button type="button" class="btn btn-warning" @click="clearLoadBusinessType()">
                                             Clear
                                         </button>
-                                        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn btn-info dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Action
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
@@ -75,13 +75,18 @@
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
                                                         :id="'busiType_' + busi_type?.id" :value='busi_type?.id'>
-                                                    <label :for="'busiType_' + busi_type?.id" class="custom-control-label">
+                                                    <label :for="'busiType_' + busi_type?.id"
+                                                        class="custom-control-label">
                                                         {{ index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td class="text-center">{{ busi_type?.name }}</td>
-                                            <td class="text-center">{{ busi_type?.access }}</td>
+                                            <td class="text-center">{{ busi_type?.business_type_name }}</td>
+                                            <td class="text-center">
+                                                <p v-for="(access, index) in busi_type?.access" class="text-success">
+                                                    <b>{{ businessAccessValue(access) }}</b>
+                                                </p>
+                                            </td>
                                             <td class="text-center">
                                                 <label class="custom-switch mt-2" :title="busi_type?.status">
                                                     <input type="checkbox" name="custom-switch-checkbox"
@@ -172,6 +177,20 @@ export default {
         addBusinessType() {
             $("#createNewBusinessType").modal('show');
         },
+        editBusinessType(id) {
+
+            axios.get(`/admin/businesse-type/edit/${id}`).then((response) => {
+                this.updateBusinessTypeInfo = response.data.data;
+                $("#editBusinessType").modal('show');
+            }).catch((error) => {
+                if (error) {
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: `Error fetching data for ${error}`,
+                    });
+                }
+            });
+        },
         refreshBusinessType() {
             this.loadBusinessType();
         },
@@ -186,7 +205,6 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.get(`/admin/businesse-type/delete/${id}`).then((response) => {
-                        this.isButtonDisabled = false;
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: 'Success',
@@ -232,8 +250,7 @@ export default {
             this.loadBusinessType();
         },
         businessTypeStatusChange(id) {
-            axios.get(`/admin/business-type/status/change/${id}`).then((response) => {
-                this.isButtonDisabled = false;
+            axios.get(`/admin/businesse-type/status/change/${id}`).then((response) => {
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
@@ -263,7 +280,10 @@ export default {
                     });
                 }
             });
-        }
+        },
+        businessAccessValue(access) {
+            return this.businessAccessOptions[access] || access;
+        },
     },
 }
 </script>

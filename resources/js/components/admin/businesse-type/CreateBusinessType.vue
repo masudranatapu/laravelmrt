@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="modal fade" id="createNewBusinessType" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="createNewBusinessType" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -27,7 +27,8 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="businessType.name"
+                                            <input type="text" class="form-control"
+                                                v-model="businessType.business_type_name"
                                                 placeholder="Business Type Name" required>
                                         </div>
                                     </div>
@@ -41,7 +42,8 @@
                                     <div class="form-check">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input"
-                                                v-model="businessType.access" :id="'optionCheck_' + index" :value="index" />
+                                                v-model="businessType.access" :id="'optionCheck_' + index"
+                                                :value="index" />
                                             <label :for="'optionCheck_' + index" class="custom-control-label">
                                                 {{ access }}
                                             </label>
@@ -85,7 +87,6 @@ export default {
     methods: {
         addNewBusinessType() {
             this.isButtonDisabled = true;
-            // console.log(this.businessType);
             axios.post('/admin/businesse-type/store', this.businessType).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
