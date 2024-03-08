@@ -5,12 +5,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Business Type</h4>
+                            <h4>Pricing Plan</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
-                                    <button type="button" class="btn btn-primary" @click="addBusinessType()">
+                                    <button type="button" class="btn btn-primary" @click="addPricingPlan()">
                                         <i class="fa fa-plus"></i>
-                                        Add New Business Type
+                                        Add New Pricing Plan
                                     </button>
                                 </div>
                             </div>
@@ -26,22 +26,18 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.status">
+                                    <select class="form-control" v-model="quarry.type">
                                         <option value="">All</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                        <option value="Amount">Amount</option>
+                                        <option value="Percentage">Percentage</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <input type="text" class="form-control" placeholder="Searching"
-                                        v-model="quarry.keyword">
-                                </div>
-                                <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadBusinessType()">
+                                        <button type="button" class="btn btn-success" @click="loadPricingPlan()">
                                             Search
                                         </button>
-                                        <button type="button" class="btn btn-warning" @click="clearLoadBusinessType()">
+                                        <button type="button" class="btn btn-warning" @click="clearLoadPricingPlan()">
                                             Clear
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
@@ -71,56 +67,44 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <th class="text-center">Business Type Name</th>
-                                            <th class="text-center">Business Options</th>
-                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Month</th>
+                                            <th class="text-center">Discount Type</th>
+                                            <th class="text-center">Value</th>
                                             <th class="text-center">Created By</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="( busi_type, index ) in  businessTypes ">
+                                        <tr v-for="(plans, index ) in  pricingPlans">
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
-                                                        :id="'busiType_' + busi_type?.id" :value='busi_type?.id'>
-                                                    <label :for="'busiType_' + busi_type?.id"
-                                                        class="custom-control-label">
+                                                        :id="'plans_' + plans?.id" :value='plans?.id'>
+                                                    <label :for="'plans_' + plans?.id" class="custom-control-label">
                                                         {{ index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td class="text-center">{{ busi_type?.business_type_name }}</td>
                                             <td class="text-center">
-                                                <p v-for=" key  in  busi_type?.access " :key="key">
-                                                    <b class="text-success">
-                                                        {{ businessAccessOptions[key] }}
-                                                    </b>
-                                                </p>
+                                                {{ plans?.month }} Month
                                             </td>
                                             <td class="text-center">
-                                                <label class="custom-switch mt-2" :title="busi_type?.status">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                        class="custom-switch-input"
-                                                        :checked="busi_type?.status === 'Active'"
-                                                        @change="businessTypeStatusChange(busi_type?.id)">
-                                                    <span class="custom-switch-indicator"></span>
-                                                    <span class="custom-switch-description">
-                                                        {{ busi_type?.status }}
-                                                    </span>
-                                                </label>
+                                                {{ plans?.discount_type }}
                                             </td>
                                             <td class="text-center">
-                                                {{ busi_type?.created_by }}
+                                                {{ plans?.discount_value }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ plans?.created_by }}
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary btn-sm" title="Edit"
-                                                        @click="editBusinessType(busi_type?.id)">
+                                                        @click="editPricingPlan(plans?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger btn-sm"
-                                                        title="Delete" @click="deleteBusinessType(busi_type?.id)">
+                                                        title="Delete" @click="deletePricingPlan(plans?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -134,61 +118,45 @@
                 </div>
             </div>
         </section>
-        <CreateBusinessType @load-business-type="refreshBusinessType" :accessOptions="businessAccessOptions" />
-        <UpdateBusinessType @load-business-type="refreshBusinessType" :accessOptions="businessAccessOptions"
-            :businessTypeInfo="updateBusinessTypeInfo" />
+        <CreatePricingPlan @load-pricing-plan="refreshPricingPlan" />
+        <UpdatePricingPlan @load-pricing-plan="refreshPricingPlan" :pricingPlansEdit="updatePricingPlan" />
     </div>
 </template>
 
 <script>
-import CreateBusinessType from './CreateBusinessType.vue'
-import UpdateBusinessType from './UpdateBusinessType.vue'
+import CreatePricingPlan from './CreatePricingPlan.vue'
+import UpdatePricingPlan from './UpdatePricingPlan.vue'
 export default {
     components: {
-        CreateBusinessType,
-        UpdateBusinessType
+        CreatePricingPlan,
+        UpdatePricingPlan
     },
     data: function () {
         return {
-            businessTypes: {},
-            updateBusinessTypeInfo: {},
-            businessAccessOptions: {},
+            pricingPlans: {},
+            updatePricingPlan: {},
             adminUsers: {},
             quarry: {
                 parpage: 20,
-                keyword: '',
                 admin_id: '',
-                status: '',
+                type: '',
             },
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadBusinessType();
-        this.loadAccessOptions();
+        this.loadPricingPlan();
         this.loadAdminUsers();
     },
     methods: {
-        loadBusinessType() {
-            axios.get("/admin/businesse-type/list", { params: this.quarry }).then((response) => {
-                this.businessTypes = response.data.data;
+        loadPricingPlan() {
+            axios.get("/admin/pricing-plans/list", { params: this.quarry }).then((response) => {
+                this.pricingPlans = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: 'Error',
                     message: `Error fetching data for ${error}`,
                 });
-            });
-        },
-        loadAccessOptions() {
-            axios.get("/admin/load-bussiness/options").then((response) => {
-                this.businessAccessOptions = response.data;
-            }).catch((error) => {
-                if (error) {
-                    this.$iziToast.error({
-                        title: 'Error',
-                        message: `Error fetching data for ${error}`,
-                    });
-                }
             });
         },
         loadAdminUsers() {
@@ -203,14 +171,13 @@ export default {
                 }
             });
         },
-        addBusinessType() {
-            $("#createNewBusinessType").modal('show');
+        addPricingPlan() {
+            $("#createNewPricingPlan").modal('show');
         },
-        editBusinessType(id) {
-
-            axios.get(`/admin/businesse-type/edit/${id}`).then((response) => {
-                this.updateBusinessTypeInfo = response.data.data;
-                $("#editBusinessType").modal('show');
+        editPricingPlan(id) {
+            axios.get(`/admin/pricing-plans/edit/${id}`).then((response) => {
+                this.updatePricingPlan = response.data.data;
+                $("#editPricingPlan").modal('show');
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
@@ -220,10 +187,10 @@ export default {
                 }
             });
         },
-        refreshBusinessType() {
-            this.loadBusinessType();
+        refreshPricingPlan() {
+            this.loadPricingPlan();
         },
-        deleteBusinessType(id) {
+        deletePricingPlan(id) {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: 'You won\'t be able to revert this!',
@@ -233,13 +200,13 @@ export default {
                 cancelButtonText: 'No, Cancel',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/admin/businesse-type/delete/${id}`).then((response) => {
+                    axios.get(`/admin/pricing-plans/delete/${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: 'Success',
                                 message: response.data.message,
                             });
-                            this.loadBusinessType();
+                            this.loadPricingPlan();
                         } else {
                             this.$iziToast.error({
                                 title: 'Error',
@@ -272,47 +239,11 @@ export default {
                 }
             });
         },
-        clearLoadBusinessType() {
+        clearLoadPricingPlan() {
             this.quarry.parpage = 20;
-            this.quarry.keyword = '';
-            this.quarry.status = '';
+            this.quarry.type = '';
             this.quarry.admin_id = '';
-            this.loadBusinessType();
-        },
-        businessTypeStatusChange(id) {
-            axios.get(`/admin/businesse-type/status/change/${id}`).then((response) => {
-                if (response.data.status == true) {
-                    this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
-                    });
-                    this.loadBusinessType();
-                } else {
-                    this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
-                    });
-                }
-            }).catch((error) => {
-                if (error) {
-                    let errors = error.response.data.errors;
-                    Object.keys(errors).forEach((key) => {
-                        const value = errors[key];
-                        this.$iziToast.error({
-                            title: 'Error',
-                            message: `${value}`,
-                        });
-                    });
-                } else {
-                    this.$iziToast.error({
-                        title: 'Error',
-                        message: 'An error occurred while processing your request.',
-                    });
-                }
-            });
-        },
-        businessAccessValue(access) {
-            return this.businessAccessOptions[access] || access;
+            this.loadPricingPlan();
         },
     },
 }

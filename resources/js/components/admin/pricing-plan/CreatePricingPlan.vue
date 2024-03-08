@@ -1,83 +1,79 @@
 <template>
     <div>
-        <div class="modal fade" id="editBusinessType" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+        <div class="modal fade" id="createNewPricingPlan" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Update Business Type
+                            Create New Pricing Plan
                         </h5>
-                        <a href="javascript:;" @click="closeUpdateBusinessType()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closePricingPlan()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updateBusinessType(businessTypeInfo?.id)">
+                    <form @submit.prevent="addNewPricingPlan()">
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Business Type Name
+                                            Month
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                    <i class="fas fa-location-arrow"></i>
+                                                    <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control"
-                                                v-model="businessTypeInfo.business_type_name"
-                                                placeholder="Business Type Name" required>
+                                            <input type="number" v-model="pricingplan.month" class="form-control"
+                                                placeholder="Month" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Status
+                                            Discount Type
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                    <i class="far fa-check-square"></i>
+                                                    <i class="far fa-money-bill-alt"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="businessTypeInfo.status">
-                                                <option value="Active" :selected="businessTypeInfo.status === 'Active'">
-                                                    Active
-                                                </option>
-                                                <option value="Inactive"
-                                                    :selected="businessTypeInfo.status === 'Inactive'">
-                                                    Inactive
-                                                </option>
+                                            <select @change="discountValueCheck()" class="form-control" required
+                                                v-model="pricingplan.discount_type">
+                                                <option value="Amount">Amount</option>
+                                                <option value="Percentage">Percentage</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 text-center my-3">
-                                    <h3>Business Access</h3>
-                                </div>
-                                <div class="col-md-3" v-for="(options, key) in accessOptions" :key="key">
-                                    <div class="form-check">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"
-                                                v-model="businessTypeInfo.access" :value="key"
-                                                :id="'editOption' + key" />
-                                            <label :for="'editOption' + key" class="custom-control-label">
-                                                {{ options }}
-                                            </label>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            Discount Value
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-hand-holding-usd"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control"
+                                                v-model="pricingplan.discount_value" placeholder="Value"
+                                                @change="discountValueCheck()" required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeUpdateBusinessType()">
+                            <button type="button" class="btn btn-warning" @click="closePricingPlan()">
                                 Close
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -94,9 +90,12 @@
 
 <script>
 export default {
-    props: ['accessOptions', 'businessTypeInfo'],
+    props: [],
     data: function () {
         return {
+            pricingplan: {
+                discount_type: "Percentage",
+            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -105,17 +104,33 @@ export default {
 
     },
     methods: {
-        updateBusinessType(id) {
+        discountValueCheck() {
+            if (this.pricingplan.discount_type === 'Percentage') {
+                if (this.pricingplan.discount_value > 100) {
+                    this.pricingplan.discount_value = 0;
+                    this.$iziToast.error({
+                        title: 'Error',
+                        message: 'Discount percentage cannot exceed 100%',
+                    });
+                } else {
+                    return true;
+                }
+            }
+        },
+        addNewPricingPlan() {
             this.isButtonDisabled = true;
-            axios.post(`/admin/businesse-type/update/${id}`, this.businessTypeInfo).then((response) => {
+            axios.post('/admin/pricing-plans/store', this.pricingplan).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',
                         message: response.data.message,
                     });
-                    this.$emit('load-business-type');
-                    $("#editBusinessType").modal('hide');
+                    this.$emit('load-pricing-plan');
+                    $("#createNewPricingPlan").modal('hide');
+                    this.pricingplan.month = '';
+                    this.pricingplan.discount_type = 'Percentage';
+                    this.pricingplan.discount_value = '';
                 } else {
                     this.$iziToast.error({
                         title: 'Error',
@@ -141,9 +156,12 @@ export default {
                 }
             });
         },
-        closeUpdateBusinessType() {
-            $("#editBusinessType").modal('hide');
+        closePricingPlan() {
+            $("#createNewPricingPlan").modal('hide');
             this.isButtonDisabled = false;
+            this.pricingplan.month = '';
+            this.pricingplan.discount_type = 'Percentage';
+            this.pricingplan.discount_value = '';
         },
     },
 }

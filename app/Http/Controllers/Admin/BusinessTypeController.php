@@ -24,6 +24,7 @@ class BusinessTypeController extends Controller
             $businessTypes = BusinessType::query()
                 ->when($request->keyword, fn ($q) => $q->where("name", "LIKE", "%" . $request->keyword . "%"))
                 ->when($request->status, fn ($q) => $q->where("status", $request->status))
+                ->when($request->admin_id, fn ($q) => $q->where("admin_id", $request->admin_id))
                 ->get();
 
             return BusinessTypeResource::collection($businessTypes);
@@ -105,12 +106,14 @@ class BusinessTypeController extends Controller
             $businessType = BusinessType::query()
                 ->findOrFail($id);
             $businessType->business_type_name = $request->business_type_name;
-            $businessType->access = $request->access;
-            $businessType->status = 'Active';
+            $businessType->access = $request->access ? json_encode($request->access) : $businessType->access;
+            $businessType->status = $request->status ? $request->status : $businessType->status;
+            $businessType->admin_id = Auth::user()->id;
             $businessType->save();
             DB::commit();
+
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => 'Business Type Successfully Updated',
             ]);
         } catch (\Throwable $th) {
