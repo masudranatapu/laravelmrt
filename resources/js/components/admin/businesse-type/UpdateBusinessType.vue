@@ -62,25 +62,13 @@
                                 <div class="col-md-12 text-center my-3">
                                     <h3>Business Access</h3>
                                 </div>
-                                <!-- <div class="col-md-3" v-for="(options, index) in accessOptions" :key="index">
+                                <div class="col-md-3" v-for="(options, key) in accessOptions" :key="key">
                                     <div class="form-check">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input"
-                                                v-model="updateBusinessTypeInfo.access" :id="'editOptionCheck_' + index"
-                                                :value="index" :checked="isBusinessAccessChecked(index)" />
-                                            <label :for="'editOptionCheck_' + index" class="custom-control-label">
-                                                {{ options }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <div class="col-md-3" v-for="(options, index) in accessOptions" :key="index">
-                                    <div class="form-check">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"
-                                                v-model="updateBusinessTypeInfo.access" :id="'editOptionCheck_' + index"
-                                                :value="index" :checked="isBusinessAccessChecked(options)" />
-                                            <label :for="'editOptionCheck_' + index" class="custom-control-label">
+                                                v-model="businessTypeInfo.access" :value="key"
+                                                :id="'editOption' + key" />
+                                            <label :for="'editOption' + key" class="custom-control-label">
                                                 {{ options }}
                                             </label>
                                         </div>
@@ -109,9 +97,6 @@ export default {
     props: ['accessOptions', 'businessTypeInfo'],
     data: function () {
         return {
-            updateBusinessTypeInfo: {
-                access: [],
-            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -159,11 +144,6 @@ export default {
         closeUpdateBusinessType() {
             $("#editBusinessType").modal('hide');
             this.isButtonDisabled = false;
-        },
-        isBusinessAccessChecked(option) {
-            if (this.businessTypeInfo.access) {
-                return this.businessTypeInfo.access.includes(option);
-            }
         },
     },
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Admin::class)->nullable();
             $table->string('business_type_name')->nullable();
-            $table->json('access')->nullable();
+            $table->longText('access')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });

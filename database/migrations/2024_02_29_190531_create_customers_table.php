@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
 use App\Models\CustomerGroup;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */

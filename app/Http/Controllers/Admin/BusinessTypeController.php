@@ -38,11 +38,10 @@ class BusinessTypeController extends Controller
     public function store(BusinessTypeRequest $request)
     {
         try {
-            // dd($request->all());
             DB::beginTransaction();
             $businessType = new BusinessType();
             $businessType->business_type_name = $request->business_type_name;
-            $businessType->access = $request->access;
+            $businessType->access = $request->access ? json_encode($request->access) : [];
             $businessType->status = 'Active';
             $businessType->save();
             DB::commit();

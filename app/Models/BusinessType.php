@@ -9,7 +9,4 @@ class BusinessType extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $casts = [
-        "access" => "array",
-    ];
 }

@@ -11,7 +11,8 @@ use App\Models\Account;
 // use App\Models\Sale;
 // use App\Models\Service;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */

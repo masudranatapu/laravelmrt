@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
 use App\Models\Bank;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */

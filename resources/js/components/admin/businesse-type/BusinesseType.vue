@@ -83,8 +83,10 @@
                                             </td>
                                             <td class="text-center">{{ busi_type?.business_type_name }}</td>
                                             <td class="text-center">
-                                                <p v-for="(access, index) in busi_type?.access" class="text-success">
-                                                    <b>{{ businessAccessValue(access) }}</b>
+                                                <p v-for="key in busi_type?.access" :key="key">
+                                                    <b class="text-success">
+                                                        {{ businessAccessOptions[key] }}
+                                                    </b>
                                                 </p>
                                             </td>
                                             <td class="text-center">
