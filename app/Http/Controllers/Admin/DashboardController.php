@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest\PasswordUpdateRequest;
 use App\Http\Requests\BackendRequest\UserProfileUpdateRequest;
 use App\Models\Admin;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Admin\SadminInfoResource;
@@ -27,7 +26,7 @@ class DashboardController extends Controller
     public function info()
     {
         try {
-            $admin = Admin::where("id", Auth::user()->id)->first();
+            $admin = Admin::where("id", adminUser()->id)->first();
             return new SadminInfoResource($admin);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage());

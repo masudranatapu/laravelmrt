@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\CustomerGroup;
 use App\Http\Resources\Backend\CustomerGroupResource;
 use App\Http\Requests\BackendRequest\CustomerGroupRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CustomerGroupController extends Controller
@@ -23,9 +22,9 @@ class CustomerGroupController extends Controller
         try {
             $customer_group = CustomerGroup::query()
                 // ->where('business_id', 1)
-                ->when($request->create_by, fn($q) => $q->where('create_by', $request->create_by))
-                ->when($request->keyword, fn($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
+                ->when($request->create_by, fn ($q) => $q->where('create_by', $request->create_by))
+                ->when($request->keyword, fn ($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
                 ->get();
             return CustomerGroupResource::collection($customer_group);
         } catch (\Throwable $th) {
@@ -45,7 +44,7 @@ class CustomerGroupController extends Controller
             $customer_group->name = $request->name;
             $customer_group->amount = $request->amount;
             $customer_group->status = 'Active';
-            $customer_group->create_by = Auth::user()->id;
+            $customer_group->create_by = backendUser()->id;
             $customer_group->save();
 
             DB::commit();
@@ -86,7 +85,7 @@ class CustomerGroupController extends Controller
             $customer_group->name = $request->name;
             $customer_group->amount = $request->amount;
             $customer_group->status = $request->status ? $request->status : $customer_group->status;
-            $customer_group->create_by = Auth::user()->id;
+            $customer_group->create_by = backendUser()->id;
             $customer_group->save();
 
             DB::commit();

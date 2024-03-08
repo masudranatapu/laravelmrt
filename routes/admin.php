@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminBusinessController;
 use App\Http\Controllers\Admin\BusinessTypeController;
 use App\Http\Controllers\Admin\LoadAdminCatalogController;
+use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PricingPlanController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -50,6 +51,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('pricing-plans/edit/{id}', [PricingPlanController::class, 'edit'])->name('pricingPlan.edit');
     Route::post('pricing-plans/update/{id}', [PricingPlanController::class, 'update'])->name('pricingPlan.update');
     Route::get('pricing-plans/delete/{id}', [PricingPlanController::class, 'delete'])->name('pricingPlan.delete');
+    // package
+    Route::get('package', [PackageController::class, 'index'])->name('package');
+    Route::get('package-list', [PackageController::class, 'packageList'])->name('package.list');
     // load admin
     Route::get('load-admin/users', [LoadAdminCatalogController::class, 'loadAdminUsers'])->name('load.admin');
     Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.ption');

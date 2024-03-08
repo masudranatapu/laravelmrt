@@ -56,7 +56,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="nav-link" href="chat.html">
+                    <a class="nav-link" href="{{ route('admin.package') }}">
                         Packages
                     </a>
                 </li>

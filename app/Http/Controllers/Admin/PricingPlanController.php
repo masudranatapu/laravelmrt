@@ -7,7 +7,6 @@ use App\Http\Requests\AdminRequest\PricingPlanRequest;
 use App\Http\Resources\Admin\PricingPlanResource;
 use App\Models\PricingPlan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PricingPlanController extends Controller
@@ -43,7 +42,7 @@ class PricingPlanController extends Controller
             $pricingPlan->month = $request->month;
             $pricingPlan->discount_type = $request->discount_type;
             $pricingPlan->discount_value = $request->discount_value;
-            $pricingPlan->admin_id = Auth::user()->id;
+            $pricingPlan->admin_id = adminUser()->id;
             $pricingPlan->save();
             DB::commit();
             return response()->json([
@@ -79,7 +78,7 @@ class PricingPlanController extends Controller
             $pricingPlan->month = $request->month;
             $pricingPlan->discount_type = $request->discount_type;
             $pricingPlan->discount_value = $request->discount_value;
-            $pricingPlan->admin_id = Auth::user()->id;
+            $pricingPlan->admin_id = adminUser()->id;
             $pricingPlan->save();
             DB::commit();
             return response()->json([

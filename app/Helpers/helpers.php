@@ -1,5 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
+if (!function_exists("adminUser")) {
+    function adminUser()
+    {
+        return Auth::guard("admin")->user();
+    }
+}
+
+if (!function_exists("backendUser")) {
+    function backendUser()
+    {
+        return Auth::user();
+    }
+}
 
 if (!function_exists('imageUploader')) {
     function imageUploader($file, $path, $old_image = null)

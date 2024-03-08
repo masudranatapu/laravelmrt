@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackendRequest\PasswordUpdateRequest;
 use App\Http\Requests\BackendRequest\UserProfileUpdateRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,7 +19,7 @@ class UserBackendController extends Controller
     public function info()
     {
         try {
-            $user = User::where("id", Auth::user()->id)->first();
+            $user = User::where("id", backendUser()->id)->first();
             return response()->json($user);
         } catch (\Throwable $th) {
             //throw $th;

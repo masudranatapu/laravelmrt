@@ -7,7 +7,6 @@ use App\Http\Requests\AdminRequest\BusinessTypeRequest;
 use App\Http\Resources\Admin\BusinessTypeResource;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BusinessTypeController extends Controller
@@ -44,7 +43,7 @@ class BusinessTypeController extends Controller
             $businessType->business_type_name = $request->business_type_name;
             $businessType->access = $request->access ? json_encode($request->access) : [];
             $businessType->status = 'Active';
-            $businessType->admin_id = Auth::user()->id;
+            $businessType->admin_id = adminUser()->id;
             $businessType->save();
             DB::commit();
             return response()->json([
@@ -108,7 +107,7 @@ class BusinessTypeController extends Controller
             $businessType->business_type_name = $request->business_type_name;
             $businessType->access = $request->access ? json_encode($request->access) : $businessType->access;
             $businessType->status = $request->status ? $request->status : $businessType->status;
-            $businessType->admin_id = Auth::user()->id;
+            $businessType->admin_id = adminUser()->id;
             $businessType->save();
             DB::commit();
 
