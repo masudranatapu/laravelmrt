@@ -3,7 +3,5 @@
 @section('title', 'Packages')
 
 @section('content')
-    <section class="section">
-        <admin-package></admin-package>
-    </section>
+    <admin-package></admin-package>
 @endsection

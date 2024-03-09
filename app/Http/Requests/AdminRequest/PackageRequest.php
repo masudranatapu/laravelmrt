@@ -11,7 +11,7 @@ class PackageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class PackageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "title" => ["required", "string", "min:3", "max:40"],
+            "price" => ["required", "integer", "min:1"],
+            "installment_fee" => ["required", "integer", "min:1"],
+            "branch_limit" => ["required", "integer", "min:1"],
+            "user_limit" => ["required", "integer", "min:1"],
+            "product_limit" => ["required", "integer", "min:1"],
+            "description" => ["required", "string", "min:2", "max:1000"],
+            "setting_access" => ["required", "array"],
         ];
     }
 }

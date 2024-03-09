@@ -9,4 +9,9 @@ class Package extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 }

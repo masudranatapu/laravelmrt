@@ -54,6 +54,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     // package
     Route::get('package', [PackageController::class, 'index'])->name('package');
     Route::get('package-list', [PackageController::class, 'packageList'])->name('package.list');
+    Route::post('package/store', [PackageController::class, 'store'])->name('package.store');
+    Route::get('package/edit/{id}', [PackageController::class, 'edit'])->name('package.edit');
+    Route::post('package/update/{id}', [PackageController::class, 'update'])->name('package.update');
+    Route::get('package/delete/{id}', [PackageController::class, 'delete'])->name('package.delete');
     // load admin
     Route::get('load-admin/users', [LoadAdminCatalogController::class, 'loadAdminUsers'])->name('load.admin');
     Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.ption');
