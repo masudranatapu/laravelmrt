@@ -51,7 +51,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Installment Fee</label>
+                                        <label>
+                                            Installment Fee
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -65,7 +68,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Branch Limit</label>
+                                        <label>
+                                            Branch Limit
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -79,7 +85,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>User Limit</label>
+                                        <label>
+                                            User Limit
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -93,7 +102,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Product Limit</label>
+                                        <label>
+                                            Product Limit
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -107,7 +119,10 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Description</label>
+                                        <label>
+                                            Description
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea class="form-control" v-model="package.description"
                                             placeholder="Description" cols="30" rows="10"></textarea>
                                     </div>
@@ -115,7 +130,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-center my-3">
-                                    <h3>Business Access</h3>
+                                    <h3>
+                                        Business Access
+                                    </h3>
                                 </div>
                                 <div class="col-md-3" v-for="(access, index) in accessOptions" :key="index">
                                     <div class="form-check">
