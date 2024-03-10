@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="editBusinessType" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="editBusinessType" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">

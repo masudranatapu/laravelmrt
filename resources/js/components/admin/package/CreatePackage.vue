@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="createPackage" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="createPackage" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -8,7 +8,7 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             Create Package
                         </h5>
-                        <a href="javascript:;" @click="closeCreatePacakge()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeCreatePackage()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeCreatePacakge()">
+                            <button type="button" class="btn btn-warning" @click="closeCreatePackage()">
                                 Close
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -210,7 +210,7 @@ export default {
                 });
             });
         },
-        closeCreatePacakge() {
+        closeCreatePackage() {
             $("#createPackage").modal('hide');
             this.isButtonDisabled = false;
         },

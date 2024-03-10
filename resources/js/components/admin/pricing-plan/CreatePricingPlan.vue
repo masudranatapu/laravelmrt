@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="createNewPricingPlan" tabindex="-1" role="dialog"
+        <div class="modal fade" id="createNewPricingPlan" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
