@@ -49,9 +49,9 @@ return new class extends Migration
             $table->double('inside_delivery_charge', 14, 4)->default(0);
             $table->double('outside_delivery_charge', 14, 4)->default(0);
             $table->double('free_delivery_charges_limit', 14, 4)->default(0);
-            $table->double('ccustomer_commission_limit', 14, 4)->default(0);
+            $table->double('customer_commission_limit', 14, 4)->default(0);
             $table->enum('status', ['Active', 'Inactive', 'Pending', 'Blocked'])->default('Active');
-            $table->json('business_access')->nullable();
+            $table->longText('business_access')->nullable();
             $table->boolean('enable_copyright')->default(0);
             $table->boolean('enable_send_mail')->default(0);
             $table->boolean('enable_sku_unique')->default(0);

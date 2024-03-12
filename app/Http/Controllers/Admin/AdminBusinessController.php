@@ -35,8 +35,19 @@ class AdminBusinessController extends Controller
     }
 
 
-    public function store()
+    public function store(BusinessRequest $request)
     {
 
     }
+
+    public function createBusiness($request)
+    {
+        
+    }
+
+    public function createUser($business, $request)
+    {
+
+    }
+
 }
