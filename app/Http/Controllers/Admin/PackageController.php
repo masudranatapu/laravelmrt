@@ -21,6 +21,7 @@ class PackageController extends Controller
         try {
             $packages = Package::query()
                 // ->when()
+                ->when($request->keyword, fn($q) => $q->where("title", "LIKE", "%" . $request->keyword . "%"))
                 ->latest()
                 ->get();
             return PackageResource::collection($packages);
