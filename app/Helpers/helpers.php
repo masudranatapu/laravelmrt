@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Business;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists("adminUser")) {
@@ -15,6 +16,15 @@ if (!function_exists("backendUser")) {
         return Auth::user();
     }
 }
+
+if (!function_exists("myBusinesse")) {
+    function myBusinesse()
+    {
+        $myBusiness = Business::findOrFail(backendUser()->id);
+        return $myBusiness;
+    }
+}
+
 
 if (!function_exists('imageUploader')) {
     function imageUploader($file, $path, $old_image = null)

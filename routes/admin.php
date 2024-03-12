@@ -36,7 +36,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('businesses', [AdminBusinessController::class, 'index'])->name('businesses');
     Route::get('businesses/create', [AdminBusinessController::class, 'index'])->name('businesses.create');
     Route::get('businesses-list', [AdminBusinessController::class, 'businessList'])->name('business.list');
-    // business type 
+    // business type
     Route::get('businesse-type', [BusinessTypeController::class, 'index'])->name('businesse.type');
     Route::get('businesse-type/list', [BusinessTypeController::class, 'businessTypeList'])->name('businesseType.list');
     Route::post('businesse-type/store', [BusinessTypeController::class, 'store'])->name('businesseType.store');
@@ -60,5 +60,5 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('package/delete/{id}', [PackageController::class, 'delete'])->name('package.delete');
     // load admin
     Route::get('load-admin/users', [LoadAdminCatalogController::class, 'loadAdminUsers'])->name('load.admin');
-    Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.ption');
+    Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.option');
 });

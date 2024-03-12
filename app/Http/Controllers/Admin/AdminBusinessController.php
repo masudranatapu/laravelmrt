@@ -33,4 +33,10 @@ class AdminBusinessController extends Controller
     {
         return view("admin.business.create");
     }
+
+
+    public function store()
+    {
+
+    }
 }

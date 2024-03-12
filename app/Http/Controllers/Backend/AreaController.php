@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BackendRequest\AreaRequest;
 use App\Http\Resources\Backend\AreaResource;
 use App\Models\Area;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AreaController extends Controller

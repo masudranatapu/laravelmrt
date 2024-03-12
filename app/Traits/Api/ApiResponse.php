@@ -4,21 +4,21 @@ namespace App\Traits\Api;
 
 trait ApiResponse
 {
-    public function successResponse($message = null, $status = 200, $data = null)
+    public function successResponse($message = null, $data = null)
     {
         return response()->json([
-            'message' => $message,
             'status' => true,
+            'message' => $message,
             'data' => $data,
-        ], $status);
+        ]);
     }
 
-    public function errorResponse($message = null, $status = 200, $data = null)
+    public function errorResponse($message = null, $data = null)
     {
         return response()->json([
+            'status' => false,
             'message' => $message,
-            'status' => true,
             'data' => $data,
-        ], $status);
+        ]);
     }
 }
