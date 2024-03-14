@@ -22,28 +22,31 @@
                                 </select>
                             </div>
                             <div class="form-group col-xl-2">
-                                <select class="form-control">
+                                <select class="form-control" @change="loadBusinesse()">
                                     <option value="">Business Type</option>
                                 </select>
                             </div>
                             <div class="form-group col-xl-2">
-                                <select class="form-control">
+                                <select class="form-control" @change="loadBusinesse()">
                                     <option value="">Business Type</option>
                                 </select>
                             </div>
-                            <div class="form-group col-xl-3">
+                            <div class="form-group col-xl-4">
                                 <div class="input-group">
-                                    <input type="date" class="form-control" placeholder="Start date">
+                                    <input type="date" class="form-control" placeholder="Start date"
+                                        @change="loadBusinesse()">
                                     <span class="input-group-text bg-success">To</span>
-                                    <input type="date" class="form-control" placeholder="End Date">
+                                    <input type="date" class="form-control" placeholder="End Date"
+                                        @change="loadBusinesse()">
                                 </div>
                             </div>
                             <div class="form-group col-xl-2">
-                                <input type="text" class="form-control" placeholder="Search by business name">
+                                <input type="text" class="form-control" placeholder="Search by business name"
+                                    @change="loadBusinesse()">
                             </div>
                             <div class="form-group col-md-1">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-success btn-sm">
+                                    <button type="button" class="btn btn-success btn-sm" @click="loadBusinesse()">
                                         Search
                                     </button>
                                     <button type="button" class="btn btn-warning btn-sm">

@@ -18,10 +18,11 @@ class PackageController extends Controller
     }
     public function packageList(Request $request)
     {
+
         try {
             $packages = Package::query()
-                // ->when()
-                ->when($request->keyword, fn($q) => $q->where("title", "LIKE", "%" . $request->keyword . "%"))
+                ->when($request->start_date || $request->end_date, fn ($q) => $q->whereBetween("created_at", [$request->start_date, $request->end_date]))
+                ->when($request->keyword, fn ($q) => $q->where("title", "LIKE", "%" . $request->keyword . "%"))
                 ->latest()
                 ->get();
             return PackageResource::collection($packages);

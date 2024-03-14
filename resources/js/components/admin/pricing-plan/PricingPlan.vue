@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.admin_id">
+                                    <select class="form-control" v-model="quarry.admin_id" @change="loadPricingPlan()">
                                         <option value="">All</option>
                                         <option v-for="(admin, index) in adminUsers" :value="admin.id" :key="index">
                                             {{ admin.name }}
@@ -26,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.type">
+                                    <select class="form-control" v-model="quarry.type" @change="loadPricingPlan()">
                                         <option value="">All</option>
                                         <option value="Amount">Amount</option>
                                         <option value="Percentage">Percentage</option>

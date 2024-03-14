@@ -17,7 +17,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-4">
                                     <div class="input-group mb-3">
                                         <input type="date" class="form-control" @change="loadPackages()"
                                             placeholder="Start date" v-model="quarry.start_date">
