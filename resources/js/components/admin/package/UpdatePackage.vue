@@ -35,7 +35,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Price
+                                            Monthly Service Charge
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -44,8 +44,8 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="packageEdit.price"
-                                                placeholder="Price" required>
+                                            <input type="number" class="form-control" v-model="packageEdit.monthly_service_charge"
+                                                placeholder="Monthly Service Charge" required>
                                         </div>
                                     </div>
                                 </div>

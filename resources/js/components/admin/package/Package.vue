@@ -71,7 +71,7 @@
                                                 Title
                                             </th>
                                             <th class="text-center">
-                                                Price
+                                                M. Service Charge
                                             </th>
                                             <th class="text-center">
                                                 Installment Fee
@@ -113,7 +113,7 @@
                                                 {{ pack_value.title }}
                                             </td>
                                             <td class="text-center">
-                                                {{ pack_value.price }}
+                                                {{ pack_value.monthly_service_charge }}
                                             </td>
                                             <td class="text-center">
                                                 {{ pack_value.installment_fee }}

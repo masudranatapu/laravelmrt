@@ -7,6 +7,9 @@ use App\Http\Requests\AdminRequest\BusinessRequest;
 use Illuminate\Http\Request;
 use App\Models\Business;
 use App\Http\Resources\Admin\AdminBusinessResource;
+use App\Models\BusinessType;
+use App\Models\Package;
+use App\Models\PricingPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +40,17 @@ class AdminBusinessController extends Controller
 
     public function create()
     {
-        return view("admin.business.create");
+        $packages = Package::query()
+            ->select(['id', 'title',])
+            ->get();
+
+        $pricingPlans = PricingPlan::query()
+            ->select(['id', 'month'])
+            ->get();
+        $businessType = BusinessType::query()
+            ->select(['id', 'business_type_name'])
+            ->get();
+        return view("admin.business.create", compact("packages", "pricingPlans", "businessType"));
     }
 
 

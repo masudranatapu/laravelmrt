@@ -23,7 +23,7 @@ class PackageRequest extends FormRequest
     {
         return [
             "title" => ["required", "string", "min:3", "max:40"],
-            "price" => ["required", "integer", "min:1"],
+            "monthly_service_charge" => ["required", "integer", "min:1"],
             "installment_fee" => ["required", "integer", "min:1"],
             "branch_limit" => ["required", "integer", "min:1"],
             "user_limit" => ["required", "integer", "min:1"],

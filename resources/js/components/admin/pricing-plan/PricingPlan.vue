@@ -93,6 +93,8 @@
                                             </td>
                                             <td class="text-center">
                                                 {{ plans?.discount_value }}
+                                                <span v-if="plans?.discount_type == 'Percentage'">( % )</span>
+                                                <span v-else-if="plans?.discount_type == 'Amount'">( TK )</span>
                                             </td>
                                             <td class="text-center">
                                                 {{ plans?.created_by }}
