@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.admin_id">
+                                    <select class="form-control" v-model="quarry.admin_id" @change="loadBusinessType()">
                                         <option value="">All</option>
                                         <option v-for="(admin, index) in adminUsers" :value="admin.id" :key="index">
                                             {{ admin.name }}
@@ -26,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.status">
+                                    <select class="form-control" v-model="quarry.status" @change="loadBusinessType()">
                                         <option value="">All</option>
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <input type="text" class="form-control" placeholder="Searching"
-                                        v-model="quarry.keyword">
+                                        v-model="quarry.keyword" @change="loadBusinessType()">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">

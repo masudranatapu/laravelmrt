@@ -16,10 +16,19 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="row justify-content-center">
+                                <div class="form-group col-md-4">
+                                    <div class="input-group mb-3">
+                                        <input type="date" class="form-control" @change="loadPackages()"
+                                            placeholder="Start date" v-model="quarry.start_date">
+                                        <span class="input-group-text bg-success">To</span>
+                                        <input type="date" class="form-control" @change="loadPackages()"
+                                            placeholder="End Date" v-model="quarry.end_date">
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control" v-model="quarry.keyword"
-                                        placeholder="Searching">
+                                    <input type="text" class="form-control" @change="loadPackages()"
+                                        v-model="quarry.keyword" placeholder="Searching">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">
@@ -62,7 +71,7 @@
                                                 Title
                                             </th>
                                             <th class="text-center">
-                                                Price
+                                                M. Service Charge
                                             </th>
                                             <th class="text-center">
                                                 Installment Fee
@@ -104,7 +113,7 @@
                                                 {{ pack_value.title }}
                                             </td>
                                             <td class="text-center">
-                                                {{ pack_value.price }}
+                                                {{ pack_value.monthly_service_charge }}
                                             </td>
                                             <td class="text-center">
                                                 {{ pack_value.installment_fee }}
@@ -179,6 +188,8 @@ export default {
             quarry: {
                 parPage: 20,
                 keyword: '',
+                start_date: '',
+                end_date: '',
             },
             packages: {},
             businessAccessOptions: {},
@@ -280,6 +291,9 @@ export default {
         clearSearch() {
             this.quarry.parPage = 20;
             this.quarry.keyword = '';
+            this.quarry.start_date = '';
+            this.quarry.end_date = '';
+
             this.loadPackages();
         }
     },
