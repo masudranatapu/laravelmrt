@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use App\Models\Business;
 use App\Http\Resources\Admin\AdminBusinessResource;
 use App\Models\BusinessType;
+use App\Models\Customer;
 use App\Models\Package;
 use App\Models\PricingPlan;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -85,6 +87,8 @@ class AdminBusinessController extends Controller
             $business->status = $request->status;
             $business->business_access = $request->business_access ? json_encode($request->business_access) : [];
             $business->save();
+            // create business user
+            $this->createUser($business, $request);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -99,12 +103,32 @@ class AdminBusinessController extends Controller
     {
         $user = new User();
         $user->business_id = $business->id;
-        $user->admin_id = adminUser()->id;
-        $user->name = $request->name;
-        $user->password = Hash::make($request->password);
-        $user->package_id = $request->package_id;
+
         $user->status = 'Active';
         $user->save();
         return $user;
+    }
+
+    public function guestCustomer($business, $request)
+    {
+        $customer = new Customer();
+        $customer->business_id = $business->id;
+
+        $customer->status = 'Active';
+        $customer->save();
+        return $customer;
+    }
+
+    public function guestSupplier($business, $request)
+    {
+        $supplier = new Supplier();
+        $supplier->business_id = $business->id;
+        $supplier->admin_id = adminUser()->id;
+        $supplier->name = $request->name;
+        $supplier->password = Hash::make($request->password);
+        $supplier->package_id = $request->package_id;
+        $supplier->status = 'Active';
+        $supplier->save();
+        return $supplier;
     }
 }
