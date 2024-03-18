@@ -27,13 +27,13 @@
                 </span>
             </a>
             <ul class="dropdown-menu">
-                <li class="{{ Route::is('admin.businesses') && Route::is('admin.businesses.create') ? 'active' : '' }}">
+                <li class="{{ Route::is('admin.businesses') && Route::is('admin.business.create') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.businesses') }}">
                         Business List
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="{{ route('admin.businesses.create') }}">
+                    <a class="nav-link" href="{{ route('admin.business.create') }}">
                         Add New Business
                     </a>
                 </li>
