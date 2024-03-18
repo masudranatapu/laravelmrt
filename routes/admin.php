@@ -37,13 +37,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('businesses/create', [AdminBusinessController::class, 'index'])->name('businesses.create');
     Route::get('businesses-list', [AdminBusinessController::class, 'businessList'])->name('business.list');
     // business type
-    Route::get('businesse-type', [BusinessTypeController::class, 'index'])->name('businesse.type');
-    Route::get('businesse-type/list', [BusinessTypeController::class, 'businessTypeList'])->name('businesseType.list');
-    Route::post('businesse-type/store', [BusinessTypeController::class, 'store'])->name('businesseType.store');
-    Route::get('businesse-type/edit/{id}', [BusinessTypeController::class, 'edit'])->name('businesseType.edit');
-    Route::post('businesse-type/update/{id}', [BusinessTypeController::class, 'update'])->name('businesseType.update');
-    Route::get('businesse-type/status/change/{id}', [BusinessTypeController::class, 'statusChange'])->name('businesseType.status.change');
-    Route::get('businesse-type/delete/{id}', [BusinessTypeController::class, 'delete'])->name('businesseType.delete');
+    Route::get('business-type', [BusinessTypeController::class, 'index'])->name('business.type');
+    Route::get('business-type/list', [BusinessTypeController::class, 'businessTypeList'])->name('businessType.list');
+    Route::post('business-type/store', [BusinessTypeController::class, 'store'])->name('businessType.store');
+    Route::get('business-type/edit/{id}', [BusinessTypeController::class, 'edit'])->name('businessType.edit');
+    Route::post('business-type/update/{id}', [BusinessTypeController::class, 'update'])->name('businessType.update');
+    Route::get('business-type/status/change/{id}', [BusinessTypeController::class, 'statusChange'])->name('businessType.status.change');
+    Route::get('business-type/delete/{id}', [BusinessTypeController::class, 'delete'])->name('businessType.delete');
     // pricing-plans
     Route::get('pricing-plans', [PricingPlanController::class, 'index'])->name('pricingPlan');
     Route::get('pricing-plans/list', [PricingPlanController::class, 'pricingPlanList'])->name('pricingPlan.list');

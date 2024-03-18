@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="modal fade" id="editBusinessType" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editBusinessType" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -107,7 +107,7 @@ export default {
     methods: {
         updateBusinessType(id) {
             this.isButtonDisabled = true;
-            axios.post(`/admin/businesse-type/update/${id}`, this.businessTypeInfo).then((response) => {
+            axios.post(`/admin/business-type/update/${id}`, this.businessTypeInfo).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({

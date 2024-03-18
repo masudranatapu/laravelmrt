@@ -170,7 +170,7 @@ export default {
     },
     methods: {
         loadBusinessType() {
-            axios.get("/admin/businesse-type/list", { params: this.quarry }).then((response) => {
+            axios.get("/admin/business-type/list", { params: this.quarry }).then((response) => {
                 this.businessTypes = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
@@ -208,7 +208,7 @@ export default {
         },
         editBusinessType(id) {
 
-            axios.get(`/admin/businesse-type/edit/${id}`).then((response) => {
+            axios.get(`/admin/business-type/edit/${id}`).then((response) => {
                 this.updateBusinessTypeInfo = response.data.data;
                 $("#editBusinessType").modal('show');
             }).catch((error) => {
@@ -233,7 +233,7 @@ export default {
                 cancelButtonText: 'No, Cancel',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/admin/businesse-type/delete/${id}`).then((response) => {
+                    axios.get(`/admin/business-type/delete/${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: 'Success',
@@ -280,7 +280,7 @@ export default {
             this.loadBusinessType();
         },
         businessTypeStatusChange(id) {
-            axios.get(`/admin/businesse-type/status/change/${id}`).then((response) => {
+            axios.get(`/admin/business-type/status/change/${id}`).then((response) => {
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: 'Success',

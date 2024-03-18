@@ -66,20 +66,18 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('area/update/{id}', [AreaController::class, 'update'])->name('area.update');
         Route::get('area/delete/{id}', [AreaController::class, 'delete'])->name('area.delete');
         Route::get('area/status/change/{id}', [AreaController::class, 'statusChange'])->name('area.status.change');
-
         // load catalog
         Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
         Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');
         Route::get('load-asset-category', [LoadCatalogController::class, 'loadAssetCategory'])->name('load.asset.category');
-
         // asset category
-        Route::get('asset-category', [AssetCategoryController::class, 'index'])->name('assetcategory');
-        Route::get('asset-category-list', [AssetCategoryController::class, 'assetCategoryList'])->name('assetcategory.list');
-        Route::post('asset-category/store', [AssetCategoryController::class, 'store'])->name('assetcategory.store');
-        Route::get('asset-category/edit/{id}', [AssetCategoryController::class, 'edit'])->name('assetcategory.edit');
-        Route::post('asset-category/update/{id}', [AssetCategoryController::class, 'update'])->name('assetcategory.update');
-        Route::get('asset-category/delete/{id}', [AssetCategoryController::class, 'delete'])->name('assetcategory.delete');
-        Route::get('asset-category/status/change/{id}', [AssetCategoryController::class, 'changeStatus'])->name('assetcategory.status.change');
+        Route::get('asset-category', [AssetCategoryController::class, 'index'])->name('assetCategory');
+        Route::get('asset-category-list', [AssetCategoryController::class, 'assetCategoryList'])->name('assetCategory.list');
+        Route::post('asset-category/store', [AssetCategoryController::class, 'store'])->name('assetCategory.store');
+        Route::get('asset-category/edit/{id}', [AssetCategoryController::class, 'edit'])->name('assetCategory.edit');
+        Route::post('asset-category/update/{id}', [AssetCategoryController::class, 'update'])->name('assetCategory.update');
+        Route::get('asset-category/delete/{id}', [AssetCategoryController::class, 'delete'])->name('assetCategory.delete');
+        Route::get('asset-category/status/change/{id}', [AssetCategoryController::class, 'changeStatus'])->name('assetCategory.status.change');
         // asset
         Route::get('assets', [AssetController::class, 'index'])->name('assets');
         Route::get('assets-list', [AssetController::class, 'assetsList'])->name('assets.list');
@@ -87,6 +85,5 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('assets/edit/{id}', [AssetController::class, 'edit'])->name('assets.edit');
         Route::post('assets/update/{id}', [AssetController::class, 'update'])->name('assets.update');
         Route::get('assets/delete/{id}', [AssetController::class, 'delete'])->name('assets.delete');
-
     });
 });

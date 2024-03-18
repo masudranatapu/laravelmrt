@@ -87,7 +87,7 @@ export default {
     methods: {
         addNewBusinessType() {
             this.isButtonDisabled = true;
-            axios.post('/admin/businesse-type/store', this.businessType).then((response) => {
+            axios.post('/admin/business-type/store', this.businessType).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({

@@ -32,6 +32,6 @@ Route::group(['as' => 'frontend.'], function () {
     // project
     Route::get('/project', [ProjectController::class, 'project'])->name('project');
     Route::get('/project/details', [ProjectController::class, 'projectDetails'])->name('project.details');
-
+    // newsletter
     Route::post('/newsletter', [FrontendController::class, 'newsletter'])->name('newsletter');
 });
