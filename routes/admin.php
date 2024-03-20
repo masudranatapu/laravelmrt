@@ -34,7 +34,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::post('password-update/{id}', [DashboardController::class, 'passwordUpdate'])->name('password.update');
     // businesses
     Route::get('businesses', [AdminBusinessController::class, 'index'])->name('businesses');
-    Route::get('businesses/create', [AdminBusinessController::class, 'create'])->name('businesses.create');
+    Route::get('businesses/create', [AdminBusinessController::class, 'create'])->name('business.create');
     Route::get('businesses-list', [AdminBusinessController::class, 'businessList'])->name('business.list');
     // business type
     Route::get('business-type', [BusinessTypeController::class, 'index'])->name('business.type');
