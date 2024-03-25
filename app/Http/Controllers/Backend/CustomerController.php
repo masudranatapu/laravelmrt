@@ -24,9 +24,9 @@ class CustomerController extends Controller
             $customer = Customer::query()
                 // ->where()
                 ->with([
-                    'customerInitialDue' => fn($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
+                    'customerInitialDue' => fn ($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
                 ])
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
                 ->get();
             return CustomerResource::collection($customer);
         } catch (\Throwable $th) {
@@ -78,7 +78,6 @@ class CustomerController extends Controller
                 'status' => true,
                 'message' => 'User successfully Created',
             ]);
-
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
@@ -149,7 +148,6 @@ class CustomerController extends Controller
                 'status' => true,
                 'message' => 'Customer successfully updated',
             ]);
-
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
@@ -206,7 +204,9 @@ class CustomerController extends Controller
                 // ->withCount()
                 ->findOrFail($id);
 
-            fileUnlink($customer->image);
+            if ($customer->image) {
+                fileUnlink($customer->image);
+            }
 
             $customer->delete();
 

@@ -24,9 +24,9 @@ class SupplierController extends Controller
             $customer = Supplier::query()
                 // ->where()
                 ->with([
-                    'supplierInitialDue' => fn($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
+                    'supplierInitialDue' => fn ($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
                 ])
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
                 ->get();
             return SupplierResource::collection($customer);
         } catch (\Throwable $th) {
@@ -35,7 +35,6 @@ class SupplierController extends Controller
                 'message' => $th->getMessage(),
             ]);
         }
-
     }
     public function store(SupplierRequest $request)
     {
@@ -78,7 +77,6 @@ class SupplierController extends Controller
                 'status' => true,
                 'message' => 'Supplier successfully Created',
             ]);
-
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
@@ -146,7 +144,6 @@ class SupplierController extends Controller
                 'status' => true,
                 'message' => 'Supplier successfully Updated',
             ]);
-
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
@@ -168,7 +165,6 @@ class SupplierController extends Controller
                 'message' => $th->getMessage(),
             ]);
         }
-
     }
     public function changeStatus($id)
     {
@@ -201,7 +197,9 @@ class SupplierController extends Controller
                 // ->withCount()
                 ->findOrFail($id);
 
-            fileUnlink($supplier->image);
+            if ($supplier->image) {
+                fileUnlink($supplier->image);
+            }
 
             $supplier->delete();
 

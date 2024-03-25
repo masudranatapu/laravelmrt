@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Business::class)->nullable();
             $table->string('expense_type_name')->nullable();
             $table->integer('status')->default(1)->comment('0=Inactive; 1=Active;');
+            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

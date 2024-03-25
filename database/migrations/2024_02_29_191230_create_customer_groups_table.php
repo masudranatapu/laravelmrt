@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->double('amount', 14, 4)->default(0);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
-            $table->string('create_by')->nullable();
+            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

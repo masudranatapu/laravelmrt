@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('business_type_name')->nullable();
             $table->longText('access')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

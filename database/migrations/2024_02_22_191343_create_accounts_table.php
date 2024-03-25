@@ -34,6 +34,7 @@ return new class extends Migration
             $table->double('transfer_amount', 14, 4)->default(0);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->double('pm_charge', 14, 4)->default(0);
+            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

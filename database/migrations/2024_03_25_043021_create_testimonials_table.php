@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('designation')->nullable();
             $table->string('image')->nullable();
             $table->text('review')->nullable();
-            $table->integer('rating')->default(5);
+            $table->enum('rating', [1, 2, 3, 4, 5])->default(5);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

@@ -9,8 +9,8 @@ use App\Http\Controllers\Admin\BusinessTypeController;
 use App\Http\Controllers\Admin\LoadAdminCatalogController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PricingPlanController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Auth\LoginController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -61,4 +61,12 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     // load admin
     Route::get('load-admin/users', [LoadAdminCatalogController::class, 'loadAdminUsers'])->name('load.admin');
     Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.option');
+    // Testimonial
+    Route::get('testimonial', [TestimonialController::class, 'index'])->name('testimonials');
+    Route::get('testimonial-list', [TestimonialController::class, 'testimonialList'])->name('testimonial.list');
+    Route::post('testimonial/store', [TestimonialController::class, 'store'])->name('testimonial.store');
+    Route::get('testimonial/edit/{id}', [TestimonialController::class, 'edit'])->name('testimonial.edit');
+    Route::post('testimonial/update/{id}', [TestimonialController::class, 'update'])->name('testimonial.update');
+    Route::get('testimonial/status/change/{id}', [TestimonialController::class, 'changeStatus'])->name('testimonial.status.change');
+    Route::get('testimonial/delete/{id}', [TestimonialController::class, 'delete'])->name('testimonial.delete');
 });

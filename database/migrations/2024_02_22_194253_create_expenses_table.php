@@ -35,7 +35,7 @@ return new class extends Migration
             $table->date('ck_active_date')->nullable();
             $table->string('ck_issue_name')->nullable();
             $table->string('ck_bank_name')->nullable();
-            $table->string('is_check_paid')->default(0)->commnet("0=Inactive; 1=Active;");
+            $table->string('is_check_paid')->default(0)->comment("0=Inactive; 1=Active;");
             $table->timestamps();
         });
     }

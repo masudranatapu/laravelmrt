@@ -62,6 +62,7 @@ return new class extends Migration
             $table->boolean('enable_user_commission')->default(0);
             $table->boolean('enable_customer_commission')->default(0);
             $table->boolean('enable_auto_print')->default(0);
+            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }
