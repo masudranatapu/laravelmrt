@@ -5,12 +5,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Packages</h4>
+                            <h4>{{ $t('Packages') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
                                     <button type="button" class="btn btn-primary" @click="addPackage()">
                                         <i class="fa fa-plus"></i>
-                                        Add New Package
+                                        {{ $t('Add New Package') }}
                                     </button>
                                 </div>
                             </div>
@@ -28,24 +28,24 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <input type="text" class="form-control" @change="loadPackages()"
-                                        v-model="quarry.keyword" placeholder="Searching">
+                                        v-model="quarry.keyword" :placeholder="$t('Search')">
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadPackages()">
-                                            Search
+                                            {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearSearch()">
-                                            Clear
+                                            {{ $t('Clear') }}
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action
+                                            {{ $t('Action') }}
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
                                             <a class="dropdown-item" href="javascript:;">
-                                                Bulk Delete
+                                                {{ $t('Bulk Delete') }}
                                             </a>
                                         </div>
                                     </div>
@@ -63,36 +63,36 @@
                                                         data-checkbox-role="dad" class="custom-control-input"
                                                         id="checkbox-all">
                                                     <label for="checkbox-all" class="custom-control-label">
-                                                        SL No
+                                                        {{ $t('SL No') }}
                                                     </label>
                                                 </div>
                                             </th>
                                             <th>
-                                                Title
+                                                {{ $t('Title') }}
                                             </th>
                                             <th class="text-center">
-                                                M. Service Charge
+                                                {{ $t('M. Service Charge') }}
                                             </th>
                                             <th class="text-center">
-                                                Installment Fee
+                                                {{ $t('Installment Fee') }}
                                             </th>
                                             <th class="text-center">
-                                                User Limit
+                                                {{ $t('User Limit') }}
                                             </th>
                                             <th class="text-center">
-                                                Product Limit
+                                                {{ $t('Product Limit') }}
                                             </th>
                                             <th class="text-center">
-                                                Branch Limit
+                                                {{ $t('Branch Limit') }}
                                             </th>
                                             <th class="text-center">
-                                                Setting Access
+                                                {{ $t('Setting Access') }}
                                             </th>
                                             <th class="text-center">
-                                                Create By
+                                                {{ $t('Create By') }}
                                             </th>
                                             <th class="text-center">
-                                                Action
+                                                {{ $t('Action') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -142,19 +142,19 @@
                                                     <button class="btn btn-primary dropdown-toggle" type="button"
                                                         id="dropdownMenuButton2" data-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
-                                                        Action
+                                                        {{ $t('Action') }}
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <a class="dropdown-item has-icon" href="javascript:;"
                                                             @click="editPackage(pack_value?.id)">
                                                             <i class="fas fa-pen"></i>
-                                                            Edit
+                                                            {{ $t('Edit') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
                                                             @click="deletePackage(pack_value?.id)">
                                                             <i class="fa fa-times"></i>
-                                                            Delete
+                                                            {{ $t('Delete') }}
                                                         </a>
                                                     </div>
                                                 </div>

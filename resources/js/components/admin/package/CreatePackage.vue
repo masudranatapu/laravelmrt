@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="modal fade" id="createPackage" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="createPackage" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create Package
+                            {{ $t('Create Package') }}
                         </h5>
                         <a href="javascript:;" @click="closeCreatePackage()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-8 offset-md-2">
                                     <div class="form-group">
                                         <label>
-                                            Name
+                                            {{ $t('Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -35,7 +35,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Monthly Service Charge
+                                            {{ $t('Monthly Service Charge') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -44,7 +44,8 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="package.monthly_service_charge"
+                                            <input type="number" class="form-control"
+                                                v-model="package.monthly_service_charge"
                                                 placeholder="Monthly Service Charge" required>
                                         </div>
                                     </div>
@@ -52,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Installment Fee
+                                            {{ $t('Installment Fee') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -69,7 +70,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            Branch Limit
+                                            {{ $t('Branch Limit') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -86,7 +87,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            User Limit
+                                            {{ $t('User Limit') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -103,7 +104,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            Product Limit
+                                            {{ $t('Product Limit') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -120,7 +121,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Description
+                                            {{ $t('Description') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" v-model="package.description"
@@ -131,7 +132,7 @@
                             <div class="row">
                                 <div class="col-md-12 text-center my-3">
                                     <h3>
-                                        Business Access
+                                        {{ $t('Business Access') }}
                                     </h3>
                                 </div>
                                 <div class="col-md-3" v-for="(access, index) in accessOptions" :key="index">
@@ -150,11 +151,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeCreatePackage()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

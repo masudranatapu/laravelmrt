@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Update Business Type
+                            {{ $t('Update Business Type') }}
                         </h5>
                         <a href="javascript:;" @click="closeUpdateBusinessType()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Business Type Name
+                                            {{ $t('Business Type Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -29,14 +29,14 @@
                                             </div>
                                             <input type="text" class="form-control"
                                                 v-model="businessTypeInfo.business_type_name"
-                                                placeholder="Business Type Name" required>
+                                                :placeholder="$t('Business Type Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Status
+                                            {{ $t('Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -47,11 +47,11 @@
                                             </div>
                                             <select class="form-control" v-model="businessTypeInfo.status">
                                                 <option value="Active" :selected="businessTypeInfo.status === 'Active'">
-                                                    Active
+                                                    {{ $t('Active') }}
                                                 </option>
                                                 <option value="Inactive"
                                                     :selected="businessTypeInfo.status === 'Inactive'">
-                                                    Inactive
+                                                    {{ $t('Inactive') }}
                                                 </option>
                                             </select>
                                         </div>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-center my-3">
-                                    <h3>Business Access</h3>
+                                    <h3>{{ $t('Business Access') }}</h3>
                                 </div>
                                 <div class="col-md-3" v-for="(options, key) in accessOptions" :key="key">
                                     <div class="form-check">
@@ -78,11 +78,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeUpdateBusinessType()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

@@ -5,12 +5,12 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Create Business</h4>
+                            <h4>{{ $t('Create Business') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
                                     <a :href="'/admin/businesses'" class="btn btn-primary">
                                         <i class="fa fa-plus"></i>
-                                        Business List
+                                        {{ $t('Business List') }}
                                     </a>
                                 </div>
                             </div>
@@ -21,7 +21,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Business Name
+                                                {{ $t('Business s') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -31,14 +31,14 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" v-model="business.name"
-                                                    placeholder="Business Name" required>
+                                                    :placeholder="$t('Business Name')" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Business Phone
+                                                {{ $t('Business Phone') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -48,13 +48,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.phone"
-                                                    placeholder="Business Phone" required>
+                                                    :placeholder="$t('Business Phone')" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Business Start Date</label>
+                                            <label>{{ $t('Business Start Date') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -63,13 +63,13 @@
                                                 </div>
                                                 <input type="date" class="form-control"
                                                     v-model="business.business_start_date"
-                                                    placeholder="Business Start Date">
+                                                    :placeholder="$t('Business Start Date')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Business Email</label>
+                                            <label>{{ $t('Business Email') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -77,13 +77,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="email" class="form-control" v-model="business.email"
-                                                    placeholder="Business Email">
+                                                    :placeholder="$t('Business Email')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Business Logo</label>
+                                            <label>{{ $t('Business Logo') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Business Favicon</label>
+                                            <label>{{ $t('Business Favicon') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>City</label>
+                                            <label>{{ $t('City') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -117,13 +117,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" v-model="business.city"
-                                                    placeholder="City">
+                                                    :placeholder="$t('City')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Zip Code</label>
+                                            <label>{{ $t('Zip Code') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -131,13 +131,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" v-model="business.zip_code"
-                                                    placeholder="Zip Code">
+                                                    :placeholder="$t('Zip Code')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Address</label>
+                                            <label>{{ $t('Address') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -145,13 +145,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" v-model="business.address"
-                                                    placeholder="Address">
+                                                    :placeholder="$t('Address')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>User Name</label>
+                                            <label>{{ $t('User Name') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -159,13 +159,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" v-model="business.user_name"
-                                                    placeholder="User Name">
+                                                    :placeholder="$t('User Name')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Password</label>
+                                            <label>{{ $t('Password') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -173,7 +173,7 @@
                                                     </div>
                                                 </div>
                                                 <input :type="showPassword ? 'text' : 'password'" class="form-control"
-                                                    v-model="business.password" placeholder="Password">
+                                                    v-model="business.password" :placeholder="$t('Password')">
                                                 <div class="input-group-prepend" @click="passwordVisibility()">
                                                     <div class="input-group-text">
                                                         <i
@@ -186,7 +186,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Pricing Plans
+                                                {{ $t('Pricing Plans') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -209,7 +209,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Pricing Plans
+                                                {{ $t('Pricing Plans') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -232,7 +232,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Packages
+                                                {{ $t('Packages') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -254,7 +254,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Monthly Service Charge</label>
+                                            <label>{{ $t('Monthly Service Charge') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -262,13 +262,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.zip_code"
-                                                    placeholder="Monthly Service Charge">
+                                                    :placeholder="$t('Monthly Service Charge')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Installment Fees</label>
+                                            <label>{{ $t('Installment Fees') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -276,13 +276,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.zip_code"
-                                                    placeholder="Installment Fees">
+                                                    :placeholder="$t('Installment Fees')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Business Branch Limit</label>
+                                            <label>{{ $t('Business Branch Limit') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -290,14 +290,14 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.zip_code"
-                                                    placeholder="Zip Code">
+                                                    :placeholder="$t('Zip Code')">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>User Limit</label>
+                                            <label>{{ $t('User Limit') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -305,13 +305,13 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.zip_code"
-                                                    placeholder="User Limit">
+                                                    :placeholder="$t('User Limit')">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Product Limit</label>
+                                            <label>{{ $t('Product Limit') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
@@ -319,14 +319,14 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.zip_code"
-                                                    placeholder="Product Limit">
+                                                    :placeholder="$t('Product Limit')">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-center my-3">
-                                        <h3>Business Access</h3>
+                                        <h3>{{ $t('Business Access') }}</h3>
                                     </div>
                                     <div class="col-md-3" v-for="(access, index) in accessOptions" :key="index">
                                         <div class="form-check">
@@ -345,11 +345,11 @@
                             <div class="card-footer text-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-warning" @click="cancelNewBusiness()">
-                                        Cancel
+                                        {{ $t('Cancel') }}
                                     </button>
                                     <button type="submit" class="btn btn-primary"
                                         :class="{ 'btn-progress': isButtonDisabled }" :disabled="isButtonDisabled">
-                                        Save
+                                        {{ $t('Save') }}
                                     </button>
                                 </div>
                             </div>

@@ -5,12 +5,12 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Business List</h4>
+                            <h4>{{ $t('Business List') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
                                     <a :href="'/admin/businesses/create'" class="btn btn-primary">
                                         <i class="fa fa-plus"></i>
-                                        Add New Business
+                                        {{ $t('Add New Business') }}
                                     </a>
                                 </div>
                             </div>
@@ -19,17 +19,17 @@
                             <div class="row">
                                 <div class="form-group col-xl-2">
                                     <select class="form-control">
-                                        <option value="">All</option>
+                                        <option value="">{{ $t('All') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-xl-2">
                                     <select class="form-control" @change="loadBusinesse()">
-                                        <option value="">Business Type</option>
+                                        <option value="">{{ $t('Business Type') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-xl-2">
                                     <select class="form-control" @change="loadBusinesse()">
-                                        <option value="">Business Type</option>
+                                        <option value="">{{ $t('Business Type') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-xl-4">
@@ -45,13 +45,13 @@
                                     <input type="text" class="form-control" placeholder="Search by business name"
                                         @change="loadBusinesse()">
                                 </div>
-                                <div class="form-group col-md-1">
+                                <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success btn-sm" @click="loadBusinesse()">
-                                            Search
+                                            {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning btn-sm">
-                                            Clear
+                                            {{ $t('Clear') }}
                                         </button>
                                     </div>
                                 </div>
@@ -70,12 +70,12 @@
                                                     <label for="checkbox-all" class="custom-control-label"></label>
                                                 </div>
                                             </th>
-                                            <th>Business Name</th>
-                                            <th>Progress</th>
-                                            <th>Members</th>
-                                            <th>Due Date</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th>{{ $t('Business Name') }}</th>
+                                            <th>{{ $t('Progress') }}</th>
+                                            <th>{{ $t('Members') }}</th>
+                                            <th>{{ $t('Due Date') }}</th>
+                                            <th>{{ $t('Status') }}</th>
+                                            <th>{{ $t('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,10 +102,10 @@
                                             </td>
                                             <td>2018-01-20</td>
                                             <td>
-                                                <div class="badge badge-success">Completed</div>
+                                                <div class="badge badge-success">{{ $t('Completed') }}</div>
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-primary">Detail</a>
+                                                <a href="#" class="btn btn-primary">{{ $t('Detail') }}</a>
                                             </td>
                                         </tr>
                                     </tbody>
