@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Edit Customer
+                            {{ $t('Edit Customer') }}
                         </h5>
                         <a href="javascript:;" @click="closeUpdateCustomer()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Name
+                                            {{ $t('Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,13 +28,13 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="customerEdit.name"
-                                                placeholder="Name" required>
+                                                :placeholder="$t('Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email</label>
+                                        <label>{{ $t('Email') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -42,14 +42,14 @@
                                                 </div>
                                             </div>
                                             <input type="email" class="form-control" v-model="customerEdit.email"
-                                                placeholder="Email">
+                                                :placeholder="$t('Email')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Phone
+                                            {{ $t('Phone') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -59,13 +59,13 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="customerEdit.phone"
-                                                placeholder="Phone" required>
+                                                :placeholder="$t('Phone')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Image</label>
+                                        <label>{{ $t('Image') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Gender</label>
+                                        <label>{{ $t('Gender') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -86,15 +86,15 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="customerEdit.gender">
-                                                <option value="Male" selected>Male</option>
-                                                <option value="Female">Female</option>
+                                                <option value="Male" selected>{{ $t('Male') }}</option>
+                                                <option value="Female">{{ $t('Female') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Membership Number</label>
+                                        <label>{{ $t('Membership Number') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -102,13 +102,13 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control"
-                                                v-model="customerEdit.member_ship_id" placeholder="Membership Number">
+                                                v-model="customerEdit.member_ship_id" :placeholder="$t('Membership Number')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Date of Birth</label>
+                                        <label>{{ $t('Date of Birth') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -116,13 +116,13 @@
                                                 </div>
                                             </div>
                                             <input type="date" class="form-control" v-model="customerEdit.date_of_birth"
-                                                placeholder="Date of Birth">
+                                                :placeholder="$t('Date of Birth')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Due</label>
+                                        <label>{{ $t('Due') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -130,13 +130,13 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="customerEdit.due"
-                                                placeholder="Due">
+                                                :placeholder="$t('Due')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Customer Group</label>
+                                        <label>{{ $t('Customer Group') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -144,7 +144,8 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="customerEdit.customer_group_id">
-                                                <option v-for="(group, index) in groups" :value='group?.id' :selected="customerEdit.customer_group_id == group?.id">
+                                                <option v-for="(group, index) in groups" :value='group?.id'
+                                                    :selected="customerEdit.customer_group_id == group?.id">
                                                     {{ group?.name }}
                                                 </option>
                                             </select>
@@ -153,7 +154,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Date</label>
+                                        <label>{{ $t('Date') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -161,13 +162,13 @@
                                                 </div>
                                             </div>
                                             <input type="date" class="form-control" v-model="customerEdit.date"
-                                                placeholder="Date">
+                                                :placeholder="$t('Date')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Area</label>
+                                        <label>{{ $t('Area') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -175,7 +176,8 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="customerEdit.area_id">
-                                                <option v-for="(area, index) in areas" :value='area?.id' :selected="customerEdit.area_id == area?.id">
+                                                <option v-for="(area, index) in areas" :value='area?.id'
+                                                    :selected="customerEdit.area_id == area?.id">
                                                     {{ area?.name }}
                                                 </option>
                                             </select>
@@ -184,7 +186,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Zip Code</label>
+                                        <label>{{ $t('Zip Code') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -192,13 +194,13 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="customerEdit.zip_code"
-                                                placeholder="Zip Code">
+                                                :placeholder="$t('Zip Code')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Address</label>
+                                        <label>{{ $t('Address') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -206,26 +208,26 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="customerEdit.address"
-                                                placeholder="Address">
+                                                :placeholder="$t('Address')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Note</label>
+                                        <label>{{ $t('Note') }}</label>
                                         <textarea name="" class="form-control" v-model="customerEdit.note"
-                                            placeholder="Note" cols="30" rows="10"></textarea>
+                                            :placeholder="$t('Note')" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeUpdateCustomer()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

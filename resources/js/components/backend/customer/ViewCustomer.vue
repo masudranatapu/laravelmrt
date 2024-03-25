@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            View Customer
+                            {{ $t('View Customer') }}
                         </h5>
                         <a href="javascript:;" @click="closeViewCustomer()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -23,7 +23,7 @@
                                     </a>
                                 </div>
                                 <div class="author-box-job">
-                                    Date: {{ customerView?.date }}
+                                    {{ $t('Date') }}: {{ customerView?.date }}
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="modal-footer bg-whitesmoke br">
                         <button type="button" class="btn btn-warning" @click="closeViewCustomer()">
-                            Close
+                            {{ $t('Close') }}
                         </button>
                     </div>
                 </div>

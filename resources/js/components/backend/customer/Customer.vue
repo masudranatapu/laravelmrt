@@ -5,26 +5,26 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Customers</h4>
+                            <h4>{{ $t('Customers') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
                                     <button type="button" class="btn btn-primary" @click="addCustomer()">
                                         <i class="fa fa-plus"></i>
-                                        Add New Customer
+                                        {{ $t('Add New Customer') }}
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-1">
 
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <div class="input-group mb-3">
                                         <input type="date" class="form-control" placeholder="Start date"
                                             v-model="quarry.start_date">
-                                        <span class="input-group-text bg-success">To</span>
+                                        <span class="input-group-text bg-success">{{ $t('To') }}</span>
                                         <input type="date" class="form-control" placeholder="End Date"
                                             v-model="quarry.end_date">
                                     </div>
@@ -32,19 +32,19 @@
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.status">
                                         <option value="">
-                                            All
+                                            {{ $t('All') }}
                                         </option>
                                         <option value="Active">
-                                            Active
+                                            {{ $t('Active') }}
                                         </option>
                                         <option value="Inactive">
-                                            Inactive
+                                            {{ $t('Inactive') }}
                                         </option>
                                         <option value="Blocked">
-                                            Blocked
+                                            {{ $t('Blocked') }}
                                         </option>
                                         <option value="Pending">
-                                            Pending
+                                            {{ $t('Pending') }}
                                         </option>
                                     </select>
                                 </div>
@@ -52,22 +52,22 @@
                                     <input type="text" class="form-control" v-model="quarry.keyword"
                                         placeholder="Searching customer name, phone, email, membership id, uid etc.">
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadCustomer()">
-                                            Search
+                                            {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearSearch()">
-                                            Clear
+                                            {{ $t('Clear') }}
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action
+                                            {{ $t('Action') }}
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
                                             <a class="dropdown-item" href="javascript:;">
-                                                Bulk Delete
+                                                {{ $t('Bulk Delete') }}
                                             </a>
                                         </div>
                                     </div>
@@ -85,27 +85,27 @@
                                                         data-checkbox-role="dad" class="custom-control-input"
                                                         id="checkbox-all">
                                                     <label for="checkbox-all" class="custom-control-label">
-                                                        SL No
+                                                        {{ $t('SL No') }}
                                                     </label>
                                                 </div>
                                             </th>
                                             <th>
-                                                Name
+                                                {{ $t('Name') }}
                                             </th>
                                             <th class="text-center">
-                                                Phone
+                                                {{ $t('Phone') }}
                                             </th>
                                             <th class="text-center">
-                                                Area
+                                                {{ $t('Area') }}
                                             </th>
                                             <th class="text-center">
-                                                Date
+                                                {{ $t('Date') }}
                                             </th>
                                             <th class="text-center">
-                                                Status
+                                                {{ $t('Status') }}
                                             </th>
                                             <th class="text-center">
-                                                Action
+                                                {{ $t('Action') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -150,23 +150,23 @@
                                                         <button class="dropdown-item"
                                                             @click="changeStatus(customer?.id, 'Active')" type="button"
                                                             v-if="customer?.status === 'Inactive' || customer?.status === 'Pending' || customer?.status === 'Blocked'">
-                                                            Make Active
+                                                            {{ $t('Make Active') }}
                                                         </button>
                                                         <button class="dropdown-item"
                                                             @click="changeStatus(customer?.id, 'Inactive')"
                                                             type="button"
                                                             v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
-                                                            Make Inactive
+                                                            {{ $t('Make Inactive') }}
                                                         </button>
                                                         <button class="dropdown-item"
                                                             @click="changeStatus(customer?.id, 'Blocked')" type="button"
                                                             v-if="customer?.status === 'Active' || customer?.status === 'Pending'">
-                                                            Block User
+                                                            {{ $t('Block User') }}
                                                         </button>
                                                         <button class="dropdown-item"
                                                             @click="changeStatus(customer?.id, 'Pending')" type="button"
                                                             v-if="customer?.status === 'Active'">
-                                                            Pending
+                                                            {{ $t('Pending') }}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -176,24 +176,24 @@
                                                     <button class="btn btn-primary dropdown-toggle" type="button"
                                                         id="dropdownMenuButton2" data-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
-                                                        Action
+                                                        {{ $t('Action') }}
                                                     </button>
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <a class="dropdown-item has-icon" href="javascript:;"
                                                             @click="viewCustomerInfo(customer?.id)">
                                                             <i class="fa fa-eye"></i>
-                                                            View
+                                                            {{ $t('View') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
                                                             @click="editCustomer(customer?.id)">
                                                             <i class="fas fa-pen"></i>
-                                                            Edit
+                                                            {{ $t('Edit') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
                                                             @click="deleteCustomer(customer?.id)">
                                                             <i class="fa fa-times"></i>
-                                                            Delete
+                                                            {{ $t('Delete') }}
                                                         </a>
                                                     </div>
                                                 </div>

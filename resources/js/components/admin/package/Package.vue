@@ -21,7 +21,7 @@
                                     <div class="input-group mb-3">
                                         <input type="date" class="form-control" @change="loadPackages()"
                                             placeholder="Start date" v-model="quarry.start_date">
-                                        <span class="input-group-text bg-success">To</span>
+                                        <span class="input-group-text bg-success">{{ $t('To') }}</span>
                                         <input type="date" class="form-control" @change="loadPackages()"
                                             placeholder="End Date" v-model="quarry.end_date">
                                     </div>

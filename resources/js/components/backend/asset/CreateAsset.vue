@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create Asset
+                            {{ $t('Create Asset') }}
                         </h5>
                         <a href="javascript:;" @click="closeCreateAsset()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -17,7 +17,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Date</label>
+                                        <label>{{ $t('Date') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -25,13 +25,13 @@
                                                 </div>
                                             </div>
                                             <input type="date" class="form-control" v-model="asset.date"
-                                                placeholder="Date">
+                                                :placeholder="$t('Date')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Asset Category</label>
+                                        <label>{{ $t('Asset Category') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Amount</label>
+                                        <label>{{ $t('Amount') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -57,26 +57,26 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="asset.address"
-                                                placeholder="Amount">
+                                                :placeholder="$t('Amount')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Note</label>
-                                        <textarea class="form-control" v-model="asset.note" placeholder="Note" cols="30"
-                                            rows="10"></textarea>
+                                        <label>{{ $t('Note') }}</label>
+                                        <textarea class="form-control" v-model="asset.note" :placeholder="$t('Note')"
+                                            cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeCreateAsset()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

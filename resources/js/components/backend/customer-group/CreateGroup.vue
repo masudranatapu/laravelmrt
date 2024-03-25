@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create New Group
+                            {{ $t('Create New Group') }}
                         </h5>
                         <a href="javascript:;" @click="closeCreateGroup()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Group Name
+                                            {{ $t('Group Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,14 +28,14 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="group.name"
-                                                placeholder="Group Name" required>
+                                                :placeholder="$t('Group Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Amount
+                                            {{ $t('Amount') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -45,7 +45,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" step="0.01" v-model="group.amount"
-                                                placeholder="Amount">
+                                                :placeholder="$t('Amount')">
                                         </div>
                                     </div>
                                 </div>
@@ -53,11 +53,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeCreateGroup()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

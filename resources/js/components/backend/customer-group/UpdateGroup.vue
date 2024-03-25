@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Edit Group
+                            {{ $t('Edit Group') }}
                         </h5>
                         <a href="javascript:;" @click="closeUpdateGroup()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Group Name
+                                            {{ $t('Group Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,14 +28,14 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="groupInfo.name"
-                                                placeholder="Group Name" required>
+                                                :placeholder="$t('Group Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Amount
+                                            {{ $t('Amount') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -45,14 +45,14 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" step="0.01"
-                                                v-model="groupInfo.amount" placeholder="Amount">
+                                                v-model="groupInfo.amount" :placeholder="$t('Amount')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Status
+                                            {{ $t('Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -63,10 +63,10 @@
                                             </div>
                                             <select class="form-control" v-model="groupInfo.status">
                                                 <option value="Active" :selected="groupInfo.status === 'Active'">
-                                                    Active
+                                                    {{ $t('Active') }}
                                                 </option>
                                                 <option value="Inactive" :selected="groupInfo.status === 'Inactive'">
-                                                    Inactive
+                                                    {{ $t('Inactive') }}
                                                 </option>
                                             </select>
                                         </div>
@@ -76,11 +76,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeUpdateGroup()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

@@ -5,12 +5,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Asset</h4>
+                            <h4>{{ $t('Asset') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
                                     <button type="button" class="btn btn-primary" @click="addAsset()">
                                         <i class="fa fa-plus"></i>
-                                        Add New Asset
+                                        {{ $t('Add New Asset') }}
                                     </button>
                                 </div>
                             </div>
@@ -19,32 +19,32 @@
                             <div class="row justify-content-center">
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.asset_category_id">
-                                        <option value="">All</option>
+                                        <option value="">{{ $t('All') }}</option>
                                         <option v-for="(category, index) in assetCategories" :value='category?.id'>
                                             {{ category?.asset_category_name }}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <input type="text" class="form-control" placeholder="Searching"
+                                    <input type="text" class="form-control" :placeholder="$t('Search')"
                                         v-model="quarry.keyword">
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadAsset()">
-                                            Search
+                                            {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearAssetCategories()">
-                                            Clear
+                                            {{ $t('Clear') }}
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action
+                                            {{ $t('Action') }}
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
                                             <a class="dropdown-item" href="javascript:;">
-                                                Delete
+                                                {{ $t('Delete') }}
                                             </a>
                                         </div>
                                     </div>
@@ -60,16 +60,16 @@
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
                                                     <input type="checkbox" class="custom-control-input" id="allGroup">
                                                     <label for="allGroup" class="custom-control-label">
-                                                        SL No
+                                                        {{ $t('SL No') }}
                                                     </label>
                                                 </div>
                                             </th>
-                                            <th class="text-center">Date</th>
-                                            <th class="text-center">Category</th>
-                                            <th class="text-center">Pay By</th>
-                                            <th class="text-center">Note</th>
-                                            <th class="text-center">Amount</th>
-                                            <th class="text-center">Action</th>
+                                            <th class="text-center">{{ $t('Date') }}</th>
+                                            <th class="text-center">{{ $t('Category') }}</th>
+                                            <th class="text-center">{{ $t('Pay By') }}</th>
+                                            <th class="text-center">{{ $t('Note') }}</th>
+                                            <th class="text-center">{{ $t('Amount') }}</th>
+                                            <th class="text-center">{{ $t('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

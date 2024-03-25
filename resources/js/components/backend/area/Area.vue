@@ -25,7 +25,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <input type="text" class="form-control" :placeholder="$t('Searching')"
+                                    <input type="text" class="form-control" :placeholder="$t('Search')"
                                         v-model="quarry.keyword">
                                 </div>
                                 <div class="form-group col-md-4">

@@ -36,7 +36,7 @@
                                     <div class="input-group">
                                         <input type="date" class="form-control" placeholder="Start date"
                                             @change="loadBusinesse()">
-                                        <span class="input-group-text bg-success">To</span>
+                                        <span class="input-group-text bg-success">{{ $t('To') }}</span>
                                         <input type="date" class="form-control" placeholder="End Date"
                                             @change="loadBusinesse()">
                                     </div>

@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Update Asset Category
+                            {{ $t('Update Asset Category') }}
                         </h5>
                         <a href="javascript:;" @click="closeUpdateAssetCategory()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Asset Category Name
+                                            {{ $t('Asset Category Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -29,14 +29,14 @@
                                             </div>
                                             <input type="text" class="form-control"
                                                 v-model="assetCategoryInfo.asset_category_name"
-                                                placeholder="Asset Category Name" required>
+                                                :placeholder="$t('Asset Category Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Status
+                                            {{ $t('Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -48,11 +48,11 @@
                                             <select class="form-control" v-model="assetCategoryInfo.status">
                                                 <option value="Active"
                                                     :selected="assetCategoryInfo.status === 'Active'">
-                                                    Active
+                                                    {{ $t('Active') }}
                                                 </option>
                                                 <option value="Inactive"
                                                     :selected="assetCategoryInfo.status === 'Inactive'">
-                                                    Inactive
+                                                    {{ $t('Inactive') }}
                                                 </option>
                                             </select>
                                         </div>
@@ -62,11 +62,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeUpdateAssetCategory()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>
