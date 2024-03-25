@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Edit Area
+                            {{ $t('Edit Area') }}
                         </h5>
                         <a href="javascript:;" @click="closeUpdateArea()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Area Name
+                                            {{ $t('Area Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,14 +28,14 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="areaInfo.name"
-                                                placeholder="Area Name" required>
+                                                :placeholder="$t('Area Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Status
+                                            {{ $t('Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -46,10 +46,10 @@
                                             </div>
                                             <select class="form-control" v-model="areaInfo.status">
                                                 <option value="Active" :selected="areaInfo.status === 'Active'">
-                                                    Active
+                                                    {{ $t('Active') }}
                                                 </option>
                                                 <option value="Inactive" :selected="areaInfo.status === 'Inactive'">
-                                                    Inactive
+                                                    {{ $t('Inactive') }}
                                                 </option>
                                             </select>
                                         </div>
@@ -59,11 +59,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeUpdateArea()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

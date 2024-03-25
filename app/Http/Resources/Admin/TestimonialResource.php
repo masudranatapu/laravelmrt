@@ -14,6 +14,15 @@ class TestimonialResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'designation' => $this->designation,
+            'image' => asset($this->image),
+            'review' => $this->review,
+            'rating' => $this->rating,
+            'status' => $this->status,
+            'create_by' => $this->createBy?->name,
+        ];
     }
 }

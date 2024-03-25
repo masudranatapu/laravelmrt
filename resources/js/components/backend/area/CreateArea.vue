@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create New Area
+                            {{ $t('Create New Area') }}
                         </h5>
                         <a href="javascript:;" @click="closeCreateArea()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Area Name
+                                            {{ $t('Area Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,7 +28,7 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="area.name"
-                                                placeholder="Area Name" required>
+                                                :placeholder="$t('Area Name')" required>
                                         </div>
                                     </div>
                                 </div>
@@ -36,11 +36,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeCreateArea()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>

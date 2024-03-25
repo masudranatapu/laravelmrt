@@ -1,25 +1,11 @@
 import "./bootstrap";
 // vue
 import { createApp } from "vue";
-import { createI18n } from "vue-i18n";
-// javascript
-
-// langs
-import enLang from "./langs/en";
-import bnLang from "./langs/bn";
-
 // toastr
 import "izitoast/dist/css/iziToast.min.css";
 import iziToast from "izitoast";
 import SweetAlert from "./sweetalert";
-
-const i18n = createI18n({
-    locale: "en",
-    messages: {
-        en: enLang,
-        bn: bnLang,
-    },
-});
+import i18n from "./languages";
 
 const app = createApp({});
 

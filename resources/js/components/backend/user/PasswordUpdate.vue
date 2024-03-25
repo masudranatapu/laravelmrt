@@ -2,13 +2,13 @@
     <div>
         <form @submit.prevent="updatePassword()">
             <div class="card-header">
-                <h4>Update Password</h4>
+                <h4>{{ $t('Update Password') }}</h4>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-md-12 col-sm-12">
                         <label>
-                            Old Password <span class="text-danger">*</span>
+                            {{ $t('Old Password') }} <span class="text-danger">*</span>
                         </label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                             <input :type="showOldPassword ? 'text' : 'password'" v-model="password.old_password"
-                                class="form-control" placeholder="Old Password">
+                                class="form-control" :placeholder="$t('Old Password')">
                             <div class="input-group-prepend" @click="passwordVisibility('old_pass')">
                                 <div class="input-group-text">
                                     <i :class="showOldPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>
-                            New Password <span class="text-danger">*</span>
+                            {{ $t('New Password') }} <span class="text-danger">*</span>
                         </label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <input :type="showNewPassword ? 'text' : 'password'" v-model="password.password"
-                                class="form-control" placeholder="New Password">
+                                class="form-control" :placeholder="$t('New Password')">
                             <div class="input-group-prepend" @click="passwordVisibility('new_pass')">
                                 <div class="input-group-text">
                                     <i :class="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>
-                            Confirm Password <span class="text-danger">*</span>
+                            {{ $t('Confirm Password') }} <span class="text-danger">*</span>
                         </label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -56,7 +56,7 @@
                             </div>
                             <input :type="showConfirmPassword ? 'text' : 'password'"
                                 v-model="password.password_confirmation" class="form-control"
-                                placeholder="Password Confirmation">
+                                :placeholder="$t('Confirm Password')">
                             <div class="input-group-prepend" @click="passwordVisibility('confirm_pass')">
                                 <div class="input-group-text">
                                     <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
@@ -68,11 +68,11 @@
             </div>
             <div class="card-footer text-right">
                 <button type="button" class="btn btn-warning mr-2" @click="clearFormValue()">
-                    Clear
+                    {{ $t('Clear') }}
                 </button>
                 <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                     :disabled="isButtonDisabled">
-                    Save Changes
+                    {{ $t('Save') }}
                 </button>
             </div>
         </form>

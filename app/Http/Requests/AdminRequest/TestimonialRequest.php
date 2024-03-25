@@ -24,7 +24,7 @@ class TestimonialRequest extends FormRequest
     {
         return [
             "name" => ["required", "min:3", "max:30"],
-            "designation" => ["required", "string", "max:30"],
+            "designation" => ["nullable", "string", "max:30"],
             "review" => ["required", "string", "max:400"],
             "rating" => ["required", "numeric", "in:1,2,3,4,5"],
             "status" => ["nullable", "in:Active,Inactive"],

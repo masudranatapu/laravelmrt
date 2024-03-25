@@ -11,4 +11,9 @@ class Testimonial extends Model
 
     protected $guarded = [];
 
+    public function createBy()
+    {
+        return $this->belongsTo(Admin::class, 'create_by');
+    }
+
 }
