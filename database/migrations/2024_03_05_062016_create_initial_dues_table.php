@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignIdFor(Supplier::class)->nullable();
             $table->date('date')->nullable();
             $table->double('amount', 14, 4)->default(0);
-            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

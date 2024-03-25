@@ -34,7 +34,6 @@ return new class extends Migration
             $table->double('paid_amount', 14, 4)->default(0);
             $table->enum('status', ['Active', 'Inactive', 'Blocked', 'Pending'])->default('Active');
             $table->date('date')->nullable();
-            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('branch_limit')->default(1);
             $table->text('setting_access')->nullable();
             $table->longText('description')->nullable();
-            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

@@ -23,7 +23,6 @@ return new class extends Migration
             $table->date('date');
             $table->double('amount', 14, 4)->default(0);
             $table->text('note')->nullable();
-            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }

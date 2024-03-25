@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignIdFor(Admin::class)->nullable();
             $table->string('name')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
-            $table->integer('create_by')->nullable();
             $table->timestamps();
         });
     }
