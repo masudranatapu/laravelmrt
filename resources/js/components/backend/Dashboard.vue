@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="row ">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="card">
@@ -9,9 +8,9 @@
                             <div class="row ">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                     <div class="card-content">
-                                        <h5 class="font-15">New Booking</h5>
+                                        <h5 class="font-15">{{ $t('New Booking') }}</h5>
                                         <h2 class="mb-3 font-18">258</h2>
-                                        <p class="mb-0"><span class="col-green">10%</span> Increase</p>
+                                        <p class="mb-0"><span class="col-green">10%</span> {{ $t('Increase') }}</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -96,7 +95,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Assign Task Table</h4>
+                        <h4 @click="currentLanguage()">Assign Task Table</h4>
                         <div class="card-header-form">
                             <form>
                                 <div class="input-group">
@@ -130,8 +129,8 @@
                                 <tr>
                                     <td class="p-0 text-center">
                                         <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                                id="checkbox-1">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-1">
                                             <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </td>
@@ -140,15 +139,18 @@
                                         <ul class="list-unstyled order-list m-b-0 m-b-0">
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-8.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian"></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian">
+                                            </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-9.png') }}" alt="user"
                                                     data-toggle="tooltip" title="" data-original-title="John Deo">
                                             </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-10.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith"></li>
-                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith">
+                                            </li>
+                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="align-middle">
@@ -167,8 +169,8 @@
                                 <tr>
                                     <td class="p-0 text-center">
                                         <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                                id="checkbox-2">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-2">
                                             <label for="checkbox-2" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </td>
@@ -177,12 +179,14 @@
                                         <ul class="list-unstyled order-list m-b-0 m-b-0">
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-1.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian"></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian">
+                                            </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-2.png') }}" alt="user"
                                                     data-toggle="tooltip" title="" data-original-title="John Deo">
                                             </li>
-                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+2</span></li>
+                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+2</span>
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="align-middle">
@@ -201,8 +205,8 @@
                                 <tr>
                                     <td class="p-0 text-center">
                                         <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                                id="checkbox-3">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-3">
                                             <label for="checkbox-3" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </td>
@@ -211,15 +215,18 @@
                                         <ul class="list-unstyled order-list m-b-0 m-b-0">
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-3.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian"></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian">
+                                            </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-4.png') }}" alt="user"
                                                     data-toggle="tooltip" title="" data-original-title="John Deo">
                                             </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-5.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith"></li>
-                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+3</span></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith">
+                                            </li>
+                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+3</span>
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="align-middle">
@@ -238,8 +245,8 @@
                                 <tr>
                                     <td class="p-0 text-center">
                                         <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                                id="checkbox-4">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-4">
                                             <label for="checkbox-4" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </td>
@@ -252,8 +259,10 @@
                                             </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-8.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith"></li>
-                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith">
+                                            </li>
+                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="align-middle">
@@ -272,8 +281,8 @@
                                 <tr>
                                     <td class="p-0 text-center">
                                         <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                                id="checkbox-5">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-5">
                                             <label for="checkbox-5" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </td>
@@ -282,15 +291,18 @@
                                         <ul class="list-unstyled order-list m-b-0 m-b-0">
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-9.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian"></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian">
+                                            </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-10.png') }}" alt="user"
                                                     data-toggle="tooltip" title="" data-original-title="John Deo">
                                             </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-2.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith"></li>
-                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+2</span></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith">
+                                            </li>
+                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+2</span>
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="align-middle">
@@ -309,8 +321,8 @@
                                 <tr>
                                     <td class="p-0 text-center">
                                         <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                                id="checkbox-6">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-6">
                                             <label for="checkbox-6" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </td>
@@ -319,15 +331,18 @@
                                         <ul class="list-unstyled order-list m-b-0 m-b-0">
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-8.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian"></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Wildan Ahdian">
+                                            </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-9.png') }}" alt="user"
                                                     data-toggle="tooltip" title="" data-original-title="John Deo">
                                             </li>
                                             <li class="team-member team-member-sm"><img class="rounded-circle"
                                                     src="{{ asset('backend/img/users/user-10.png') }}" alt="user"
-                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith"></li>
-                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span></li>
+                                                    data-toggle="tooltip" title="" data-original-title="Sarah Smith">
+                                            </li>
+                                            <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                            </li>
                                         </ul>
                                     </td>
                                     <td class="align-middle">
@@ -366,7 +381,7 @@
                                 <div class="badge badge-pill badge-success mb-1 float-right">Feature</div>
                                 <span class="font-weight-bold">#89754</span>
                                 <a href="javascript:void(0)">Please add advance table</a>
-                                <p class="my-1">Hi, can you please add new table for advan...</p>
+                                <p class="my-1">Hi, can you please add new table for ...</p>
                                 <small class="text-muted">Created by <span class="font-weight-bold font-13">John
                                         Deo</span>
                                     &nbsp;&nbsp; - 1 day ago</small>
@@ -504,9 +519,26 @@
 </template>
 
 <script>
-export default {
 
-}
+export default {
+    props: [],
+    data: function () {
+        return {
+
+        };
+    },
+    beforeMount() {
+
+    },
+    computed: {
+        currentLanguage() {
+            return this.$i18n.locale = 'bn';
+        }
+    },
+    methods: {
+
+    },
+};
 </script>
 
 <style lang="scss" scoped></style>

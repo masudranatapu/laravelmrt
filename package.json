@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "izitoast": "^1.4.0",
-        "sweetalert2": "^11.10.5"
+        "sweetalert2": "^11.10.5",
+        "vue-i18n": "^9.10.2"
     }
 }
