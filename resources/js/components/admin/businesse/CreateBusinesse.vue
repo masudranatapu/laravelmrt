@@ -21,7 +21,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Businesse Name
+                                                Business Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -30,15 +30,15 @@
                                                         <i class="fas fa-user"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" v-model="businesse.name"
-                                                    placeholder="Businesse Name" required>
+                                                <input type="text" class="form-control" v-model="business.name"
+                                                    placeholder="Business Name" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                Businesse Phone
+                                                Business Phone
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -47,8 +47,8 @@
                                                         <i class="fas fa-phone"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="businesse.phone"
-                                                    placeholder="Businesse Phone" required>
+                                                <input type="number" class="form-control" v-model="business.phone"
+                                                    placeholder="Business Phone" required>
                                             </div>
                                         </div>
                                     </div>
@@ -62,48 +62,48 @@
                                                     </div>
                                                 </div>
                                                 <input type="date" class="form-control"
-                                                    v-model="businesse.business_start_date"
+                                                    v-model="business.business_start_date"
                                                     placeholder="Business Start Date">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Businesse Email</label>
+                                            <label>Business Email</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
                                                         <i class="far fa-envelope"></i>
                                                     </div>
                                                 </div>
-                                                <input type="email" class="form-control" v-model="businesse.email"
-                                                    placeholder="Businesse Email">
+                                                <input type="email" class="form-control" v-model="business.email"
+                                                    placeholder="Business Email">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Businesse Logo</label>
+                                            <label>Business Logo</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
                                                         <i class="far fa-file-image"></i>
                                                     </div>
                                                 </div>
-                                                <input type="file" class="form-control" id="businesse_logo">
+                                                <input type="file" class="form-control" id="business_logo">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Businesse Favicon</label>
+                                            <label>Business Favicon</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
                                                         <i class="far fa-file-image"></i>
                                                     </div>
                                                 </div>
-                                                <input type="file" class="form-control" id="businesse_favicon">
+                                                <input type="file" class="form-control" id="business_favicon">
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                                         <i class="fas fa-location-arrow"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" v-model="businesse.city"
+                                                <input type="text" class="form-control" v-model="business.city"
                                                     placeholder="City">
                                             </div>
                                         </div>
@@ -130,7 +130,7 @@
                                                         <i class="fas fa-infinity"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" v-model="businesse.zip_code"
+                                                <input type="text" class="form-control" v-model="business.zip_code"
                                                     placeholder="Zip Code">
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@
                                                         <i class="fas fa-location-arrow"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" v-model="businesse.address"
+                                                <input type="text" class="form-control" v-model="business.address"
                                                     placeholder="Address">
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@
                                                         <i class="fas fa-user"></i>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" v-model="businesse.user_name"
+                                                <input type="text" class="form-control" v-model="business.user_name"
                                                     placeholder="User Name">
                                             </div>
                                         </div>
@@ -173,7 +173,7 @@
                                                     </div>
                                                 </div>
                                                 <input :type="showPassword ? 'text' : 'password'" class="form-control"
-                                                    v-model="businesse.password" placeholder="Password">
+                                                    v-model="business.password" placeholder="Password">
                                                 <div class="input-group-prepend" @click="passwordVisibility()">
                                                     <div class="input-group-text">
                                                         <i
@@ -195,10 +195,10 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="businesse.business_type_id"
+                                                <select class="form-control" v-model="business.business_type_id"
                                                     required>
                                                     <option value="">Select One</option>
-                                                    <option v-for="(busi_plan, index) in businesstype" :key="index"
+                                                    <option v-for="(busi_plan, index) in businessType" :key="index"
                                                         :value="busi_plan?.id">
                                                         {{ busi_plan?.business_type_name }}
                                                     </option>
@@ -218,10 +218,10 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="businesse.pricing_plan_id"
+                                                <select class="form-control" v-model="business.pricing_plan_id"
                                                     required>
                                                     <option value="">Select One</option>
-                                                    <option v-for="(plan, index) in pricingplans" :key="index"
+                                                    <option v-for="(plan, index) in pricingPlans" :key="index"
                                                         :value="plan?.id">
                                                         {{ plan?.month }}
                                                     </option>
@@ -241,7 +241,7 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="businesse.package_id" required>
+                                                <select class="form-control" v-model="business.package_id" required>
                                                     <option value="">Select One</option>
                                                     <option v-for="(pack_value, index) in packages" :key="index"
                                                         :value="pack_value?.id">
@@ -261,7 +261,7 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="businesse.zip_code"
+                                                <input type="number" class="form-control" v-model="business.zip_code"
                                                     placeholder="Monthly Service Charge">
                                             </div>
                                         </div>
@@ -275,7 +275,7 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="businesse.zip_code"
+                                                <input type="number" class="form-control" v-model="business.zip_code"
                                                     placeholder="Installment Fees">
                                             </div>
                                         </div>
@@ -289,7 +289,7 @@
                                                         <i class="fas fa-code-branch"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="businesse.zip_code"
+                                                <input type="number" class="form-control" v-model="business.zip_code"
                                                     placeholder="Zip Code">
                                             </div>
                                         </div>
@@ -304,7 +304,7 @@
                                                         <i class="fab fa-users"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="businesse.zip_code"
+                                                <input type="number" class="form-control" v-model="business.zip_code"
                                                     placeholder="User Limit">
                                             </div>
                                         </div>
@@ -318,7 +318,7 @@
                                                         <i class="fab fa-product-hunt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="businesse.zip_code"
+                                                <input type="number" class="form-control" v-model="business.zip_code"
                                                     placeholder="Product Limit">
                                             </div>
                                         </div>
@@ -332,7 +332,7 @@
                                         <div class="form-check">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input"
-                                                    v-model="businesse.access" :id="'optionCheck_' + index"
+                                                    v-model="business.access" :id="'optionCheck_' + index"
                                                     :value="index" />
                                                 <label :for="'optionCheck_' + index" class="custom-control-label">
                                                     {{ access }}
@@ -363,7 +363,7 @@
 
 <script>
 export default {
-    props: ["packages", "pricingplans", "businesstype"],
+    props: ["packages", "pricingPlans", "businessType"],
     data: function () {
         return {
             business: {

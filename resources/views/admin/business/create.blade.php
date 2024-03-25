@@ -3,5 +3,5 @@
 @section('title', 'Add New Business')
 
 @section('content')
-    <admin-businesse-create :packages="{{ $packages }}" :pricingplans="{{ $pricingPlans }}" :businesstype="{{ $businessType }}"></admin-businesse-create>
+    <admin-businesse-create :packages="{{ $packages }}" :pricingPlans="{{ $pricingPlans }}" :businessType="{{ $businessType }}"></admin-businesse-create>
 @endsection
