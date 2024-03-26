@@ -152,8 +152,8 @@ export default {
                 this.assetCategories = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
-                    title: 'Error',
-                    message: `Error fetching data for ${error}`,
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
                 });
             });
         },
@@ -166,8 +166,8 @@ export default {
                 $("#editAssetCategory").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
-                    title: 'Error',
-                    message: `Error fetching data for ${error}`,
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
                 });
             });
         },
@@ -176,26 +176,26 @@ export default {
         },
         deleteAssetCategory(id) {
             this.$swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
+                title: this.$t('Are you sure?'),
+                text: this.$t('You won\'t be able to revert this!'),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Delete it!',
-                cancelButtonText: 'No, Cancel',
+                confirmButtonText: this.$t('Yes, Delete it!'),
+                cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.get(`/asset-category/delete/${id}`).then((response) => {
                         this.isButtonDisabled = false;
                         if (response.data.status == true) {
                             this.$iziToast.success({
-                                title: 'Success',
-                                message: response.data.message,
+                                title: this.$t('Success'),
+                                message: this.$t(response.data.message),
                             });
                             this.loadAssetCategories();
                         } else {
                             this.$iziToast.error({
-                                title: 'Error',
-                                message: response.data.message,
+                                title: this.$t('Error'),
+                                message: this.$t(response.data.message),
                             });
                         }
                     }).catch((error) => {
@@ -204,14 +204,14 @@ export default {
                             Object.keys(errors).forEach((key) => {
                                 const value = errors[key];
                                 this.$iziToast.error({
-                                    title: 'Error',
+                                    title: this.$t('Error'),
                                     message: `${value}`,
                                 });
                             });
                         } else {
                             this.$iziToast.error({
-                                title: 'Error',
-                                message: 'An error occurred while processing your request.',
+                                title: this.$t('Error'),
+                                message: this.$t('An error occurred while processing your request.'),
                             });
                         }
                     });
@@ -235,14 +235,14 @@ export default {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
                     });
                     this.loadAssetCategories();
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
                     });
                 }
             }).catch((error) => {
@@ -251,14 +251,14 @@ export default {
                     Object.keys(errors).forEach((key) => {
                         const value = errors[key];
                         this.$iziToast.error({
-                            title: 'Error',
+                            title: this.$t('Error'),
                             message: `${value}`,
                         });
                     });
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: 'An error occurred while processing your request.',
+                        title: this.$t('Error'),
+                        message: this.$t('An error occurred while processing your request.'),
                     });
                 }
             });

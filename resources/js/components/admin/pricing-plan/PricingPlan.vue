@@ -5,12 +5,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Pricing Plan</h4>
+                            <h4>{{ $t('Pricing Plan') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
                                     <button type="button" class="btn btn-primary" @click="addPricingPlan()">
                                         <i class="fa fa-plus"></i>
-                                        Add New Pricing Plan
+                                        {{ $t('Add New Pricing Plan') }}
                                     </button>
                                 </div>
                             </div>
@@ -27,27 +27,27 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.type" @change="loadPricingPlan()">
-                                        <option value="">All</option>
-                                        <option value="Amount">Amount</option>
-                                        <option value="Percentage">Percentage</option>
+                                        <option value="">{{ $t('All') }}</option>
+                                        <option value="Amount">{{ $t('Amount') }}</option>
+                                        <option value="Percentage">{{ $t('Percentage') }}</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success" @click="loadPricingPlan()">
-                                            Search
+                                            {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearLoadPricingPlan()">
-                                            Clear
+                                            {{ $t('Clear') }}
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action
+                                            {{ $t('Action') }}
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
                                             <a class="dropdown-item" href="javascript:;">
-                                                Delete
+                                                {{ $t('Delete') }}
                                             </a>
                                         </div>
                                     </div>
@@ -63,15 +63,15 @@
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
                                                     <input type="checkbox" class="custom-control-input" id="allGroup">
                                                     <label for="allGroup" class="custom-control-label">
-                                                        SL No
+                                                        {{ $t('SL No') }}
                                                     </label>
                                                 </div>
                                             </th>
-                                            <th class="text-center">Month</th>
-                                            <th class="text-center">Discount Type</th>
-                                            <th class="text-center">Value</th>
-                                            <th class="text-center">Created By</th>
-                                            <th class="text-center">Action</th>
+                                            <th class="text-center">{{ $t('Month') }}</th>
+                                            <th class="text-center">{{ $t('Discount Type') }}</th>
+                                            <th class="text-center">{{ $t('Value') }}</th>
+                                            <th class="text-center">{{ $t('Created By') }}</th>
+                                            <th class="text-center">{{ $t('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,7 +89,7 @@
                                                 {{ plans?.month }} Month
                                             </td>
                                             <td class="text-center">
-                                                {{ plans?.discount_type }}
+                                                {{ $t(plans?.discount_type) }}
                                             </td>
                                             <td class="text-center">
                                                 {{ plans?.discount_value }}
@@ -156,8 +156,8 @@ export default {
                 this.pricingPlans = response.data.data;
             }).catch((error) => {
                 this.$iziToast.error({
-                    title: 'Error',
-                    message: `Error fetching data for ${error}`,
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
                 });
             });
         },
@@ -167,8 +167,8 @@ export default {
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: `Error fetching data for ${error}`,
+                        title: this.$t('Error'),
+                        message: this.$t(`Fetching data has error. Please try again.`),
                     });
                 }
             });
@@ -183,8 +183,8 @@ export default {
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: `Error fetching data for ${error}`,
+                        title: this.$t('Error'),
+                        message: this.$t(`Fetching data has error. Please try again.`),
                     });
                 }
             });
@@ -194,25 +194,25 @@ export default {
         },
         deletePricingPlan(id) {
             this.$swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
+                title: this.$t('Are you sure?'),
+                text: this.$t('You won\'t be able to revert this!'),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Delete it!',
-                cancelButtonText: 'No, Cancel',
+                confirmButtonText: this.$t('Yes, Delete it!'),
+                cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.get(`/admin/pricing-plans/delete/${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
-                                title: 'Success',
-                                message: response.data.message,
+                                title: this.$t('Success'),
+                                message: this.$t(response.data.message),
                             });
                             this.loadPricingPlan();
                         } else {
                             this.$iziToast.error({
-                                title: 'Error',
-                                message: response.data.message,
+                                title: this.$t('Error'),
+                                message: this.$t(response.data.message),
                             });
                         }
                     }).catch((error) => {
@@ -221,23 +221,23 @@ export default {
                             Object.keys(errors).forEach((key) => {
                                 const value = errors[key];
                                 this.$iziToast.error({
-                                    title: 'Error',
+                                    title: this.$t('Error'),
                                     message: `${value}`,
                                 });
                             });
                         } else {
                             this.$iziToast.error({
-                                title: 'Error',
-                                message: 'An error occurred while processing your request.',
+                                title: this.$t(this.$t('Error')),
+                                message: this.$t(this.$t('An error occurred while processing your request.')),
                             });
                         }
                     });
                 } else {
                     this.$iziToast.info({
-                        title: 'Cancelled',
-                        message: 'Your data is safe now :)',
+                        title: this.$t('Cancelled'),
+                        message: this.$t('Your data is safe now'),
                     });
-                    // this.$swal.fire('Your data is safe now :)');
+                    // this.$swal.fire(this.$t('Your data is safe now'));
                 }
             });
         },

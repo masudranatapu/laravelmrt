@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create Package
+                            {{ $t('Update Package') }}
                         </h5>
                         <a href="javascript:;" @click="closeUpdatePackage()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-8 offset-md-2">
                                     <div class="form-group">
                                         <label>
-                                            Name
+                                            {{ $t('Package Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,31 +28,14 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="packageEdit.title"
-                                                placeholder="Name" required>
+                                                :placeholder="$t('Package Name')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Monthly Service Charge
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-money-bill"></i>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control" v-model="packageEdit.monthly_service_charge"
-                                                placeholder="Monthly Service Charge" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            Installment Fee
+                                            {{ $t('Monthly Service Charge') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -62,14 +45,32 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control"
-                                                v-model="packageEdit.installment_fee" placeholder="Installment Fee">
+                                                v-model="packageEdit.monthly_service_charge"
+                                                :placeholder="$t('Monthly Service Charge')" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ $t('Installment Fee') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-money-bill"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control"
+                                                v-model="packageEdit.installment_fee" :placeholder="$t('Installment Fee')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            Branch Limit
+                                            {{ $t('Branch Limit') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -79,14 +80,14 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="packageEdit.branch_limit"
-                                                placeholder="Branch Limit">
+                                                :placeholder="$t('Branch Limit')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            User Limit
+                                            {{ $t('User Limit') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -96,14 +97,14 @@
                                                 </div>
                                             </div>
                                             <input type="numbar" class="form-control" v-model="packageEdit.user_limit"
-                                                placeholder="User Limit">
+                                                :placeholder="$t('User Limit')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            Product Limit
+                                            {{ $t('Product Limit') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -113,25 +114,25 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control"
-                                                v-model="packageEdit.product_limit" placeholder="Product Limit">
+                                                v-model="packageEdit.product_limit" :placeholder="$t('Product Limit')">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Description
+                                            {{ $t('Description') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" v-model="packageEdit.description"
-                                            placeholder="Description" cols="30" rows="10"></textarea>
+                                            :placeholder="$t('Description')" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 text-center my-3">
-                                    <h3>Business Access</h3>
+                                    <h3>{{ $t('Business Access') }}</h3>
                                 </div>
                                 <div class="col-md-3" v-for="(options, key) in accessOptions" :key="key">
                                     <div class="form-check">
@@ -149,11 +150,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeUpdatePackage()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>
@@ -182,8 +183,8 @@ export default {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
                     });
 
                     this.$emit('load-package');
@@ -191,8 +192,8 @@ export default {
                     $("#editPackage").modal('hide');
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
                     });
                 }
             }).catch((error) => {
@@ -201,7 +202,7 @@ export default {
                 Object.keys(errors).forEach((key) => {
                     const value = errors[key];
                     this.$iziToast.error({
-                        title: 'Error',
+                        title: this.$t('Error'),
                         message: `${value}`,
                     });
                 });

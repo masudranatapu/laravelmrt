@@ -18,7 +18,7 @@
                                 <div class="col-md-8 offset-md-2">
                                     <div class="form-group">
                                         <label>
-                                            {{ $t('Name') }}
+                                            {{ $t('Package Name') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,7 +28,7 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" v-model="package.title"
-                                                placeholder="Name" required>
+                                                :placeholder="$t('Package Name')" required>
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                             </div>
                                             <input type="number" class="form-control"
                                                 v-model="package.monthly_service_charge"
-                                                placeholder="Monthly Service Charge" required>
+                                                :placeholder="$t('Monthly Service Charge')" required>
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="package.installment_fee"
-                                                placeholder="Installment Fee">
+                                                :placeholder="$t('Installment Fee')">
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="package.branch_limit"
-                                                placeholder="Branch Limit">
+                                                :placeholder="$t('Branch Limit')">
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                                                 </div>
                                             </div>
                                             <input type="numbar" class="form-control" v-model="package.user_limit"
-                                                placeholder="User Limit">
+                                                :placeholder="$t('User Limit')">
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="package.product_limit"
-                                                placeholder="Product Limit">
+                                                :placeholder="$t('Product Limit')">
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" v-model="package.description"
-                                            placeholder="Description" cols="30" rows="10"></textarea>
+                                            :placeholder="$t('Description')" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -194,8 +194,8 @@ export default {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
                     });
 
                     this.$emit('load-package');
@@ -212,8 +212,8 @@ export default {
                     $("#createPackage").modal('hide');
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
                     });
                 }
             }).catch((error) => {
@@ -222,7 +222,7 @@ export default {
                 Object.keys(errors).forEach((key) => {
                     const value = errors[key];
                     this.$iziToast.error({
-                        title: 'Error',
+                        title: this.$t('Error'),
                         message: `${value}`,
                     });
                 });

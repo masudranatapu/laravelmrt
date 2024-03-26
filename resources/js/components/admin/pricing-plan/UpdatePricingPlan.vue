@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="modal fade" id="editPricingPlan" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editPricingPlan" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            Create New Pricing Plan
+                            {{ $t('Update Pricing Plan') }}
                         </h5>
                         <a href="javascript:;" @click="closePricingPlan()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Month
+                                            {{ $t('Month') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -28,14 +28,14 @@
                                                 </div>
                                             </div>
                                             <input type="number" v-model="pricingPlansEdit.month" class="form-control"
-                                                placeholder="Month" required>
+                                                :placeholder="$t('Month')" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Discount Type
+                                            {{ $t('Discount Type') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -48,11 +48,11 @@
                                                 v-model="pricingPlansEdit.discount_type">
                                                 <option value="Amount"
                                                     :selected="pricingPlansEdit.discount_type === 'Amount'">
-                                                    Amount
+                                                    {{ $t('Amount') }}
                                                 </option>
                                                 <option value="Percentage"
                                                     :selected="pricingPlansEdit.discount_type === 'Percentage'">
-                                                    Percentage
+                                                    {{ $t('Percentage') }}
                                                 </option>
                                             </select>
                                         </div>
@@ -61,7 +61,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Discount Value
+                                            {{ $t('Discount Value') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
@@ -71,7 +71,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control"
-                                                v-model="pricingPlansEdit.discount_value" placeholder="Value"
+                                                v-model="pricingPlansEdit.discount_value" :placeholder="$t('Value')"
                                                 @change="discountValueCheck()" required>
                                         </div>
                                     </div>
@@ -80,11 +80,11 @@
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closePricingPlan()">
-                                Close
+                                {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                                 :disabled="isButtonDisabled">
-                                Save
+                                {{ $t('Save') }}
                             </button>
                         </div>
                     </form>
@@ -112,7 +112,7 @@ export default {
                 if (this.pricingPlansEdit.discount_value > 100) {
                     this.pricingPlansEdit.discount_value = 0;
                     this.$iziToast.error({
-                        title: 'Error',
+                        title: this.$t('Error'),
                         message: 'Discount percentage cannot exceed 100%',
                     });
                 } else {
@@ -126,8 +126,8 @@ export default {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
                     });
                     this.$emit('load-pricing-plan');
                     $("#editPricingPlan").modal('hide');
@@ -136,8 +136,8 @@ export default {
                     this.pricingplan.discount_value = '';
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
                     });
                 }
             }).catch((error) => {
@@ -147,14 +147,14 @@ export default {
                     Object.keys(errors).forEach((key) => {
                         const value = errors[key];
                         this.$iziToast.error({
-                            title: 'Error',
+                            title: this.$t('Error'),
                             message: `${value}`,
                         });
                     });
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: 'An error occurred while processing your request.',
+                        title: this.$t('Error'),
+                        message: this.$t('An error occurred while processing your request.'),
                     });
                 }
             });

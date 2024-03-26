@@ -386,8 +386,8 @@ export default {
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: `Error fetching data for ${error}`,
+                        title: this.$t('Error'),
+                        message: this.$t(`Fetching data has error. Please try again.`),
                     });
                 }
             });

@@ -91,8 +91,8 @@ export default {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
                     });
                     this.$emit('load-business-type');
                     $("#createNewBusinessType").modal('hide');
@@ -100,8 +100,8 @@ export default {
                     this.businessType.access = "";
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
                     });
                 }
             }).catch((error) => {
@@ -111,14 +111,14 @@ export default {
                     Object.keys(errors).forEach((key) => {
                         const value = errors[key];
                         this.$iziToast.error({
-                            title: 'Error',
+                            title: this.$t('Error'),
                             message: `${value}`,
                         });
                     });
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: 'An error occurred while processing your request.',
+                        title: this.$t('Error'),
+                        message: this.$t('An error occurred while processing your request.'),
                     });
                 }
             });

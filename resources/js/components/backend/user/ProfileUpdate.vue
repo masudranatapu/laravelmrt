@@ -110,7 +110,7 @@ export default {
 
                 if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
                     this.$iziToast.error({
-                        title: 'Success',
+                        title: this.$t('Success'),
                         message: "Invalid Include Image File Extension",
                     });
                     $("#profileImage").val();
@@ -134,15 +134,15 @@ export default {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
-                        title: 'Success',
-                        message: response.data.message,
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
                     });
                     $("#profileImage").val('');
                     this.$emit('load-user');
                 } else {
                     this.$iziToast.error({
-                        title: 'Error',
-                        message: response.data.message,
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
                     });
                 }
             }).catch((error) => {
@@ -151,7 +151,7 @@ export default {
                 Object.keys(errors).forEach((key) => {
                     const value = errors[key];
                     this.$iziToast.error({
-                        title: 'Error',
+                        title: this.$t('Error'),
                         message: `${value}`,
                     });
                 });

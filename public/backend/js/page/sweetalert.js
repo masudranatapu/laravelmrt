@@ -31,7 +31,7 @@ $("#swal-6").click(function () {
     .then((willDelete) => {
       if (willDelete) {
         swal('Poof! Your imaginary file has been deleted!', {
-          icon: 'success',
+          icon: this.$t('Success'),
         });
       } else {
         swal('Your imaginary file is safe!');
