@@ -26,13 +26,13 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4>Personal Details</h4>
+                            <h4>{{ $t('Personal Details') }}</h4>
                         </div>
                         <div class="card-body">
                             <div class="py-4">
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Username
+                                        {{ $t('Username') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         {{ user?.username }}
@@ -40,7 +40,7 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Email
+                                        {{ $t('Email') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         <a :href="'mailto:' + user.email">{{ user?.email }}</a>
@@ -48,7 +48,7 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Phone
+                                        {{ $t('Phone') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         <a :href="'tel:' + user.phone">{{ user?.phone }}</a>
@@ -56,7 +56,7 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Address
+                                        {{ $t('Address') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         {{ user?.address }}
@@ -64,7 +64,7 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Gender
+                                        {{ $t('Gender') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         {{ user?.gender }}
@@ -72,7 +72,7 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Country
+                                        {{ $t('Country') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         {{ user?.country }}
@@ -80,7 +80,7 @@
                                 </p>
                                 <p class="clearfix">
                                     <span class="float-left">
-                                        Birthday
+                                        {{ $t('Birthday') }}
                                     </span>
                                     <span class="float-right text-muted">
                                         {{ user?.date_of_birth }}
@@ -98,14 +98,14 @@
                                     <a class="nav-link" :class="{ 'active': activeTab === 'profileUpdate' }"
                                         data-toggle="tab" href="#profileUpdate" role="tab"
                                         @click="changeTab('profileUpdate')">
-                                        Profile Update
+                                        {{ $t('Profile Update') }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" :class="{ 'active': activeTab === 'passwordUpdate' }"
                                         data-toggle="tab" href="#passwordUpdate" role="tab"
                                         @click="changeTab('passwordUpdate')">
-                                        Password
+                                        {{ $t('Password') }}
                                     </a>
                                 </li>
                             </ul>
@@ -114,8 +114,8 @@
                                     id="profileUpdate">
                                     <ProfileUpdate :userinfo="user" @load-user="refreshUser" />
                                 </div>
-                                <div class="tab-pane fade" :class="{ 'fade show active': activeTab === 'passwordUpdate' }"
-                                    id="passwordUpdate">
+                                <div class="tab-pane fade"
+                                    :class="{ 'fade show active': activeTab === 'passwordUpdate' }" id="passwordUpdate">
                                     <PasswordUpdate :userinfo="user" />
                                 </div>
                             </div>

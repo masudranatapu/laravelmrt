@@ -84,7 +84,7 @@ class TestimonialController extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => 'Testimonial successfully created'
+                'message' => 'Testimonial successfully updated'
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();

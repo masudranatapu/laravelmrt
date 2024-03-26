@@ -2,47 +2,52 @@
     <div>
         <form @submit.prevent="updateProfile()">
             <div class="card-header">
-                <h4>Edit Profile</h4>
+                <h4>{{ $t('Edit Profile') }}</h4>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-md-6 col-12">
-                        <label>Name</label>
-                        <input type="text" class="form-control" v-model="userinfo.name" placeholder="Name">
+                        <label>{{ $t('Name') }}</label>
+                        <input type="text" class="form-control" v-model="userinfo.name" :placeholder="$t('Name')">
                     </div>
                     <div class="form-group col-md-6 col-12">
-                        <label>User Name</label>
-                        <input type="text" class="form-control" v-model="userinfo.username" placeholder="Username">
+                        <label>{{ $t('User Name') }}</label>
+                        <input type="text" class="form-control" v-model="userinfo.username"
+                            :placeholder="$t('User Name')">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6 col-12">
-                        <label>Email</label>
-                        <input type="email" class="form-control" v-model="userinfo.email" placeholder="Email">
+                        <label>{{ $t('Email') }}</label>
+                        <input type="email" class="form-control" v-model="userinfo.email" :placeholder="$t('Email')">
                     </div>
                     <div class="form-group col-md-6 col-12">
-                        <label>Phone</label>
-                        <input type="number" class="form-control" v-model="userinfo.phone" placeholder="Phone">
+                        <label>{{ $t('Phone') }}</label>
+                        <input type="number" class="form-control" v-model="userinfo.phone" :placeholder="$t('Phone')">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 col-12">
                         <div class="form-group">
-                            <label>File <span class="text-success">(Image Ratio: 500X500)</span></label>
+                            <label>{{ $t('File') }} <span class="text-success">({{ $t('Image Ratio: 500X500') }})</span></label>
                             <input type="file" class="form-control" id="profileImage">
                         </div>
                     </div>
                     <div class="form-group col-md-4 col-12">
-                        <label>Gender</label>
+                        <label>{{ $t('Gender') }}</label>
                         <select class="form-control" v-model="userinfo.gender">
-                            <option value="Male" selected>Male</option>
-                            <option value="Female">Female</option>
+                            <option value="Male" :selected="userinfo.gender === 'Male'">
+                                {{ $t('Male') }}
+                            </option>
+                            <option value="Female" :selected="userinfo.gender === 'Female'">
+                                {{ $t('Female') }}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-12">
-                        <label>Date of Birth</label>
+                        <label>{{ $t('Date of Birth') }}</label>
                         <input type="date" class="form-control" v-model="userinfo.date_of_birth"
-                            placeholder="Date fo birth">
+                            :placeholder="$t('Date fo birth')">
                     </div>
                 </div>
                 <div class="row">
@@ -59,14 +64,14 @@
                         </select>
                     </div>
                     <div class="form-group col-md-8 col-12">
-                        <label>Address</label>
-                        <input type="text" class="form-control" v-model="userinfo.address" placeholder="Address">
+                        <label>{{ $t('Address') }}</label>
+                        <input type="text" class="form-control" v-model="userinfo.address" :placeholder="$t('Address')">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12">
-                        <label>Bio</label>
-                        <textarea class="form-control" placeholder="Bio"
+                        <label>{{ $t('Bio') }}</label>
+                        <textarea class="form-control" :placeholder="$t('Bio')"
                             v-model="userinfo.bio">{{ userinfo.bio }}</textarea>
                     </div>
                 </div>
@@ -74,7 +79,7 @@
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
                     :disabled="isButtonDisabled">
-                    Save Changes
+                    {{ $t('Save') }}
                 </button>
             </div>
         </form>
@@ -120,15 +125,15 @@ export default {
 
             }
 
-            formData.append("name", this.userinfo.name);
-            formData.append("username", this.userinfo.username);
-            formData.append("email", this.userinfo.email);
-            formData.append("phone", this.userinfo.phone);
-            formData.append("gender", this.userinfo.gender);
-            formData.append("date_of_birth", this.userinfo.date_of_birth);
-            formData.append("country", this.userinfo.country);
-            formData.append("address", this.userinfo.address);
-            formData.append("bio", this.userinfo.bio);
+            formData.append("name", this.userinfo.name ? this.userinfo.name : "");
+            formData.append("username", this.userinfo.username ? this.userinfo.username : "");
+            formData.append("email", this.userinfo.email ? this.userinfo.email : "");
+            formData.append("phone", this.userinfo.phone ? this.userinfo.phone : "");
+            formData.append("gender", this.userinfo.gender ? this.userinfo.gender : "");
+            formData.append("date_of_birth", this.userinfo.date_of_birth ? this.userinfo.date_of_birth : "");
+            formData.append("country", this.userinfo.country ? this.userinfo.country : "");
+            formData.append("address", this.userinfo.address ? this.userinfo.address : "");
+            formData.append("bio", this.userinfo.bio ? this.userinfo.bio : "");
             formData.append("_method", "POST");
             axios.post(`/admin/profile-update/${this.userinfo.id}`, formData).then((response) => {
                 this.isButtonDisabled = false;

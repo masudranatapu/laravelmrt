@@ -22,8 +22,8 @@ class AreaController extends Controller
         try {
             $areas = Area::query()
                 // ->where('bu')
-                ->when($request->keyword, fn($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
+                ->when($request->keyword, fn ($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
                 ->get();
             return AreaResource::collection($areas);
         } catch (\Throwable $th) {
@@ -88,7 +88,7 @@ class AreaController extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Area Successfully Update",
+                'message' => "Area Successfully Updated",
             ]);
         } catch (\Throwable $th) {
             DB::rollback();

@@ -110,7 +110,7 @@ export default {
                     this.pricingplan.discount_value = 0;
                     this.$iziToast.error({
                         title: this.$t('Error'),
-                        message: 'Discount percentage cannot exceed 100%',
+                        message: this.$t('Discount percentage cannot exceed 100%'),
                     });
                 } else {
                     return true;

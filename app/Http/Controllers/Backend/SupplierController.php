@@ -21,14 +21,14 @@ class SupplierController extends Controller
     public function supplierList(Request $request)
     {
         try {
-            $customer = Supplier::query()
+            $sppliers = Supplier::query()
                 // ->where()
                 ->with([
-                    'supplierInitialDue' => fn ($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
+                    'supplierInitialDue' => fn ($q) => $q->select('id', 'business_id', 'supplier_id', 'amount')->get(),
                 ])
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
                 ->get();
-            return SupplierResource::collection($customer);
+            return SupplierResource::collection($sppliers);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -88,10 +88,10 @@ class SupplierController extends Controller
     public function edit($id)
     {
         try {
-            $customer = Supplier::query()
+            $sppliers = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            return new SupplierResource($customer);
+            return new SupplierResource($sppliers);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -155,10 +155,10 @@ class SupplierController extends Controller
     public function view($id)
     {
         try {
-            $customer = Supplier::query()
+            $supplier = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            return new SupplierResource($customer);
+            return new SupplierResource($supplier);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -171,15 +171,15 @@ class SupplierController extends Controller
         try {
             DB::beginTransaction();
             $request = request();
-            $customer = Supplier::query()
+            $supplier = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            $customer->status = $request->status;
-            $customer->save();
+            $supplier->status = $request->status;
+            $supplier->save();
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => "Customer $customer->status Successfully Done",
+                'message' => "Supplier $supplier->status Successfully Done",
             ]);
         } catch (\Throwable $th) {
             return response()->json([

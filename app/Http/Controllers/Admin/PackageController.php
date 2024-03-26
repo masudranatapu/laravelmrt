@@ -93,7 +93,7 @@ class PackageController extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => 'Package Successfully Created',
+                'message' => 'Package Successfully Updated',
             ]);
         } catch (\Throwable $th) {
             DB::rollback();
