@@ -178,7 +178,8 @@
                                                     v-model="business.password" :placeholder="$t('Password')">
                                                 <div class="input-group-prepend" @click="passwordVisibility()">
                                                     <div class="input-group-text">
-                                                        <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                                        <i
+                                                            :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,7 +261,8 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.service_charge"
+                                                <input type="number" class="form-control"
+                                                    v-model="business.service_charge"
                                                     :placeholder="$t('Monthly Service Charge')">
                                             </div>
                                         </div>
@@ -288,7 +290,8 @@
                                                         <i class="fas fa-code-branch"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.branch_limit"
+                                                <input type="number" class="form-control"
+                                                    v-model="business.branch_limit"
                                                     :placeholder="$t('Business Branch Limit')">
                                             </div>
                                         </div>
@@ -317,8 +320,8 @@
                                                         <i class="fab fa-product-hunt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.product_limit"
-                                                    :placeholder="$t('Product Limit')">
+                                                <input type="number" class="form-control"
+                                                    v-model="business.product_limit" :placeholder="$t('Product Limit')">
                                             </div>
                                         </div>
                                     </div>
@@ -396,14 +399,10 @@ export default {
             var formData = new FormData();
 
             var businessLogo = $("#business_logo")[0].files;
-            var businessFavicon = $("#business_favicon")[0].files;
 
-            console.log(businessFavicon, businessLogo);
+            if (businessLogo.length > 0) {
 
-
-            if (businessFavicon.length > 0) {
-
-                var name = businessFavicon[0].name;
+                var name = businessLogo[0].name;
 
                 var extension = name.split('.').pop().toLowerCase();
 
@@ -412,16 +411,47 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t("Invalid Include Image File Extension"),
                     });
-                    $("#business_favicon").val();
+                    $("#business_logo").val();
                 } else {
-                    formData.append("logo", businessFavicon[0]);
+                    formData.append("logo", businessLogo[0]);
                 }
 
             } else {
-                formData.append("icon", '');
+                formData.append("image", '');
             }
 
-            console.log(formData);
+            formData.append('name', this.business.name ? this.business.name : '');
+            formData.append('phone', this.business.phone ? this.business.phone : '');
+            formData.append('business_start_date', this.business.business_start_date ? this.business.business_start_date : '');
+            formData.append('email', this.business.email ? this.business.email : '');
+            formData.append('city', this.business.city ? this.business.city : '');
+            formData.append('zip_code', this.business.zip_code ? this.business.zip_code : '');
+            formData.append('address', this.business.address ? this.business.address : '');
+            formData.append('user_name', this.business.user_name ? this.business.user_name : '');
+            formData.append('password', this.business.password ? this.business.password : '');
+            formData.append('business_type_id', this.business.business_type_id ? this.business.business_type_id : '');
+            formData.append('pricing_plan_id', this.business.pricing_plan_id ? this.business.pricing_plan_id : '');
+            formData.append('package_id', this.business.package_id ? this.business.package_id : '');
+            formData.append('service_charge', this.business.service_charge ? this.business.service_charge : '');
+            formData.append('fees', this.business.fees ? this.business.fees : '');
+            formData.append('branch_limit', this.business.branch_limit ? this.business.branch_limit : '');
+            formData.append('user_limit', this.business.user_limit ? this.business.user_limit : '');
+            formData.append('product_limit', this.business.product_limit ? this.business.product_limit : '');
+            formData.append('access', this.business.access ? this.business.access : '');
+
+            axios.post(`/admin/businesses/store`, formData).then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                this.isButtonDisabled = false;
+                let errors = error.response.data.errors;
+                Object.keys(errors).forEach((key) => {
+                    const value = errors[key];
+                    this.$iziToast.error({
+                        title: this.$t('Error'),
+                        message: `${value}`,
+                    });
+                });
+            });
         },
         cancelNewBusiness() {
             this.isButtonDisabled = false;

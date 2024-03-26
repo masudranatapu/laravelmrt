@@ -56,9 +56,9 @@ class AdminBusinessController extends Controller
         return view("admin.business.create", compact("packages", "pricingPlans", "businessType"));
     }
 
-
     public function store(BusinessRequest $request)
     {
+        dd($request->all());
         try {
             DB::beginTransaction();
             // create business user
