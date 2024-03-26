@@ -13,6 +13,7 @@ use App\Models\Package;
 use App\Models\PricingPlan;
 use App\Models\Supplier;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -60,35 +61,15 @@ class AdminBusinessController extends Controller
     {
         try {
             DB::beginTransaction();
-            $business = new Business();
-            $business->admin_id = adminUser()->id;
-            $business->package_id = $request->package_id;
-            $business->pricing_plan_id = $request->pricing_plan_id;
-            $business->business_type_id = $request->business_type_id;
-            $business->type = 'Owner';
-            $business->name = $request->name;
-            $business->email = $request->email;
-            $business->logo = $request->logo;
-            $business->favicon = $request->favicon;
-            $business->address = $request->address;
-            $business->zip_code = $request->zip_code;
-            $business->area = $request->area;
-            $business->city = $request->city;
-            $business->country = $request->country;
-            $business->phone = $request->phone;
-            $business->website = $request->website;
-            $business->start_date = date('Y-m-d', strtotime($request->start_date));
-            $business->validity_start = date('Y-m-d', strtotime($request->validity_start));
-            $business->fees = $request->fees;
-            $business->service_charge = $request->service_charge;
-            $business->branch_limit = $request->branch_limit;
-            $business->user_limit = $request->user_limit;
-            $business->product_limit = $request->product_limit;
-            $business->status = $request->status;
-            $business->business_access = $request->business_access ? json_encode($request->business_access) : [];
-            $business->save();
             // create business user
-            $this->createUser($business, $request);
+            $user = $this->createUser($request);
+
+            $business = $this->createBusiness($request, $user);
+            // create guest customer
+            $this->guestCustomer($business);
+            // create guest supplier
+            $this->guestSupplier($business);
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -99,34 +80,72 @@ class AdminBusinessController extends Controller
         }
     }
 
-    public function createUser($business, $request)
+    public function createBusiness($request)
+    {
+        $business = new Business();
+        $business->admin_id = adminUser()->id;
+        $business->package_id = $request->package_id;
+        $business->pricing_plan_id = $request->pricing_plan_id;
+        $business->business_type_id = $request->business_type_id;
+        $business->type = 'Owner';
+        $business->name = $request->name;
+        $business->email = $request->email;
+        $business->logo = $request->logo;
+        $business->favicon = $request->favicon;
+        $business->address = $request->address;
+        $business->zip_code = $request->zip_code;
+        $business->area = $request->area;
+        $business->city = $request->city;
+        $business->country = $request->country;
+        $business->phone = $request->phone;
+        $business->website = $request->website;
+        $business->start_date = date('Y-m-d', strtotime($request->start_date));
+        $business->validity_start = date('Y-m-d', strtotime($request->validity_start));
+        $business->fees = $request->fees;
+        $business->service_charge = $request->service_charge;
+        $business->branch_limit = $request->branch_limit;
+        $business->user_limit = $request->user_limit;
+        $business->product_limit = $request->product_limit;
+        $business->status = $request->status;
+        $business->business_access = $request->business_access ? json_encode($request->business_access) : [];
+        $business->save();
+
+        return $business;
+    }
+
+    public function createUser($request)
     {
         $user = new User();
-        $user->business_id = $business->id;
-
         $user->status = 'Active';
         $user->save();
         return $user;
     }
 
-    public function guestCustomer($business, $request)
+    public function guestCustomer($business)
     {
         $customer = new Customer();
         $customer->business_id = $business->id;
-
+        $customer->name = "Guest";
+        $customer->email = "guest@guest.com";
+        $customer->phone = "0123";
+        $customer->gender = "Male";
+        $customer->date_of_birth = Carbon::now();
+        $customer->date = Carbon::now();
         $customer->status = 'Active';
         $customer->save();
         return $customer;
     }
 
-    public function guestSupplier($business, $request)
+    public function guestSupplier($business)
     {
         $supplier = new Supplier();
         $supplier->business_id = $business->id;
-        $supplier->admin_id = adminUser()->id;
-        $supplier->name = $request->name;
-        $supplier->password = Hash::make($request->password);
-        $supplier->package_id = $request->package_id;
+        $supplier->name = "Guest";
+        $supplier->email = "guest@guest.com";
+        $supplier->phone = "0123";
+        $supplier->gender = "Male";
+        $supplier->date_of_birth = Carbon::now();
+        $supplier->date = Carbon::now();
         $supplier->status = 'Active';
         $supplier->save();
         return $supplier;

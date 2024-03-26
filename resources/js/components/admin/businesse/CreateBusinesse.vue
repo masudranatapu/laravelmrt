@@ -90,7 +90,8 @@
                                                         <i class="far fa-file-image"></i>
                                                     </div>
                                                 </div>
-                                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="business_logo">
+                                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp"
+                                                    class="form-control" id="business_logo">
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +104,8 @@
                                                         <i class="far fa-file-image"></i>
                                                     </div>
                                                 </div>
-                                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="business_favicon">
+                                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp"
+                                                    class="form-control" id="business_favicon">
                                             </div>
                                         </div>
                                     </div>
@@ -176,8 +178,7 @@
                                                     v-model="business.password" :placeholder="$t('Password')">
                                                 <div class="input-group-prepend" @click="passwordVisibility()">
                                                     <div class="input-group-text">
-                                                        <i
-                                                            :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                                        <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -259,7 +260,7 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.zip_code"
+                                                <input type="number" class="form-control" v-model="business.service_charge"
                                                     :placeholder="$t('Monthly Service Charge')">
                                             </div>
                                         </div>
@@ -273,7 +274,7 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.zip_code"
+                                                <input type="number" class="form-control" v-model="business.fees"
                                                     :placeholder="$t('Installment Fees')">
                                             </div>
                                         </div>
@@ -287,8 +288,8 @@
                                                         <i class="fas fa-code-branch"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.zip_code"
-                                                    :placeholder="$t('Zip Code')">
+                                                <input type="number" class="form-control" v-model="business.branch_limit"
+                                                    :placeholder="$t('Business Branch Limit')">
                                             </div>
                                         </div>
                                     </div>
@@ -302,7 +303,7 @@
                                                         <i class="fab fa-users"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.zip_code"
+                                                <input type="number" class="form-control" v-model="business.user_limit"
                                                     :placeholder="$t('User Limit')">
                                             </div>
                                         </div>
@@ -316,7 +317,7 @@
                                                         <i class="fab fa-product-hunt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.zip_code"
+                                                <input type="number" class="form-control" v-model="business.product_limit"
                                                     :placeholder="$t('Product Limit')">
                                             </div>
                                         </div>
@@ -397,25 +398,8 @@ export default {
             var businessLogo = $("#business_logo")[0].files;
             var businessFavicon = $("#business_favicon")[0].files;
 
-            if (businessLogo.length > 0) {
+            console.log(businessFavicon, businessLogo);
 
-                var name = businessLogo[0].name;
-
-                var extension = name.split('.').pop().toLowerCase();
-
-                if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
-                    this.$iziToast.error({
-                        title: this.$t('Success'),
-                        message: this.$t("Invalid Include Image File Extension"),
-                    });
-                    $("#business_logo").val();
-                } else {
-                    formData.append("logo", businessLogo[0]);
-                }
-
-            } else {
-                formData.append("logo", '');
-            }
 
             if (businessFavicon.length > 0) {
 
