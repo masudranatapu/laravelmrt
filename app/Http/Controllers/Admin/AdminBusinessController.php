@@ -80,14 +80,16 @@ class AdminBusinessController extends Controller
         }
     }
 
-    public function createBusiness($request)
+    public function createBusiness($request, $user)
     {
         $business = new Business();
+        $business->user_id = $user->id;
         $business->admin_id = adminUser()->id;
+        $business->business_id = $request->sub_business_id ? $request->sub_business_id : null;
         $business->package_id = $request->package_id;
         $business->pricing_plan_id = $request->pricing_plan_id;
         $business->business_type_id = $request->business_type_id;
-        $business->type = 'Owner';
+        $business->type = $request->sub_business_id ? 'Branch' : 'Owner';
         $business->name = $request->name;
         $business->email = $request->email;
         $business->logo = $request->logo;
@@ -101,12 +103,13 @@ class AdminBusinessController extends Controller
         $business->website = $request->website;
         $business->start_date = date('Y-m-d', strtotime($request->start_date));
         $business->validity_start = date('Y-m-d', strtotime($request->validity_start));
+        $business->validity = date('Y-m-d', strtotime($request->validity));
         $business->fees = $request->fees;
         $business->service_charge = $request->service_charge;
         $business->branch_limit = $request->branch_limit;
         $business->user_limit = $request->user_limit;
         $business->product_limit = $request->product_limit;
-        $business->status = $request->status;
+        $business->status = 'Active';
         $business->business_access = $request->business_access ? json_encode($request->business_access) : [];
         $business->save();
 
