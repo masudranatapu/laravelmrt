@@ -97,7 +97,7 @@ export default {
                     this.$emit('load-business-type');
                     $("#createNewBusinessType").modal('hide');
                     this.businessType.business_type_name = "";
-                    this.businessType.access = "";
+                    this.businessType.access = [];
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),

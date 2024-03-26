@@ -188,7 +188,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                {{ $t('Pricing Plans') }}
+                                                {{ $t('Business Type') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -197,9 +197,10 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.business_type_id">
+                                                <select class="form-control" v-model="business.business_type_id"
+                                                    @change="businessTypeValue()">
                                                     <option value="">Select One</option>
-                                                    <option v-for="(busi_plan, index) in businessType" :key="index"
+                                                    <option v-for="(busi_plan, index) in business_types" :key="index"
                                                         :value="busi_plan?.id">
                                                         {{ busi_plan?.business_type_name }}
                                                     </option>
@@ -219,9 +220,10 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.pricing_plan_id">
+                                                <select class="form-control" v-model="business.pricing_plan_id"
+                                                    @change="pricingValue()">
                                                     <option value="">Select One</option>
-                                                    <option v-for="(plan, index) in pricingPlans" :key="index"
+                                                    <option v-for="(plan, index) in pricing_plans" :key="index"
                                                         :value="plan?.id">
                                                         {{ plan?.month }}
                                                     </option>
@@ -241,7 +243,8 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.package_id">
+                                                <select class="form-control" v-model="business.package_id"
+                                                    @change="packageValue()">
                                                     <option value="">Select One</option>
                                                     <option v-for="(pack_value, index) in packages" :key="index"
                                                         :value="pack_value?.id">
@@ -261,7 +264,7 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control"
+                                                <input type="number" min="1" class="form-control"
                                                     v-model="business.service_charge"
                                                     :placeholder="$t('Monthly Service Charge')">
                                             </div>
@@ -276,8 +279,8 @@
                                                         <i class="fas fa-money-bill-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.fees"
-                                                    :placeholder="$t('Installment Fees')">
+                                                <input type="number" min="1" class="form-control"
+                                                    v-model="business.fees" :placeholder="$t('Installment Fees')">
                                             </div>
                                         </div>
                                     </div>
@@ -290,7 +293,7 @@
                                                         <i class="fas fa-code-branch"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control"
+                                                <input type="number" min="1" class="form-control"
                                                     v-model="business.branch_limit"
                                                     :placeholder="$t('Business Branch Limit')">
                                             </div>
@@ -306,8 +309,8 @@
                                                         <i class="fab fa-users"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control" v-model="business.user_limit"
-                                                    :placeholder="$t('User Limit')">
+                                                <input type="number" min="1" class="form-control"
+                                                    v-model="business.user_limit" :placeholder="$t('User Limit')">
                                             </div>
                                         </div>
                                     </div>
@@ -320,7 +323,7 @@
                                                         <i class="fab fa-product-hunt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="number" class="form-control"
+                                                <input type="number" min="1" class="form-control"
                                                     v-model="business.product_limit" :placeholder="$t('Product Limit')">
                                             </div>
                                         </div>
@@ -334,13 +337,46 @@
                                         <div class="form-check">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input"
-                                                    v-model="business.access" :id="'optionCheck_' + index"
+                                                    v-model="business.option_access" :id="'optionCheck_' + index"
                                                     :value="index" />
                                                 <label :for="'optionCheck_' + index" class="custom-control-label">
                                                     {{ access }}
                                                 </label>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12 my-3">
+                                        <h3>
+                                            {{ $t('Price and Cost') }}
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-3 my-3">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                Total Service Charge
+                                                <span class="badge badge-primary badge-pill">
+                                                    {{ total_service_charge }} TK
+                                                </span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                Total Discount
+                                                <span class="badge badge-primary badge-pill">
+                                                    {{ total_discount }} %
+                                                </span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                After Discount
+                                                <span class="badge badge-primary badge-pill">
+                                                    {{ after_discount }} TK
+                                                </span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                Total Amount
+                                                <span class="badge badge-primary badge-pill">
+                                                    {{ total_amount }} TK
+                                                </span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -365,14 +401,34 @@
 
 <script>
 export default {
-    props: ["packages", "pricingPlans", "businessType"],
+    props: ["packages", "pricing_plans", "business_types"],
     data: function () {
         return {
             business: {
                 name: '',
-                access: [],
+                phone: '',
+                business_start_date: '',
+                email: '',
+                city: '',
+                zip_code: '',
+                address: '',
+                user_name: '',
+                password: '',
+                business_type_id: '',
+                pricing_plan_id: '',
+                package_id: '',
+                service_charge: '',
+                fees: '',
+                branch_limit: '',
+                user_limit: '',
+                product_limit: '',
+                option_access: [],
             },
             accessOptions: {},
+            total_service_charge: 0,
+            total_discount: 0,
+            after_discount: 0,
+            total_amount: 0,
             showPassword: false,
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
@@ -399,12 +455,13 @@ export default {
             var formData = new FormData();
 
             var businessLogo = $("#business_logo")[0].files;
+            var businessFavicon = $("#business_favicon")[0].files;
 
             if (businessLogo.length > 0) {
 
-                var name = businessLogo[0].name;
+                var nameLogo = businessLogo[0].name;
 
-                var extension = name.split('.').pop().toLowerCase();
+                var extension = nameLogo.split('.').pop().toLowerCase();
 
                 if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
                     this.$iziToast.error({
@@ -417,7 +474,27 @@ export default {
                 }
 
             } else {
-                formData.append("image", '');
+                formData.append("logo", '');
+            }
+
+            if (businessFavicon.length > 0) {
+
+                var nameFavicon = businessFavicon[0].name;
+
+                var extension = nameFavicon.split('.').pop().toLowerCase();
+
+                if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
+                    this.$iziToast.error({
+                        title: this.$t('Success'),
+                        message: this.$t("Invalid Include Image File Extension"),
+                    });
+                    $("#business_favicon").val();
+                } else {
+                    formData.append("favicon", businessFavicon[0]);
+                }
+
+            } else {
+                formData.append("favicon", '');
             }
 
             formData.append('name', this.business.name ? this.business.name : '');
@@ -437,7 +514,7 @@ export default {
             formData.append('branch_limit', this.business.branch_limit ? this.business.branch_limit : '');
             formData.append('user_limit', this.business.user_limit ? this.business.user_limit : '');
             formData.append('product_limit', this.business.product_limit ? this.business.product_limit : '');
-            formData.append('access', this.business.access ? this.business.access : '');
+            formData.append('option_access', this.business.option_access ? this.business.option_access : '');
 
             axios.post(`/admin/businesses/store`, formData).then((response) => {
                 console.log(response);

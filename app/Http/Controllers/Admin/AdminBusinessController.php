@@ -110,7 +110,7 @@ class AdminBusinessController extends Controller
         $business->user_limit = $request->user_limit;
         $business->product_limit = $request->product_limit;
         $business->status = 'Active';
-        $business->business_access = $request->business_access ? json_encode($request->business_access) : [];
+        $business->business_access = $request->option_access ? json_encode($request->option_access) : [];
         $business->save();
 
         return $business;

@@ -96,7 +96,7 @@
                                                     <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
-                                            <input type="numbar" class="form-control" v-model="package.user_limit"
+                                            <input type="number" class="form-control" v-model="package.user_limit"
                                                 :placeholder="$t('User Limit')">
                                         </div>
                                     </div>
@@ -207,7 +207,7 @@ export default {
                     this.package.user_limit = "";
                     this.package.product_limit = "";
                     this.package.description = ""
-                    this.package.setting_access = '';
+                    this.package.setting_access = [];
 
                     $("#createPackage").modal('hide');
                 } else {
