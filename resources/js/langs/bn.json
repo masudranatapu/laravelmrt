@@ -84,6 +84,7 @@
     "Update Asset Category": "সম্পদ বিভাগ আপডেট করুন",
     "Business List": "ব্যবসার তালিকা",
     "Add New Business": "নতুন ব্যবসা যোগ করুন",
+    "Business": "ব্যবসা",
     "Business Name": "প্রাতিষ্ঠানিক নাম",
     "Progress": "অগ্রগতি",
     "Members": "সদস্যরা",
@@ -190,5 +191,9 @@
     "Supplier Successfully Deleted": "সরবরাহকারী সফলভাবে মুছে ফেলা হয়েছে৷",
     "Discount percentage cannot exceed 100%": "ডিসকাউন্ট শতাংশ ১০০% অতিক্রম করা যাবে না",
     "Image Ratio: 500X500": "ছবির অনুপাত: ৫০০X৫০০",
+    "Invalid Include Image File Extension" : "অবৈধ ইনক্লুড ইমেজ ফাইল এক্সটেনশন",
+    "Cancel": "বাতিল করুন",
+
+
     "add_new": "add_new"
 }

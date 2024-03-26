@@ -84,6 +84,7 @@
     "Update Asset Category": "Update Asset Category",
     "Business List": "Business List",
     "Add New Business": "Add New Business",
+    "Business": "Business",
     "Business Name": "Business Name",
     "Progress": "Progress",
     "Members": "Members",
@@ -136,6 +137,7 @@
     "Yes, Delete it!": "Yes, Delete it!",
     "No, Cancel": "No, Cancel",
     "Cancelled": "Cancelled",
+    "Cancel": "Cancel",
     "Your data is safe now": "Your data is safe now",
     "Error": "Error",
     "Success": "Success",
@@ -190,7 +192,9 @@
     "Supplier Active Successfully Done": "Supplier Active Successfully Done",
     "Supplier Inactive Successfully Done": "Supplier Inactive Successfully Done",
     "Supplier Successfully Deleted": "Supplier Successfully Deleted",
-    "Discount percentage cannot exceed 100%" : "Discount percentage cannot exceed 100%",
-    "Image Ratio: 500X500" : "Image Ratio: 500X500",
+    "Discount percentage cannot exceed 100%": "Discount percentage cannot exceed 100%",
+    "Image Ratio: 500X500": "Image Ratio: 500X500",
+    "Invalid Include Image File Extension" : "Invalid Include Image File Extension",
+
     "add_new": "add_new"
 }

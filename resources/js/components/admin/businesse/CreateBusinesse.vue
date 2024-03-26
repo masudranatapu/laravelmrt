@@ -21,7 +21,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                {{ $t('Business s') }}
+                                                {{ $t('Business') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
@@ -31,7 +31,7 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" class="form-control" v-model="business.name"
-                                                    :placeholder="$t('Business Name')" required>
+                                                    :placeholder="$t('Business Name')">
                                             </div>
                                         </div>
                                     </div>
@@ -48,7 +48,7 @@
                                                     </div>
                                                 </div>
                                                 <input type="number" class="form-control" v-model="business.phone"
-                                                    :placeholder="$t('Business Phone')" required>
+                                                    :placeholder="$t('Business Phone')">
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                                         <i class="far fa-file-image"></i>
                                                     </div>
                                                 </div>
-                                                <input type="file" class="form-control" id="business_logo">
+                                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="business_logo">
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +103,7 @@
                                                         <i class="far fa-file-image"></i>
                                                     </div>
                                                 </div>
-                                                <input type="file" class="form-control" id="business_favicon">
+                                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="business_favicon">
                                             </div>
                                         </div>
                                     </div>
@@ -195,8 +195,7 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.business_type_id"
-                                                    required>
+                                                <select class="form-control" v-model="business.business_type_id">
                                                     <option value="">Select One</option>
                                                     <option v-for="(busi_plan, index) in businessType" :key="index"
                                                         :value="busi_plan?.id">
@@ -218,8 +217,7 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.pricing_plan_id"
-                                                    required>
+                                                <select class="form-control" v-model="business.pricing_plan_id">
                                                     <option value="">Select One</option>
                                                     <option v-for="(plan, index) in pricingPlans" :key="index"
                                                         :value="plan?.id">
@@ -241,7 +239,7 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.package_id" required>
+                                                <select class="form-control" v-model="business.package_id">
                                                     <option value="">Select One</option>
                                                     <option v-for="(pack_value, index) in packages" :key="index"
                                                         :value="pack_value?.id">
@@ -393,7 +391,53 @@ export default {
             });
         },
         createNewBusiness() {
-            alert('working submit');
+
+            var formData = new FormData();
+
+            var businessLogo = $("#business_logo")[0].files;
+            var businessFavicon = $("#business_favicon")[0].files;
+
+            if (businessLogo.length > 0) {
+
+                var name = businessLogo[0].name;
+
+                var extension = name.split('.').pop().toLowerCase();
+
+                if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
+                    this.$iziToast.error({
+                        title: this.$t('Success'),
+                        message: this.$t("Invalid Include Image File Extension"),
+                    });
+                    $("#business_logo").val();
+                } else {
+                    formData.append("logo", businessLogo[0]);
+                }
+
+            } else {
+                formData.append("logo", '');
+            }
+
+            if (businessFavicon.length > 0) {
+
+                var name = businessFavicon[0].name;
+
+                var extension = name.split('.').pop().toLowerCase();
+
+                if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
+                    this.$iziToast.error({
+                        title: this.$t('Success'),
+                        message: this.$t("Invalid Include Image File Extension"),
+                    });
+                    $("#business_favicon").val();
+                } else {
+                    formData.append("logo", businessFavicon[0]);
+                }
+
+            } else {
+                formData.append("icon", '');
+            }
+
+            console.log(formData);
         },
         cancelNewBusiness() {
             this.isButtonDisabled = false;

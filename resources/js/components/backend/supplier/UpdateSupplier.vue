@@ -87,7 +87,7 @@
                                                     <i class="far fa-file-image"></i>
                                                 </div>
                                             </div>
-                                            <input type="file" class="form-control" id="edit_supplier_image">
+                                            <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="edit_supplier_image">
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@ export default {
                 if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
                     this.$iziToast.error({
                         title: this.$t('Success'),
-                        message: "Invalid Include Image File Extension",
+                        message: this.$t("Invalid Include Image File Extension"),
                     });
                     $("#edit_supplier_image").val();
                 } else {

@@ -29,7 +29,7 @@
                     <div class="form-group col-md-4 col-12">
                         <div class="form-group">
                             <label>{{ $t('File') }} <span class="text-success">(Image Ratio: 500X500)</span></label>
-                            <input type="file" class="form-control" id="profileImage">
+                            <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="profileImage">
                         </div>
                     </div>
                     <div class="form-group col-md-4 col-12">
@@ -111,7 +111,7 @@ export default {
                 if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg', 'webp']) == -1) {
                     this.$iziToast.error({
                         title: this.$t('Success'),
-                        message: "Invalid Include Image File Extension",
+                        message: this.$t("Invalid Include Image File Extension"),
                     });
                     $("#profileImage").val();
                 } else {
