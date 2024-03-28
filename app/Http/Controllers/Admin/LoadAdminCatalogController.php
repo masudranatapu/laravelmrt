@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Package;
+use App\Models\PricingPlan;
 use App\Traits\Business\BusinessTraits;
 
 class LoadAdminCatalogController extends Controller
 {
-    //
     use BusinessTraits;
 
     public function loadBusinessOption()
@@ -27,7 +28,6 @@ class LoadAdminCatalogController extends Controller
     {
         try {
             $adminUsers = Admin::query()
-                // ->where()
                 ->select('id', 'name')
                 ->get();
             return response()->json($adminUsers);
@@ -38,5 +38,33 @@ class LoadAdminCatalogController extends Controller
             ]);
         }
     }
-    
+    public function pricingPlan($id)
+    {
+        try {
+            $pricingPlan = PricingPlan::query()
+                ->select('id', 'discount_type', 'discount_value')
+                ->findOrFail($id);
+            return response()->json($pricingPlan);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    function packageInfo($id)
+    {
+        try {
+            $package = Package::query()
+                ->select('id', 'monthly_service_charge', 'installment_fee', 'user_limit', 'product_limit', 'branch_limit', 'setting_access')
+                ->findOrFail($id);
+            return response()->json($package);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
 }

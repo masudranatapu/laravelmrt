@@ -194,7 +194,13 @@
     "Supplier Successfully Deleted": "Supplier Successfully Deleted",
     "Discount percentage cannot exceed 100%": "Discount percentage cannot exceed 100%",
     "Image Ratio: 500X500": "Image Ratio: 500X500",
-    "Invalid Include Image File Extension" : "Invalid Include Image File Extension",
-
+    "Invalid Include Image File Extension": "Invalid Include Image File Extension",
+    "Total Service Charge": "Total Service Charge",
+    "Total Discount": "Total Discount",
+    "After Discount": "After Discount",
+    "Total Amount": "Total Amount",
+    "Price and Cost": "Price and Cost",
+    "Price": "Price",
+    "Data not found": "Data not found",
     "add_new": "add_new"
 }

@@ -32,7 +32,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ $t('Price') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-money-bill"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="package.price"
+                                                :placeholder="$t('Price')" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Monthly Service Charge') }}
@@ -50,7 +67,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Installment Fee') }}

@@ -62,6 +62,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     // load admin
     Route::get('load-admin/users', [LoadAdminCatalogController::class, 'loadAdminUsers'])->name('load.admin');
     Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.option');
+    Route::get('pricing-plan/{id}', [LoadAdminCatalogController::class, 'pricingPlan'])->name('pricing.plan');
+    Route::get('package-info/{id}', [LoadAdminCatalogController::class, 'packageInfo'])->name('package.info');
     // Testimonial
     Route::get('testimonial', [TestimonialController::class, 'index'])->name('testimonials');
     Route::get('testimonial-list', [TestimonialController::class, 'testimonialList'])->name('testimonial.list');

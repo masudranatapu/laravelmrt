@@ -197,9 +197,8 @@
                                                         <i class="far fa-check-square"></i>
                                                     </div>
                                                 </div>
-                                                <select class="form-control" v-model="business.business_type_id"
-                                                    @change="businessTypeValue()">
-                                                    <option value="">Select One</option>
+                                                <select class="form-control" v-model="business.business_type_id">
+                                                    <option value="" disabled>Select One</option>
                                                     <option v-for="(busi_plan, index) in business_types" :key="index"
                                                         :value="busi_plan?.id">
                                                         {{ busi_plan?.business_type_name }}
@@ -221,11 +220,11 @@
                                                     </div>
                                                 </div>
                                                 <select class="form-control" v-model="business.pricing_plan_id"
-                                                    @change="pricingValue()">
-                                                    <option value="">Select One</option>
+                                                    @change="pricingValue(event)">
+                                                    <option value="" disabled>Select One</option>
                                                     <option v-for="(plan, index) in pricing_plans" :key="index"
                                                         :value="plan?.id">
-                                                        {{ plan?.month }}
+                                                        {{ plan?.month }} {{ $t('Month') }}
                                                     </option>
                                                 </select>
                                             </div>
@@ -245,7 +244,7 @@
                                                 </div>
                                                 <select class="form-control" v-model="business.package_id"
                                                     @change="packageValue()">
-                                                    <option value="">Select One</option>
+                                                    <option value="" disabled>Select One</option>
                                                     <option v-for="(pack_value, index) in packages" :key="index"
                                                         :value="pack_value?.id">
                                                         {{ pack_value?.title }}
@@ -353,25 +352,31 @@
                                     <div class="col-md-3 my-3">
                                         <ul class="list-group">
                                             <li class="list-group-item d-flex justify-content-between">
-                                                Total Service Charge
+                                                {{ $t('Total Service Charge') }}
                                                 <span class="badge badge-primary badge-pill">
                                                     {{ total_service_charge }} TK
                                                 </span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
-                                                Total Discount
+                                                {{ $t('Total Discount') }}
                                                 <span class="badge badge-primary badge-pill">
-                                                    {{ total_discount }} %
+                                                    {{ total_discount }}
                                                 </span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
-                                                After Discount
+                                                {{ $t('Discount Type') }}
+                                                <span class="badge badge-primary badge-pill">
+                                                    {{ discount_type }}
+                                                </span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                {{ $t('After Discount') }}
                                                 <span class="badge badge-primary badge-pill">
                                                     {{ after_discount }} TK
                                                 </span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
-                                                Total Amount
+                                                {{ $t('Total Amount') }}
                                                 <span class="badge badge-primary badge-pill">
                                                     {{ total_amount }} TK
                                                 </span>
@@ -426,6 +431,7 @@ export default {
             },
             accessOptions: {},
             total_service_charge: 0,
+            discount_type: '',
             total_discount: 0,
             after_discount: 0,
             total_amount: 0,
@@ -448,6 +454,39 @@ export default {
                         message: this.$t(`Fetching data has error. Please try again.`),
                     });
                 }
+            });
+        },
+        pricingValue() {
+            axios.get(`/admin/pricing-plan/${this.business.pricing_plan_id}`).then((response) => {
+                if (response.data) {
+                    this.discount_type = response.data.discount_type;
+                    this.total_discount = response.data.discount_value;
+                } else {
+                    this.$iziToast.error({
+                        title: this.$t('Success'),
+                        message: this.$t("Data not found"),
+                    });
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        packageValue() {
+            axios.get(`/admin/package-info/${this.business.package_id}`).then((response) => {
+                if (response.data) {
+                    if (this.discount_type === 'Percentage') {
+
+                    } else {
+
+                    }
+                } else {
+                    this.$iziToast.error({
+                        title: this.$t('Success'),
+                        message: this.$t("Data not found"),
+                    });
+                }
+            }).catch((error) => {
+                console.log(error);
             });
         },
         createNewBusiness() {
