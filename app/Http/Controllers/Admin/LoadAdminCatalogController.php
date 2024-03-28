@@ -42,7 +42,7 @@ class LoadAdminCatalogController extends Controller
     {
         try {
             $pricingPlan = PricingPlan::query()
-                ->select('id', 'discount_type', 'discount_value')
+                ->select('id','month', 'discount_type', 'discount_value')
                 ->findOrFail($id);
             return response()->json($pricingPlan);
         } catch (\Throwable $th) {

@@ -431,6 +431,7 @@ export default {
             },
             accessOptions: {},
             total_service_charge: 0,
+            total_month: 0,
             discount_type: '',
             total_discount: 0,
             after_discount: 0,
@@ -459,6 +460,7 @@ export default {
         pricingValue() {
             axios.get(`/admin/pricing-plan/${this.business.pricing_plan_id}`).then((response) => {
                 if (response.data) {
+                    this.total_month = response.data.month;
                     this.discount_type = response.data.discount_type;
                     this.total_discount = response.data.discount_value;
                 } else {
@@ -474,8 +476,11 @@ export default {
         packageValue() {
             axios.get(`/admin/package-info/${this.business.package_id}`).then((response) => {
                 if (response.data) {
-                    if (this.discount_type === 'Percentage') {
 
+                    if (this.discount_type === 'Percentage') {
+                        this.total_service_charge = this.total_month * response.data.monthly_service_charge;
+                        this.after_discount = (this.total_service_charge * this.total_discount) / 100;
+                        this.total_amount = this.after_discount;
                     } else {
 
                     }
