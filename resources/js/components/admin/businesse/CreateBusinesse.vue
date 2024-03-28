@@ -358,21 +358,15 @@
                                                 </span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
-                                                {{ $t('Total Discount') }}
+                                                {{ $t('Discount') }}
                                                 <span class="badge badge-primary badge-pill">
-                                                    {{ total_discount }}
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                {{ $t('Discount Type') }}
-                                                <span class="badge badge-primary badge-pill">
-                                                    {{ discount_type }}
+                                                    {{ total_discount }} {{ discount_type == "Amount" ? 'TK' : '%' }}
                                                 </span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
                                                 {{ $t('After Discount') }}
                                                 <span class="badge badge-primary badge-pill">
-                                                    {{ after_discount }} TK
+                                                    {{ total_amount }} TK
                                                 </span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
@@ -463,6 +457,7 @@ export default {
                     this.total_month = response.data.month;
                     this.discount_type = response.data.discount_type;
                     this.total_discount = response.data.discount_value;
+                    this.packageValue();
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Success'),
@@ -477,13 +472,21 @@ export default {
             axios.get(`/admin/package-info/${this.business.package_id}`).then((response) => {
                 if (response.data) {
 
-                    if (this.discount_type === 'Percentage') {
-                        this.total_service_charge = this.total_month * response.data.monthly_service_charge;
-                        this.after_discount = (this.total_service_charge * this.total_discount) / 100;
-                        this.total_amount = this.after_discount;
-                    } else {
+                    this.business.service_charge = response.data.monthly_service_charge;
+                    this.business.fees = response.data.installment_fee;
+                    this.business.branch_limit = response.data.branch_limit;
+                    this.business.user_limit = response.data.user_limit;
+                    this.business.product_limit = response.data.product_limit;
 
+                    this.total_service_charge = this.total_month * response.data.monthly_service_charge;
+
+                    if (this.discount_type === 'Percentage') {
+                        this.after_discount = (this.total_service_charge * this.total_discount) / 100;
+                        this.total_amount = this.total_service_charge - this.after_discount;
+                    } else {
+                        this.total_amount = this.total_service_charge - this.total_discount;
                     }
+
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Success'),

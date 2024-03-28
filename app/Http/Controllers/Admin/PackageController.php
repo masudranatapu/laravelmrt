@@ -38,7 +38,6 @@ class PackageController extends Controller
             DB::beginTransaction();
             $package = new Package();
             $package->title = $request->title;
-            $package->price = $request->price;
             $package->monthly_service_charge = $request->monthly_service_charge;
             $package->installment_fee = $request->installment_fee;
             $package->user_limit = $request->user_limit;
@@ -82,7 +81,6 @@ class PackageController extends Controller
             $package = Package::query()
                 ->findOrFail($id);
             $package->title = $request->title;
-            $package->price = $request->price;
             $package->monthly_service_charge = $request->monthly_service_charge;
             $package->installment_fee = $request->installment_fee;
             $package->user_limit = $request->user_limit;
