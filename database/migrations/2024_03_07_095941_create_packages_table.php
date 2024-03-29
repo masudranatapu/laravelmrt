@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->double('monthly_service_charge', 14, 4)->default(0);
             $table->double('installment_fee', 14, 4)->default(0);
-            $table->integer('user_limit')->default(3);
+            $table->integer('customer_limit')->default(10);
+            $table->integer('supplier_limit')->default(10);
+            $table->integer('user_limit')->default(4);
             $table->integer('product_limit')->default(250);
             $table->integer('branch_limit')->default(1);
             $table->text('setting_access')->nullable();

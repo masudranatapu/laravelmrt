@@ -201,6 +201,8 @@
     "Total Amount": "Total Amount",
     "Price and Cost": "Price and Cost",
     "Price": "Price",
+    "Customer Limit": "Customer Limit",
+    "Supplier Limit": "Supplier Limit",
     "Data not found": "Data not found",
     "add_new": "add_new"
 }

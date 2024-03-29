@@ -45,6 +45,8 @@ return new class extends Migration
             $table->double('service_charge', 14, 4)->default(0);
             $table->integer('branch_limit')->default(1);
             $table->integer('user_limit')->default(1);
+            $table->integer('customer_limit')->default(10);
+            $table->integer('supplier_limit')->default(10);
             $table->integer('product_limit')->default(1);
             $table->double('inside_delivery_charge', 14, 4)->default(0);
             $table->double('outside_delivery_charge', 14, 4)->default(0);

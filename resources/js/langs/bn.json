@@ -199,6 +199,8 @@
     "Total Amount": "সর্বমোট পরিমাণ",
     "Price and Cost": "মূল্য এবং খরচ",
     "Price": "মূল্য",
+    "Customer Limit": "গ্রাহক সীমা",
+    "Supplier Limit": "সরবরাহকারী সীমা",
     "Data not found": "তথ্য পাওয়া যায়নি",
 
     "add_new": "add_new"
