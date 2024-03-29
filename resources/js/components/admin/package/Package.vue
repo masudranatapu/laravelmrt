@@ -80,6 +80,12 @@
                                                 {{ $t('User Limit') }}
                                             </th>
                                             <th class="text-center">
+                                                {{ $t('Customer Limit') }}
+                                            </th>
+                                            <th class="text-center">
+                                                {{ $t('Supplier Limit') }}
+                                            </th>
+                                            <th class="text-center">
                                                 {{ $t('Product Limit') }}
                                             </th>
                                             <th class="text-center">
@@ -120,6 +126,12 @@
                                             </td>
                                             <td class="text-center">
                                                 {{ pack_value.user_limit }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ pack_value.customer_limit }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ pack_value.supplier_limit }}
                                             </td>
                                             <td class="text-center">
                                                 {{ pack_value.product_limit }}

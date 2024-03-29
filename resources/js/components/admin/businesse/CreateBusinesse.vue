@@ -457,6 +457,7 @@ export default {
                     this.total_month = response.data.month;
                     this.discount_type = response.data.discount_type;
                     this.total_discount = response.data.discount_value;
+
                     this.packageValue();
                 } else {
                     this.$iziToast.error({
@@ -477,6 +478,8 @@ export default {
                     this.business.branch_limit = response.data.branch_limit;
                     this.business.user_limit = response.data.user_limit;
                     this.business.product_limit = response.data.product_limit;
+
+                    this.business.option_access = response.data.setting_access;
 
                     this.total_service_charge = this.total_month * response.data.monthly_service_charge;
 

@@ -118,6 +118,40 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ $t('Customer Limit') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="packageEdit.customer_limit"
+                                                :placeholder="$t('Customer Limit')">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ $t('Supplier Limit') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="packageEdit.supplier_limit"
+                                                :placeholder="$t('Supplier Limit')">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>

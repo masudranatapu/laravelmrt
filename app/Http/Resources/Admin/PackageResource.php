@@ -24,6 +24,8 @@ class PackageResource extends JsonResource
             "branch_limit" => $this->branch_limit,
             "user_limit" => $this->user_limit,
             "product_limit" => $this->product_limit,
+            "customer_limit" => $this->customer_limit,
+            "supplier_limit" => $this->supplier_limit,
             "description" => $this->description,
             "setting_access" => json_decode($this->setting_access, true),
         ];

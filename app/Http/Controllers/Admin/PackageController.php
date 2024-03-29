@@ -42,6 +42,7 @@ class PackageController extends Controller
             $package->installment_fee = $request->installment_fee;
             $package->user_limit = $request->user_limit;
             $package->product_limit = $request->product_limit;
+            $package->branch_limit = $request->branch_limit;
             $package->customer_limit = $request->customer_limit;
             $package->supplier_limit = $request->supplier_limit;
             $package->description = $request->description;
@@ -88,6 +89,7 @@ class PackageController extends Controller
             $package->user_limit = $request->user_limit;
             $package->product_limit = $request->product_limit;
             $package->customer_limit = $request->customer_limit;
+            $package->branch_limit = $request->branch_limit;
             $package->supplier_limit = $request->supplier_limit;
             $package->description = $request->description;
             $package->setting_access = $request->setting_access ? json_encode($request->setting_access) : $package->setting_access;
