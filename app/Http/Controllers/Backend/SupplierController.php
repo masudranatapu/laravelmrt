@@ -21,14 +21,14 @@ class SupplierController extends Controller
     public function supplierList(Request $request)
     {
         try {
-            $sppliers = Supplier::query()
+            $suppliers = Supplier::query()
                 // ->where()
                 ->with([
                     'supplierInitialDue' => fn ($q) => $q->select('id', 'business_id', 'supplier_id', 'amount')->get(),
                 ])
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
-                ->get();
-            return SupplierResource::collection($sppliers);
+                ->paginate($request->per_page ?? 1);
+            return SupplierResource::collection($suppliers);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -88,10 +88,10 @@ class SupplierController extends Controller
     public function edit($id)
     {
         try {
-            $sppliers = Supplier::query()
+            $suppliers = Supplier::query()
                 // ->where()
                 ->findOrFail($id);
-            return new SupplierResource($sppliers);
+            return new SupplierResource($suppliers);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

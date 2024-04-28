@@ -7,7 +7,7 @@
     <title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
     <link rel='shortcut icon' type='image/x-icon' href='{{ asset('backend/img/favicon.ico') }}' />
     @include('backend.layouts.partials.style')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>

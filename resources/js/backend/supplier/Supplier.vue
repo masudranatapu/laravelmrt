@@ -117,7 +117,7 @@
                                                         class="custom-control-input" :id="'supplier_' + supplier?.id">
                                                     <label :for="'supplier_' + supplier?.id"
                                                         class="custom-control-label">
-                                                        {{ index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
@@ -203,6 +203,21 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Bootstrap4Pagination :data="metaData" @pagination-change-page="loadSuppliers"
+                                        :limit="5">
+                                    </Bootstrap4Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -214,6 +229,7 @@
 </template>
 
 <script>
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import CreateSupplier from './CreateSupplier.vue'
 import UpdateSupplier from './UpdateSupplier.vue'
 import ViewSupplier from './ViewSupplier.vue'
@@ -222,17 +238,19 @@ export default {
         CreateSupplier,
         UpdateSupplier,
         ViewSupplier,
+        Bootstrap4Pagination,
     },
     props: [],
     data: function () {
         return {
             quarry: {
-                parPage: 20,
+                per_page: 1,
                 keyword: '',
                 start_date: '',
                 end_date: '',
                 status: ''
             },
+            metaData: {},
             suppliers: {},
             updateSupplier: {},
             viewSupplier: {},
@@ -245,10 +263,10 @@ export default {
         this.loadAreas();
     },
     methods: {
-        loadSuppliers() {
-            axios.get("/supplier-list", { params: this.quarry }).then((response) => {
-                // console.log(response);
+        loadSuppliers(page = 1) {
+            axios.get(`/supplier-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.suppliers = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
             });

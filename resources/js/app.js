@@ -20,25 +20,25 @@ iziToast.settings({
 app.config.globalProperties.$iziToast = iziToast;
 
 // import admin component template
-import AdminDashboard from "./components/admin/AdminDashboard.vue";
-import AdminProfile from "./components/admin/profile/Profile.vue";
-import AdminBusinesse from "./components/admin/businesse/BusinesseList.vue";
-import AdminCreateBusinesse from "./components/admin/businesse/CreateBusinesse.vue";
-import AdminEditBusinesse from "./components/admin/businesse/EditBusinesse.vue";
-import AdminBusinesseType from "./components/admin/businesse-type/BusinesseType.vue";
-import AdminPricingPlan from "./components/admin/pricing-plan/PricingPlan.vue";
-import AdminPackage from "./components/admin/package/Package.vue";
-import AdminTestimonial from "./components/admin/testimonial/TestimonialList.vue";
+import AdminDashboard from "./admin/AdminDashboard.vue";
+import AdminProfile from "./admin/profile/Profile.vue";
+import AdminBusinesse from "./admin/businesse/BusinesseList.vue";
+import AdminCreateBusinesse from "./admin/businesse/CreateBusinesse.vue";
+import AdminEditBusinesse from "./admin/businesse/EditBusinesse.vue";
+import AdminBusinesseType from "./admin/businesse-type/BusinesseType.vue";
+import AdminPricingPlan from "./admin/pricing-plan/PricingPlan.vue";
+import AdminPackage from "./admin/package/Package.vue";
+import AdminTestimonial from "./admin/testimonial/TestimonialList.vue";
 
 // import backend component template
-import Dashboard from "./components/backend/Dashboard.vue";
-import UserProfile from "./components/backend/user/Profile.vue";
-import BackendSupplier from "./components/backend/supplier/Supplier.vue";
-import BackendCustomer from "./components/backend/customer/Customer.vue";
-import BackendCustomerGroup from "./components/backend/customer-group/Group.vue";
-import BackendArea from "./components/backend/area/Area.vue";
-import BackendAsset from "./components/backend/asset/Asset.vue";
-import BackendAssetCategory from "./components/backend/asset-category/AssetCategory.vue";
+import Dashboard from "./backend/Dashboard.vue";
+import UserProfile from "./backend/user/Profile.vue";
+import BackendSupplier from "./backend/supplier/Supplier.vue";
+import BackendCustomer from "./backend/customer/Customer.vue";
+import BackendCustomerGroup from "./backend/customer-group/Group.vue";
+import BackendArea from "./backend/area/Area.vue";
+import BackendAsset from "./backend/asset/Asset.vue";
+import BackendAssetCategory from "./backend/asset-category/AssetCategory.vue";
 
 // admin component
 app.component("admin-dashboard", AdminDashboard);
