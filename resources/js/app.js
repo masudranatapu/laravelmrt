@@ -4,8 +4,12 @@ import { createApp } from "vue";
 // toastr
 import "izitoast/dist/css/iziToast.min.css";
 import iziToast from "izitoast";
+// sweetalert
 import SweetAlert from "./sweetalert";
+// language
 import i18n from "./languages";
+// Pagination
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
 
 const app = createApp({});
 
@@ -18,6 +22,9 @@ iziToast.settings({
 });
 
 app.config.globalProperties.$iziToast = iziToast;
+
+// globally Bootstrap Pagination
+app.component("Pagination", Bootstrap4Pagination);
 
 // import admin component template
 import AdminDashboard from "./admin/AdminDashboard.vue";

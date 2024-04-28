@@ -79,14 +79,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(business, index) in businesse">
+                                        <tr v-for="(business, index) in businesses">
                                             <td class="p-0 text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
                                                         class="custom-control-input" :id="'checked_' + business?.id">
                                                     <label :for="'checked_' + business?.id"
                                                         class="custom-control-label">
-                                                        # {{ index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1}}
                                                     </label>
                                                 </div>
                                             </td>
@@ -112,6 +112,19 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }} entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadBusinesse" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,6 +138,7 @@ export default {
     data: function () {
         return {
             businesses: {},
+            metaData: {},
             main_url: window.location.origin + "/",
         };
     },
@@ -132,10 +146,10 @@ export default {
         this.loadBusinesse();
     },
     methods: {
-        loadBusinesse() {
-            axios.get("/admin/businesses-list").then((response) => {
-                console.log(response.data.data);
+        loadBusinesse(page = 1) {
+            axios.get(`/admin/businesses-list?page=${page}`).then((response) => {
                 this.businesses = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
             });

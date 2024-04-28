@@ -117,7 +117,8 @@
                                                         class="custom-control-input" :id="'supplier_' + supplier?.id">
                                                     <label :for="'supplier_' + supplier?.id"
                                                         class="custom-control-label">
-                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1
+                                                        }}
                                                     </label>
                                                 </div>
                                             </td>
@@ -212,9 +213,8 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <Bootstrap4Pagination :data="metaData" @pagination-change-page="loadSuppliers"
-                                        :limit="5">
-                                    </Bootstrap4Pagination>
+                                    <Pagination :data="metaData" @pagination-change-page="loadSuppliers" :limit="5">
+                                    </Pagination>
                                 </div>
                             </div>
                         </div>
@@ -229,7 +229,6 @@
 </template>
 
 <script>
-import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import CreateSupplier from './CreateSupplier.vue'
 import UpdateSupplier from './UpdateSupplier.vue'
 import ViewSupplier from './ViewSupplier.vue'
@@ -238,7 +237,6 @@ export default {
         CreateSupplier,
         UpdateSupplier,
         ViewSupplier,
-        Bootstrap4Pagination,
     },
     props: [],
     data: function () {

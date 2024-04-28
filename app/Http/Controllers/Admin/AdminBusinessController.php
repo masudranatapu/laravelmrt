@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminBusinessController extends Controller
 {
-    //
     public function index()
     {
         return view("admin.business.index");
@@ -28,10 +27,9 @@ class AdminBusinessController extends Controller
     public function businessList(Request $request)
     {
         try {
-            $par_page = $request->per_page ?? 10;
             $business = Business::query()
                 ->latest()
-                ->get();
+                ->paginate($request->per_page ?? 1);
             return AdminBusinessResource::collection($business);
         } catch (\Throwable $th) {
             return response()->json([
