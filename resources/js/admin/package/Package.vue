@@ -92,9 +92,6 @@
                                                 {{ $t('Branch Limit') }}
                                             </th>
                                             <th class="text-center">
-                                                {{ $t('Setting Access') }}
-                                            </th>
-                                            <th class="text-center">
                                                 {{ $t('Created By') }}
                                             </th>
                                             <th class="text-center">
@@ -140,13 +137,6 @@
                                                 {{ pack_value.branch_limit }}
                                             </td>
                                             <td class="text-center">
-                                                <p v-for="key  in  pack_value?.setting_access" :key="key">
-                                                    <b class="text-success">
-                                                        {{ businessAccessOptions[key] }}
-                                                    </b>
-                                                </p>
-                                            </td>
-                                            <td class="text-center">
                                                 {{ pack_value?.admin }}
                                             </td>
                                             <td class="text-center">
@@ -176,13 +166,26 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadPackages" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <CreatePackage :accessOptions="businessAccessOptions" @load-package="refreshPackage" />
-        <UpdatePackage :accessOptions="businessAccessOptions" @load-package="refreshPackage"
-            :packageEdit="updatePackage" />
+        <CreatePackage @load-package="refreshPackage" />
+        <UpdatePackage @load-package="refreshPackage" :packageEdit="updatePackage" />
     </div>
 </template>
 
@@ -194,16 +197,16 @@ export default {
         CreatePackage,
         UpdatePackage,
     },
-    props: [],
     data: function () {
         return {
             quarry: {
-                parPage: 20,
+                per_page: 10,
                 keyword: '',
                 start_date: '',
                 end_date: '',
             },
             packages: {},
+            metaData: {},
             businessAccessOptions: {},
             updatePackage: {},
             main_url: window.location.origin + "/",
@@ -211,27 +214,14 @@ export default {
     },
     beforeMount() {
         this.loadPackages();
-        this.loadAccessOptions();
     },
     methods: {
-        loadPackages() {
-            axios.get("/admin/package-list", { params: this.quarry }).then((response) => {
-                // console.log(response);
+        loadPackages(page = 1) {
+            axios.get(`/admin/package-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.packages = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
-            });
-        },
-        loadAccessOptions() {
-            axios.get("/admin/load-bussiness/options").then((response) => {
-                this.businessAccessOptions = response.data;
-            }).catch((error) => {
-                if (error) {
-                    this.$iziToast.error({
-                        title: this.$t('Error'),
-                        message: this.$t(`Fetching data has error. Please try again.`),
-                    });
-                }
             });
         },
         addPackage() {
@@ -301,7 +291,7 @@ export default {
             });
         },
         clearSearch() {
-            this.quarry.parPage = 20;
+            this.quarry.per_page = 10;
             this.quarry.keyword = '';
             this.quarry.start_date = '';
             this.quarry.end_date = '';

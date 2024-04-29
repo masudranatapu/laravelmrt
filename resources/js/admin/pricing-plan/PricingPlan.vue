@@ -75,13 +75,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(plans, index ) in  pricingPlans">
+                                        <tr v-for="(plans, index ) in pricingPlans">
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
                                                         :id="'plans_' + plans?.id" :value='plans?.id'>
                                                     <label :for="'plans_' + plans?.id" class="custom-control-label">
-                                                        {{ index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1 }}
                                                     </label>
                                                 </div>
                                             </td>
@@ -116,6 +116,20 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadPricingPlan" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -139,10 +153,11 @@ export default {
             updatePricingPlan: {},
             adminUsers: {},
             quarry: {
-                parpage: 20,
+                per_page: 10,
                 admin_id: '',
                 type: '',
             },
+            metaData: {},
             main_url: window.location.origin + "/",
         };
     },
@@ -151,9 +166,10 @@ export default {
         this.loadAdminUsers();
     },
     methods: {
-        loadPricingPlan() {
-            axios.get("/admin/pricing-plans/list", { params: this.quarry }).then((response) => {
+        loadPricingPlan(page = 1) {
+            axios.get(`/admin/pricing-plans/list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.pricingPlans = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -242,7 +258,7 @@ export default {
             });
         },
         clearLoadPricingPlan() {
-            this.quarry.parpage = 20;
+            this.quarry.per_page = 10;
             this.quarry.type = '';
             this.quarry.admin_id = '';
             this.loadPricingPlan();

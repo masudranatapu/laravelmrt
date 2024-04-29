@@ -23,7 +23,7 @@ class PackageController extends Controller
                 ->when($request->start_date || $request->end_date, fn ($q) => $q->whereBetween("created_at", [$request->start_date, $request->end_date]))
                 ->when($request->keyword, fn ($q) => $q->where("title", "LIKE", "%" . $request->keyword . "%"))
                 ->latest()
-                ->get();
+                ->paginate($request->per_page ?? 10);
             return PackageResource::collection($packages);
         } catch (\Throwable $th) {
             return response()->json([
@@ -46,7 +46,6 @@ class PackageController extends Controller
             $package->customer_limit = $request->customer_limit;
             $package->supplier_limit = $request->supplier_limit;
             $package->description = $request->description;
-            $package->setting_access = $request->setting_access ? json_encode($request->setting_access) : [];
             $package->admin_id = adminUser()->id;
             $package->save();
             DB::commit();
@@ -92,7 +91,6 @@ class PackageController extends Controller
             $package->branch_limit = $request->branch_limit;
             $package->supplier_limit = $request->supplier_limit;
             $package->description = $request->description;
-            $package->setting_access = $request->setting_access ? json_encode($request->setting_access) : $package->setting_access;
             $package->admin_id = adminUser()->id;
             $package->save();
             DB::commit();

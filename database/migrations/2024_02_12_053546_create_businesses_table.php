@@ -53,7 +53,7 @@ return new class extends Migration
             $table->double('free_delivery_charges_limit', 14, 4)->default(0);
             $table->double('customer_commission_limit', 14, 4)->default(0);
             $table->enum('status', ['Active', 'Inactive', 'Pending', 'Blocked'])->default('Active');
-            $table->longText('business_access')->nullable();
+            $table->longText('business_access')->nullable()->comment('Json');
             $table->boolean('enable_copyright')->default(0);
             $table->boolean('enable_send_mail')->default(0);
             $table->boolean('enable_sku_unique')->default(0);

@@ -24,7 +24,7 @@ class PricingPlanController extends Controller
                 ->when($request->type, fn ($q) => $q->where('discount_type', $request->type))
                 ->when($request->admin_id, fn ($q) => $q->where('admin_id', $request->admin_id))
                 ->latest()
-                ->get();
+                ->paginate($request->per_page ?? 10);
             return PricingPlanResource::collection($pricingPlans);
         } catch (\Throwable $th) {
             return response()->json([

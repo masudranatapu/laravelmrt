@@ -63,7 +63,8 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control"
-                                                v-model="packageEdit.installment_fee" :placeholder="$t('Installment Fee')">
+                                                v-model="packageEdit.installment_fee"
+                                                :placeholder="$t('Installment Fee')">
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +131,8 @@
                                                     <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="packageEdit.customer_limit"
+                                            <input type="number" class="form-control"
+                                                v-model="packageEdit.customer_limit"
                                                 :placeholder="$t('Customer Limit')">
                                         </div>
                                     </div>
@@ -147,7 +149,8 @@
                                                     <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="packageEdit.supplier_limit"
+                                            <input type="number" class="form-control"
+                                                v-model="packageEdit.supplier_limit"
                                                 :placeholder="$t('Supplier Limit')">
                                         </div>
                                     </div>
@@ -160,24 +163,6 @@
                                         </label>
                                         <textarea class="form-control" v-model="packageEdit.description"
                                             :placeholder="$t('Description')" cols="30" rows="10"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 text-center my-3">
-                                    <h3>{{ $t('Business Access') }}</h3>
-                                </div>
-                                <div class="col-md-3" v-for="(options, key) in accessOptions" :key="key">
-                                    <div class="form-check">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"
-                                                v-model="packageEdit.setting_access" :value="key"
-                                                :id="'editOption' + key" />
-                                            <label :for="'editOption' + key" class="custom-control-label">
-                                                {{ options }}
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +185,7 @@
 
 <script>
 export default {
-    props: ['accessOptions', 'packageEdit'],
+    props: ['packageEdit'],
     data: function () {
         return {
             isButtonDisabled: false,

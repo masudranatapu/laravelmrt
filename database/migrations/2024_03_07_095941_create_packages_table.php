@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('user_limit')->default(4);
             $table->integer('product_limit')->default(250);
             $table->integer('branch_limit')->default(1);
-            $table->text('setting_access')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
         });

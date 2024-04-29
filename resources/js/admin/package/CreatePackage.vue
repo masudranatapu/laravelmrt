@@ -163,25 +163,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 text-center my-3">
-                                    <h3>
-                                        {{ $t('Business Access') }}
-                                    </h3>
-                                </div>
-                                <div class="col-md-3" v-for="(access, index) in accessOptions" :key="index">
-                                    <div class="form-check">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"
-                                                v-model="package.setting_access" :id="'optionCheck_' + index"
-                                                :value="index" />
-                                            <label :for="'optionCheck_' + index" class="custom-control-label">
-                                                {{ access }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="button" class="btn btn-warning" @click="closeCreatePackage()">
@@ -201,7 +182,6 @@
 
 <script>
 export default {
-    props: ['accessOptions'],
     data: function () {
         return {
             package: {

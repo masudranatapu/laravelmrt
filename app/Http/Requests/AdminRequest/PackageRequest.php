@@ -29,7 +29,6 @@ class PackageRequest extends FormRequest
             "user_limit" => ["required", "integer", "min:1"],
             "product_limit" => ["required", "integer", "min:1"],
             "description" => ["required", "string", "min:2", "max:1000"],
-            "setting_access" => ["required", "array"],
         ];
     }
 }
