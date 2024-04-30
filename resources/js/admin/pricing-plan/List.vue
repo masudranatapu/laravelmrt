@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.admin_id" @change="loadPricingPlan()">
+                                    <select class="form-control" v-model="quarry.admin_id" @change="loadData()">
                                         <option value="">All</option>
                                         <option v-for="(admin, index) in adminUsers" :value="admin.id" :key="index">
                                             {{ admin.name }}
@@ -26,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.type" @change="loadPricingPlan()">
+                                    <select class="form-control" v-model="quarry.type" @change="loadData()">
                                         <option value="">{{ $t('All') }}</option>
                                         <option value="Amount">{{ $t('Amount') }}</option>
                                         <option value="Percentage">{{ $t('Percentage') }}</option>
@@ -34,10 +34,10 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadPricingPlan()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             {{ $t('Search') }}
                                         </button>
-                                        <button type="button" class="btn btn-warning" @click="clearLoadPricingPlan()">
+                                        <button type="button" class="btn btn-warning" @click="clearSearch()">
                                             {{ $t('Clear') }}
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
@@ -105,7 +105,7 @@
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary btn-sm" title="Edit"
-                                                        @click="editPricingPlan(plans?.id)">
+                                                        @click="editInfo(plans?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger btn-sm"
@@ -128,7 +128,7 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <Pagination :data="metaData" @pagination-change-page="loadPricingPlan" :limit="5">
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
                                     </Pagination>
                                 </div>
                             </div>
@@ -167,11 +167,11 @@ export default {
         };
     },
     beforeMount() {
-        this.loadPricingPlan();
+        this.loadData();
         this.loadAdminUsers();
     },
     methods: {
-        loadPricingPlan(page = 1) {
+        loadData(page = 1) {
             axios.get(`/admin/pricing-plans-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.pricingPlans = response.data.data;
                 this.metaData = response.data.meta;
@@ -197,7 +197,7 @@ export default {
         addNewData() {
             $("#createNewData").modal('show');
         },
-        editPricingPlan(id) {
+        editInfo(id) {
             axios.get(`/admin/pricing-plans/${id}/edit`).then((response) => {
                 this.editData = response.data.data;
                 $("#editData").modal('show');
@@ -211,7 +211,7 @@ export default {
             });
         },
         refreshData() {
-            this.loadPricingPlan();
+            this.loadData();
         },
         deleteData(id) {
             this.$swal.fire({
@@ -229,7 +229,7 @@ export default {
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadPricingPlan();
+                            this.loadData();
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -262,11 +262,16 @@ export default {
                 }
             });
         },
-        clearLoadPricingPlan() {
+        clearSearch() {
+            // query info
             this.quarry.per_page = 10;
             this.quarry.type = '';
             this.quarry.admin_id = '';
-            this.loadPricingPlan();
+            // check info
+            this.all_checked = false;
+            this.checkedIds = [];
+
+            this.loadData();
         },
         allChecked() {
             if (this.checkedIds.length === this.pricingPlans.length) {
