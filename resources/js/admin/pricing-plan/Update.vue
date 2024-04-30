@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="modal fade" id="createNewPricingPlan" data-backdrop="static" tabindex="-1" role="dialog"
+        <div class="modal fade" id="editData" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            {{ $t('Create New Pricing Plan') }}
+                            {{ $t('Update Pricing Plan') }}
                         </h5>
                         <a href="javascript:;" @click="closePricingPlan()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="addNewPricingPlan()">
+                    <form @submit.prevent="updateData(editData?.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -27,7 +27,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" v-model="pricingplan.month" class="form-control"
+                                            <input type="number" v-model="editData.month" class="form-control"
                                                 :placeholder="$t('Month')" required>
                                         </div>
                                     </div>
@@ -45,9 +45,14 @@
                                                 </div>
                                             </div>
                                             <select @change="discountValueCheck()" class="form-control" required
-                                                v-model="pricingplan.discount_type">
-                                                <option value="Amount">{{ $t('Amount') }}</option>
-                                                <option value="Percentage">{{ $t('Percentage') }}</option>
+                                                v-model="editData.discount_type">
+                                                <option value="Amount" :selected="editData.discount_type === 'Amount'">
+                                                    {{ $t('Amount') }}
+                                                </option>
+                                                <option value="Percentage"
+                                                    :selected="editData.discount_type === 'Percentage'">
+                                                    {{ $t('Percentage') }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -64,9 +69,8 @@
                                                     <i class="fas fa-hand-holding-usd"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control"
-                                                v-model="pricingplan.discount_value" :placeholder="$t('Value')"
-                                                @change="discountValueCheck()" required>
+                                            <input type="number" class="form-control" v-model="editData.discount_value"
+                                                :placeholder="$t('Value')" @change="discountValueCheck()" required>
                                         </div>
                                     </div>
                                 </div>
@@ -90,12 +94,9 @@
 
 <script>
 export default {
-    props: [],
+    props: ['editData'],
     data: function () {
         return {
-            pricingplan: {
-                discount_type: "Percentage",
-            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -105,9 +106,9 @@ export default {
     },
     methods: {
         discountValueCheck() {
-            if (this.pricingplan.discount_type === 'Percentage') {
-                if (this.pricingplan.discount_value > 100) {
-                    this.pricingplan.discount_value = 0;
+            if (this.editData.discount_type === 'Percentage') {
+                if (this.editData.discount_value > 100) {
+                    this.editData.discount_value = 0;
                     this.$iziToast.error({
                         title: this.$t('Error'),
                         message: this.$t('Discount percentage cannot exceed 100%'),
@@ -117,20 +118,18 @@ export default {
                 }
             }
         },
-        addNewPricingPlan() {
+        updateData(id) {
             this.isButtonDisabled = true;
-            axios.post('/admin/pricing-plans/store', this.pricingplan).then((response) => {
+            this.editData._method = 'patch';
+            axios.post(`/admin/pricing-plans/${id}`, this.editData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.$emit('load-pricing-plan');
-                    $("#createNewPricingPlan").modal('hide');
-                    this.pricingplan.month = '';
-                    this.pricingplan.discount_type = 'Percentage';
-                    this.pricingplan.discount_value = '';
+                    this.$emit('load-data');
+                    $("#editData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -157,11 +156,8 @@ export default {
             });
         },
         closePricingPlan() {
-            $("#createNewPricingPlan").modal('hide');
+            $("#editData").modal('hide');
             this.isButtonDisabled = false;
-            this.pricingplan.month = '';
-            this.pricingplan.discount_type = 'Percentage';
-            this.pricingplan.discount_value = '';
         },
     },
 }

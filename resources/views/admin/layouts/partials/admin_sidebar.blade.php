@@ -61,7 +61,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="{{ route('admin.pricingPlan') }}">
+                    <a class="nav-link" href="{{ route('admin.pricing-plans.index') }}">
                         Pricing Plans
                     </a>
                 </li>

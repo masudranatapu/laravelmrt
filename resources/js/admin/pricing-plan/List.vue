@@ -8,7 +8,7 @@
                             <h4>{{ $t('Pricing Plan') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
-                                    <button type="button" class="btn btn-primary" @click="addPricingPlan()">
+                                    <button type="button" class="btn btn-primary" @click="addNewData()">
                                         <i class="fa fa-plus"></i>
                                         {{ $t('Add New Pricing Plan') }}
                                     </button>
@@ -46,7 +46,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 {{ $t('Delete') }}
                                             </a>
                                         </div>
@@ -61,7 +61,8 @@
                                         <tr>
                                             <th class="text-center">
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="allGroup">
+                                                    <input type="checkbox" class="custom-control-input" id="allGroup"
+                                                        @click="allChecked()" v-model="all_checked">
                                                     <label for="allGroup" class="custom-control-label">
                                                         {{ $t('SL No') }}
                                                     </label>
@@ -79,9 +80,11 @@
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
-                                                        :id="'plans_' + plans?.id" :value='plans?.id'>
+                                                        :id="'plans_' + plans?.id" :value='plans?.id'
+                                                        v-model="checkedIds">
                                                     <label :for="'plans_' + plans?.id" class="custom-control-label">
-                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1
+                                                        }}
                                                     </label>
                                                 </div>
                                             </td>
@@ -106,7 +109,7 @@
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger btn-sm"
-                                                        title="Delete" @click="deletePricingPlan(plans?.id)">
+                                                        title="Delete" @click="deleteData(plans?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -134,23 +137,23 @@
                 </div>
             </div>
         </section>
-        <CreatePricingPlan @load-pricing-plan="refreshPricingPlan" />
-        <UpdatePricingPlan @load-pricing-plan="refreshPricingPlan" :pricingPlansEdit="updatePricingPlan" />
+        <Create @load-data="refreshData" />
+        <Update @load-data="refreshData" :editData="editData" />
     </div>
 </template>
 
 <script>
-import CreatePricingPlan from './CreatePricingPlan.vue'
-import UpdatePricingPlan from './UpdatePricingPlan.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
 export default {
     components: {
-        CreatePricingPlan,
-        UpdatePricingPlan
+        Create,
+        Update
     },
     data: function () {
         return {
             pricingPlans: {},
-            updatePricingPlan: {},
+            editData: {},
             adminUsers: {},
             quarry: {
                 per_page: 10,
@@ -158,6 +161,8 @@ export default {
                 type: '',
             },
             metaData: {},
+            checkedIds: [],
+            all_checked: false,
             main_url: window.location.origin + "/",
         };
     },
@@ -167,7 +172,7 @@ export default {
     },
     methods: {
         loadPricingPlan(page = 1) {
-            axios.get(`/admin/pricing-plans/list?page=${page}`, { params: this.quarry }).then((response) => {
+            axios.get(`/admin/pricing-plans-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.pricingPlans = response.data.data;
                 this.metaData = response.data.meta;
             }).catch((error) => {
@@ -189,13 +194,13 @@ export default {
                 }
             });
         },
-        addPricingPlan() {
-            $("#createNewPricingPlan").modal('show');
+        addNewData() {
+            $("#createNewData").modal('show');
         },
         editPricingPlan(id) {
-            axios.get(`/admin/pricing-plans/edit/${id}`).then((response) => {
-                this.updatePricingPlan = response.data.data;
-                $("#editPricingPlan").modal('show');
+            axios.get(`/admin/pricing-plans/${id}/edit`).then((response) => {
+                this.editData = response.data.data;
+                $("#editData").modal('show');
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
@@ -205,10 +210,10 @@ export default {
                 }
             });
         },
-        refreshPricingPlan() {
+        refreshData() {
             this.loadPricingPlan();
         },
-        deletePricingPlan(id) {
+        deleteData(id) {
             this.$swal.fire({
                 title: this.$t('Are you sure?'),
                 text: this.$t('You won\'t be able to revert this!'),
@@ -218,7 +223,7 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/admin/pricing-plans/delete/${id}`).then((response) => {
+                    axios.get(`/admin/pricing-plans-bulk-delete?ids=${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),
@@ -263,6 +268,20 @@ export default {
             this.quarry.admin_id = '';
             this.loadPricingPlan();
         },
+        allChecked() {
+            if (this.checkedIds.length === this.pricingPlans.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.pricingPlans.map(pricingPlan => pricingPlan.id);
+            }
+        },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Unit Not Select For This Action');
+            }
+        }
     },
 }
 </script>

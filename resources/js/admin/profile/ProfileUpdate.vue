@@ -8,22 +8,52 @@
                 <div class="row">
                     <div class="form-group col-md-6 col-12">
                         <label>{{ $t('Name') }}</label>
-                        <input type="text" class="form-control" v-model="userinfo.name" :placeholder="$t('Name')">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" v-model="userinfo.name" :placeholder="$t('Name')">
+                        </div>
                     </div>
                     <div class="form-group col-md-6 col-12">
                         <label>{{ $t('User Name') }}</label>
-                        <input type="text" class="form-control" v-model="userinfo.username"
-                            :placeholder="$t('User Name')">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" v-model="userinfo.username"
+                                :placeholder="$t('User Name')">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6 col-12">
                         <label>{{ $t('Email') }}</label>
-                        <input type="email" class="form-control" v-model="userinfo.email" :placeholder="$t('Email')">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="far fa-envelope"></i>
+                                </div>
+                            </div>
+                            <input type="email" class="form-control" v-model="userinfo.email"
+                                :placeholder="$t('Email')">
+                        </div>
                     </div>
                     <div class="form-group col-md-6 col-12">
                         <label>{{ $t('Phone') }}</label>
-                        <input type="number" class="form-control" v-model="userinfo.phone" :placeholder="$t('Phone')">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                            </div>
+                            <input type="number" class="form-control" v-model="userinfo.phone"
+                                :placeholder="$t('Phone')">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -35,38 +65,44 @@
                                     ({{ $t('Image Ratio: 500X500') }})
                                 </span>
                             </label>
-                            <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="profileImage">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="far fa-file"></i>
+                                    </div>
+                                </div>
+                                <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control"
+                                    id="profileImage">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>{{ $t('Gender') }}</label>
-                        <select class="form-control" v-model="userinfo.gender">
-                            <option value="Male" :selected="userinfo.gender === 'Male'">
-                                {{ $t('Male') }}
-                            </option>
-                            <option value="Female" :selected="userinfo.gender === 'Female'">
-                                {{ $t('Female') }}
-                            </option>
-                        </select>
+                        <div class="input-group">
+                            <multiselect v-model="userinfo.gender" :options="gander_options" :searchable="false"
+                                :close-on-select="true" :show-labels="true" placeholder="Select Gander">
+                            </multiselect>
+                        </div>
                     </div>
                     <div class="form-group col-md-4 col-12">
                         <label>{{ $t('Date of Birth') }}</label>
-                        <input type="date" class="form-control" v-model="userinfo.date_of_birth"
-                            :placeholder="$t('Date fo birth')">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                            <input type="date" class="form-control" v-model="userinfo.date_of_birth"
+                                :placeholder="$t('Date fo birth')">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 col-12">
-                        <label>Country</label>
-                        <select class="form-control" v-model="userinfo.country">
-                            <option value="Bangladesh">Bangladesh</option>
-                            <option value="Pakistan" selected>Pakistan</option>
-                            <option value="Bhutan">Bhutan</option>
-                            <option value="Nepal">Nepal</option>
-                            <option value="Maldives">Maldives</option>
-                            <option value="Sri Lanka">Sri Lanka</option>
-                            <option value="India">India</option>
-                        </select>
+                        <label>{{ $t('Country') }}</label>
+                        <multiselect v-model="userinfo.country" :options="options" :searchable="false"
+                            :close-on-select="true" :show-labels="true" placeholder="Select Country">
+                        </multiselect>
                     </div>
                     <div class="form-group col-md-8 col-12">
                         <label>{{ $t('Address') }}</label>
@@ -97,6 +133,8 @@ export default {
     data: function () {
         return {
             isButtonDisabled: false,
+            gander_options: ['Male', 'Female', 'Other'],
+            options: ['Bangladesh', 'Pakistan', 'Bhutan', 'Nepal', 'Maldives', 'Sri Lanka', 'India'],
             main_url: window.location.origin + "/",
         };
     },

@@ -17,7 +17,7 @@ class PricingPlanController extends Controller
         return view("admin.pricing_plan.index");
     }
 
-    public function pricingPlanList(Request $request)
+    public function dataList(Request $request)
     {
         try {
             $pricingPlans = PricingPlan::query()
@@ -94,24 +94,43 @@ class PricingPlanController extends Controller
         }
     }
 
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $pricingPlan = PricingPlan::query()
-                ->findOrFail($id);
-            $pricingPlan->delete();
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Pricing Plan Has Some Issue. You Can not continue This Action',
+                    ]);
+                }
+            }
+
             DB::commit();
+
             return response()->json([
                 'status' => true,
-                'message' => "Pricing Plan successfully Deleted",
+                'message' => "Pricing Plan Successfully Deleted",
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function destroy($id)
+    {
+        $pricingPlan = PricingPlan::query()
+            ->findOrFail($id);
+        $pricingPlan->delete();
+
+        return true;
     }
 }
