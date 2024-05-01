@@ -48,14 +48,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     // pricing-plans
     Route::resource('pricing-plans', PricingPlanController::class);
     Route::get('pricing-plans-list', [PricingPlanController::class, 'dataList'])->name('pricingPlan.list');
-    Route::get('pricing-plans-bulk-delete', [PricingPlanController::class, 'bulkDelete'])->name('supplier.bulkDelete');
+    Route::get('pricing-plans-bulk-delete', [PricingPlanController::class, 'bulkDelete'])->name('pricingPlan.bulkDelete');
     // package
-    Route::get('package', [PackageController::class, 'index'])->name('package');
-    Route::get('package-list', [PackageController::class, 'packageList'])->name('package.list');
-    Route::post('package/store', [PackageController::class, 'store'])->name('package.store');
-    Route::get('package/edit/{id}', [PackageController::class, 'edit'])->name('package.edit');
-    Route::post('package/update/{id}', [PackageController::class, 'update'])->name('package.update');
-    Route::get('package/delete/{id}', [PackageController::class, 'delete'])->name('package.delete');
+    Route::resource('package', PackageController::class);
+    Route::get('package-list', [PackageController::class, 'dataList'])->name('package.list');
+    Route::get('package-bulk-delete', [PackageController::class, 'bulkDelete'])->name('package.bulkDelete');
     // load admin
     Route::get('load-admin/users', [LoadAdminCatalogController::class, 'loadAdminUsers'])->name('load.admin');
     Route::get('load-bussiness/options', [LoadAdminCatalogController::class, 'loadBusinessOption'])->name('load.business.option');

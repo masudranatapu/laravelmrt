@@ -39,7 +39,7 @@ import AdminCreateBusinesse from "./admin/businesse/CreateBusinesse.vue";
 import AdminEditBusinesse from "./admin/businesse/EditBusinesse.vue";
 import AdminBusinesseType from "./admin/businesse-type/BusinesseType.vue";
 import AdminPricingPlan from "./admin/pricing-plan/List.vue";
-import AdminPackage from "./admin/package/Package.vue";
+import AdminPackage from "./admin/package/List.vue";
 import AdminTestimonial from "./admin/testimonial/TestimonialList.vue";
 
 // import backend component template

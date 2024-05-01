@@ -56,7 +56,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="nav-link" href="{{ route('admin.package') }}">
+                    <a class="nav-link" href="{{ route('admin.package.index') }}">
                         Packages
                     </a>
                 </li>

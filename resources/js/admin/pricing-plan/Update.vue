@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="editData" data-backdrop="static" tabindex="-1" role="dialog"
+        <div class="modal fade" id="updateData" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -129,7 +129,7 @@ export default {
                         message: this.$t(response.data.message),
                     });
                     this.$emit('load-data');
-                    $("#editData").modal('hide');
+                    $("#updateData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -156,7 +156,7 @@ export default {
             });
         },
         closePricingPlan() {
-            $("#editData").modal('hide');
+            $("#updateData").modal('hide');
             this.isButtonDisabled = false;
         },
     },

@@ -8,7 +8,7 @@
                             <h4>{{ $t('Packages') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
-                                    <button type="button" class="btn btn-primary" @click="addPackage()">
+                                    <button type="button" class="btn btn-primary" @click="addNewData()">
                                         <i class="fa fa-plus"></i>
                                         {{ $t('Add New Package') }}
                                     </button>
@@ -19,20 +19,20 @@
                             <div class="row justify-content-center">
                                 <div class="form-group col-md-4">
                                     <div class="input-group mb-3">
-                                        <input type="date" class="form-control" @change="loadPackages()"
+                                        <input type="date" class="form-control" @change="loadData()"
                                             placeholder="Start date" v-model="quarry.start_date">
                                         <span class="input-group-text bg-success">{{ $t('To') }}</span>
-                                        <input type="date" class="form-control" @change="loadPackages()"
+                                        <input type="date" class="form-control" @change="loadData()"
                                             placeholder="End Date" v-model="quarry.end_date">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control" @change="loadPackages()"
+                                    <input type="text" class="form-control" @change="loadData()"
                                         v-model="quarry.keyword" :placeholder="$t('Search')">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadPackages()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearSearch()">
@@ -44,7 +44,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 {{ $t('Bulk Delete') }}
                                             </a>
                                         </div>
@@ -61,7 +61,7 @@
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
                                                         data-checkbox-role="dad" class="custom-control-input"
-                                                        id="checkbox-all">
+                                                        id="checkbox-all" @click="allChecked()" v-model="all_checked">
                                                     <label for="checkbox-all" class="custom-control-label">
                                                         {{ $t('SL No') }}
                                                     </label>
@@ -105,7 +105,8 @@
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
                                                         class="custom-control-input"
-                                                        :id="'pack_value_' + pack_value?.id">
+                                                        :id="'pack_value_' + pack_value?.id" :value='pack_value?.id'
+                                                        v-model="checkedIds">
                                                     <label :for="'pack_value_' + pack_value?.id"
                                                         class="custom-control-label">
                                                         {{ index + 1 }}
@@ -149,12 +150,12 @@
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="editPackage(pack_value?.id)">
+                                                            @click="editInfo(pack_value?.id)">
                                                             <i class="fas fa-pen"></i>
                                                             {{ $t('Edit') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="deletePackage(pack_value?.id)">
+                                                            @click="deleteData(pack_value?.id)">
                                                             <i class="fa fa-times"></i>
                                                             {{ $t('Delete') }}
                                                         </a>
@@ -175,7 +176,7 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <Pagination :data="metaData" @pagination-change-page="loadPackages" :limit="5">
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
                                     </Pagination>
                                 </div>
                             </div>
@@ -184,39 +185,41 @@
                 </div>
             </div>
         </section>
-        <CreatePackage @load-package="refreshPackage" />
-        <UpdatePackage @load-package="refreshPackage" :packageEdit="updatePackage" />
+        <Create @load-data="refreshData" />
+        <Update @load-data="refreshData" :editData="editData" />
     </div>
 </template>
 
 <script>
-import CreatePackage from './CreatePackage.vue'
-import UpdatePackage from './UpdatePackage.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
 export default {
     components: {
-        CreatePackage,
-        UpdatePackage,
+        Create,
+        Update,
     },
     data: function () {
         return {
+            packages: {},
+            editData: {},
             quarry: {
                 per_page: 10,
                 keyword: '',
                 start_date: '',
                 end_date: '',
             },
-            packages: {},
             metaData: {},
             businessAccessOptions: {},
-            updatePackage: {},
+            checkedIds: [],
+            all_checked: false,
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadPackages();
+        this.loadData();
     },
     methods: {
-        loadPackages(page = 1) {
+        loadData(page = 1) {
             axios.get(`/admin/package-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.packages = response.data.data;
                 this.metaData = response.data.meta;
@@ -224,16 +227,16 @@ export default {
                 console.error("Error fetching profile information: ", error);
             });
         },
-        addPackage() {
-            $("#createPackage").modal('show');
+        addNewData() {
+            $("#createData").modal('show');
         },
-        refreshPackage() {
-            this.loadPackages();
+        refreshData() {
+            this.loadData();
         },
-        editPackage(id) {
-            axios.get(`/admin/package/edit/${id}`).then((response) => {
-                this.updatePackage = response.data.data;
-                $("#editPackage").modal('show');
+        editInfo(id) {
+            axios.get(`/admin/package/${id}/edit`).then((response) => {
+                this.editData = response.data.data;
+                $("#updateData").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -241,7 +244,7 @@ export default {
                 });
             });
         },
-        deletePackage(id) {
+        deleteData(id) {
             this.$swal.fire({
                 title: this.$t('Are you sure?'),
                 text: this.$t('You won\'t be able to revert this!'),
@@ -251,13 +254,13 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/admin/package/delete/${id}`).then((response) => {
+                    axios.get(`/admin/package-bulk-delete?ids=${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadPackages();
+                            this.loadData();
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -296,7 +299,21 @@ export default {
             this.quarry.start_date = '';
             this.quarry.end_date = '';
 
-            this.loadPackages();
+            this.loadData();
+        },
+        allChecked() {
+            if (this.checkedIds.length === this.packages.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.packages.map(pack => pack.id);
+            }
+        },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Package Not Select For This Action');
+            }
         }
     },
 }

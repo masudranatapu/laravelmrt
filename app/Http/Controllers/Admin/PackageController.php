@@ -16,7 +16,7 @@ class PackageController extends Controller
     {
         return view("admin.package.index");
     }
-    public function packageList(Request $request)
+    public function dataList(Request $request)
     {
         try {
             $packages = Package::query()
@@ -107,20 +107,42 @@ class PackageController extends Controller
         }
     }
 
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $package = Package::query()
-                ->findOrFail($id);
-            $package->delete();
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Package Some Issue. You Can not continue This Action',
+                    ]);
+                }
+            }
+
             DB::commit();
-        } catch (\Throwable $th) {
+
+            return response()->json([
+                'status' => true,
+                'message' => "Package Successfully Deleted",
+            ]);
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function destroy($id)
+    {
+        $package = Package::query()
+            ->findOrFail($id);
+        $package->delete();
+        return true;
     }
 }

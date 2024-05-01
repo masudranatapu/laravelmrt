@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="modal fade" id="editPackage" data-backdrop="static" tabindex="-1" role="dialog"
+        <div class="modal fade" id="createData" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            {{ $t('Update Package') }}
+                            {{ $t('Create Package') }}
                         </h5>
-                        <a href="javascript:;" @click="closeUpdatePackage()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updatePackage(packageEdit.id)">
+                    <form @submit.prevent="addNewPackage()">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-8 offset-md-2">
@@ -27,7 +27,7 @@
                                                     <i class="fas fa-gift"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="packageEdit.title"
+                                            <input type="text" class="form-control" v-model="package.title"
                                                 :placeholder="$t('Package Name')" required>
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control"
-                                                v-model="packageEdit.monthly_service_charge"
+                                                v-model="package.monthly_service_charge"
                                                 :placeholder="$t('Monthly Service Charge')" required>
                                         </div>
                                     </div>
@@ -62,8 +62,7 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control"
-                                                v-model="packageEdit.installment_fee"
+                                            <input type="number" class="form-control" v-model="package.installment_fee"
                                                 :placeholder="$t('Installment Fee')">
                                         </div>
                                     </div>
@@ -80,7 +79,7 @@
                                                     <i class="fas fa-code-branch"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="packageEdit.branch_limit"
+                                            <input type="number" class="form-control" v-model="package.branch_limit"
                                                 :placeholder="$t('Branch Limit')">
                                         </div>
                                     </div>
@@ -97,7 +96,7 @@
                                                     <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="packageEdit.user_limit"
+                                            <input type="number" class="form-control" v-model="package.user_limit"
                                                 :placeholder="$t('User Limit')">
                                         </div>
                                     </div>
@@ -114,8 +113,8 @@
                                                     <i class="fab fa-product-hunt"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control"
-                                                v-model="packageEdit.product_limit" :placeholder="$t('Product Limit')">
+                                            <input type="number" class="form-control" v-model="package.product_limit"
+                                                :placeholder="$t('Product Limit')">
                                         </div>
                                     </div>
                                 </div>
@@ -131,8 +130,7 @@
                                                     <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control"
-                                                v-model="packageEdit.customer_limit"
+                                            <input type="number" class="form-control" v-model="package.customer_limit"
                                                 :placeholder="$t('Customer Limit')">
                                         </div>
                                     </div>
@@ -149,8 +147,7 @@
                                                     <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control"
-                                                v-model="packageEdit.supplier_limit"
+                                            <input type="number" class="form-control" v-model="package.supplier_limit"
                                                 :placeholder="$t('Supplier Limit')">
                                         </div>
                                     </div>
@@ -161,14 +158,14 @@
                                             {{ $t('Description') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <textarea class="form-control" v-model="packageEdit.description"
+                                        <textarea class="form-control" v-model="package.description"
                                             :placeholder="$t('Description')" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeUpdatePackage()">
+                            <button type="button" class="btn btn-warning" @click="closeData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -185,9 +182,20 @@
 
 <script>
 export default {
-    props: ['packageEdit'],
     data: function () {
         return {
+            package: {
+                title: "",
+                installment_fee: "",
+                monthly_service_charge: "",
+                branch_limit: "",
+                customer_limit: "",
+                supplier_limit: "",
+                user_limit: "",
+                product_limit: "",
+                description: "",
+                setting_access: [],
+            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -196,9 +204,9 @@ export default {
 
     },
     methods: {
-        updatePackage(id) {
+        addNewPackage() {
             this.isButtonDisabled = true;
-            axios.post(`/admin/package/update/${id}`, this.packageEdit).then((response) => {
+            axios.post(`/admin/package`, this.package).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
@@ -206,9 +214,20 @@ export default {
                         message: this.$t(response.data.message),
                     });
 
-                    this.$emit('load-package');
+                    this.$emit('load-data');
 
-                    $("#editPackage").modal('hide');
+                    this.package.title = "";
+                    this.package.installment_fee = ""
+                    this.package.monthly_service_charge = ""
+                    this.package.branch_limit = "";
+                    this.package.user_limit = "";
+                    this.package.customer_limit = "";
+                    this.package.supplier_limit = "";
+                    this.package.product_limit = "";
+                    this.package.description = ""
+                    this.package.setting_access = [];
+
+                    $("#createData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -227,8 +246,8 @@ export default {
                 });
             });
         },
-        closeUpdatePackage() {
-            $("#editPackage").modal('hide');
+        closeData() {
+            $("#createData").modal('hide');
             this.isButtonDisabled = false;
         },
     },

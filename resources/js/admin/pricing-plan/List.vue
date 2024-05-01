@@ -200,7 +200,7 @@ export default {
         editInfo(id) {
             axios.get(`/admin/pricing-plans/${id}/edit`).then((response) => {
                 this.editData = response.data.data;
-                $("#editData").modal('show');
+                $("#updateData").modal('show');
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
