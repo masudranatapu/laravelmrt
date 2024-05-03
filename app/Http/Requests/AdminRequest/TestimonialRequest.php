@@ -12,7 +12,7 @@ class TestimonialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,6 +22,7 @@ class TestimonialRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd(request()->all());
         return [
             "name" => ["required", "min:3", "max:30"],
             "designation" => ["nullable", "string", "max:30"],

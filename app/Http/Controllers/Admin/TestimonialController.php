@@ -16,12 +16,13 @@ class TestimonialController extends Controller
     {
         return view('admin.testimonial.index');
     }
-    public function testimonialList(Request $request)
+    public function dataList(Request $request)
     {
         try {
             $testimonials = Testimonial::query()
-                // ->when()
-                ->get();
+                ->when($request->rating, fn ($q) => $q->where('rating', $request->rating))
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
+                ->paginate($request->per_page ?? 1);
             return TestimonialResource::collection($testimonials);
         } catch (\Throwable $th) {
             return response()->json([
@@ -39,7 +40,7 @@ class TestimonialController extends Controller
             $testimonial->designation = $request->designation;
             $testimonial->review = $request->review;
             $testimonial->rating = $request->rating;
-            $testimonial->status = $request->status;
+            $testimonial->status = 'Active';
             $testimonial->create_by = adminUser()->id;
 
             if ($request->hasFile("image")) {
@@ -96,7 +97,7 @@ class TestimonialController extends Controller
     }
 
 
-    public function changeStatus($id)
+    public function statusChange($id)
     {
         try {
             DB::beginTransaction();
@@ -119,20 +120,21 @@ class TestimonialController extends Controller
         }
     }
 
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $testimonial = Testimonial::query()
-                // ->where()
-                // ->withCount()
-                ->findOrFail($id);
-
-            if ($testimonial->image) {
-                fileUnlink($testimonial->image);
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Testimonial Some Issue. You Can not continue This Action',
+                    ]);
+                }
             }
-
-            $testimonial->delete();
 
             DB::commit();
 
@@ -140,12 +142,30 @@ class TestimonialController extends Controller
                 'status' => true,
                 'message' => "Testimonial Successfully Deleted",
             ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+
+
+    public function destroy($id)
+    {
+        $testimonial = Testimonial::query()
+            // ->where()
+            // ->withCount()
+            ->findOrFail($id);
+
+        if ($testimonial->image) {
+            fileUnlink($testimonial->image);
+        }
+
+        $testimonial->delete();
+
+        DB::commit();
+        return true;
     }
 }

@@ -40,7 +40,7 @@ import AdminEditBusinesse from "./admin/businesse/EditBusinesse.vue";
 import AdminBusinesseType from "./admin/businesse-type/List.vue";
 import AdminPricingPlan from "./admin/pricing-plan/List.vue";
 import AdminPackage from "./admin/package/List.vue";
-import AdminTestimonial from "./admin/testimonial/TestimonialList.vue";
+import AdminTestimonial from "./admin/testimonial/List.vue";
 
 // import backend component template
 import Dashboard from "./backend/Dashboard.vue";

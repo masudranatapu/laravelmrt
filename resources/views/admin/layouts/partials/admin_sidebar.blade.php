@@ -66,8 +66,8 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="portfolio.html">
-                        Portfolio
+                    <a class="nav-link" href="{{ route('admin.testimonial.index') }}">
+                        Testimonial
                     </a>
                 </li>
                 <li>

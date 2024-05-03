@@ -161,7 +161,7 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t("Invalid Include Image File Extension"),
                     });
-                    $("#profileImage").val();
+                    $("#profileImage").val('');
                 } else {
                     formData.append("image", profileImage[0]);
                 }
