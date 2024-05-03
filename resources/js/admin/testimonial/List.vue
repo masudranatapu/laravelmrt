@@ -114,7 +114,7 @@
                                                     <input type="checkbox" name="custom-switch-checkbox"
                                                         class="custom-switch-input"
                                                         :checked="testimonial?.status === 'Active'"
-                                                        @change="testimonialStatusChange(testimonial?.id)">
+                                                        @change="statusChange(testimonial?.id)">
                                                     <span class="custom-switch-indicator"></span>
                                                     <span class="custom-switch-description">
                                                         {{ testimonial?.status }}
@@ -219,7 +219,7 @@ export default {
             $("#createData").modal('show');
         },
         editInfo(id) {
-            axios.get(`/testimonial/edit/${id}`).then((response) => {
+            axios.get(`/admin/testimonial/${id}/edit`).then((response) => {
                 this.editData = response.data.data;
                 $("#updateData").modal('show');
             }).catch((error) => {
@@ -242,7 +242,7 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/testimonial-bulk-delete?ids=${id}`).then((response) => {
+                    axios.get(`/admin/testimonial-bulk-delete?ids=${id}`).then((response) => {
                         this.isButtonDisabled = false;
                         if (response.data.status == true) {
                             this.$iziToast.success({
@@ -302,8 +302,8 @@ export default {
                 this.$swal.fire('Testimonial Not Select For This Action');
             }
         },
-        testimonialStatusChange(id) {
-            axios.get(`/testimonial/status/change/${id}`).then((response) => {
+        statusChange(id) {
+            axios.get(`/admin/testimonial-status/change/${id}`).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({

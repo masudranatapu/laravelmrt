@@ -61,7 +61,7 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="file" class="form-control" id="testimonialImage">
+                                            <input type="file" class="form-control" id="createImage">
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                                                     <i class="fas fa-code-branch"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="testimonial.rating">
+                                            <select class="form-control" v-model="testimonial.rating" required>
                                                 <option value="1">1 Star Rating</option>
                                                 <option value="2">2 Star Rating</option>
                                                 <option value="3">3 Star Rating</option>
@@ -95,7 +95,7 @@
                                         </label>
                                         <div class="input-group">
                                             <textarea class="form-control" v-model="testimonial.review"
-                                                :placeholder="$t('Review')" cols="30" rows="10"></textarea>
+                                                :placeholder="$t('Review')" cols="30" rows="10" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -142,11 +142,11 @@ export default {
 
             var formData = new FormData();
 
-            var testimonialImage = $("#testimonialImage")[0].files;
+            var createImage = $("#createImage")[0].files;
 
-            if (testimonialImage.length > 0) {
+            if (createImage.length > 0) {
 
-                var name = testimonialImage[0].name;
+                var name = createImage[0].name;
 
                 var extension = name.split('.').pop().toLowerCase();
                 console.log(extension, name);
@@ -156,9 +156,9 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t("Invalid Included Image File Extension"),
                     });
-                    $("#testimonialImage").val('');
+                    $("#createImage").val('');
                 } else {
-                    formData.append("image", testimonialImage[0]);
+                    formData.append("image", createImage[0]);
                 }
 
             }
@@ -168,7 +168,7 @@ export default {
             formData.append("review", this.testimonial.review);
             formData.append("rating", this.testimonial.rating);
 
-        axios.post(`/admin/testimonial`, formData).then((response) => {
+            axios.post(`/admin/testimonial`, formData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
@@ -178,9 +178,9 @@ export default {
 
                     this.$emit('load-data');
 
+                    $("#createImage").val('');
                     this.testimonial.name = "";
                     this.testimonial.designation = "";
-                    this.testimonial.image = "";
                     this.testimonial.review = "";
                     this.testimonial.rating = "";
 
@@ -210,7 +210,7 @@ export default {
             this.testimonial.image = "";
             this.testimonial.review = "";
             this.testimonial.rating = 5;
-            $("#testimonialImage").val();
+            $("#createImage").val('');
             this.isButtonDisabled = false;
         },
     },

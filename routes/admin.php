@@ -58,6 +58,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     // Testimonial
     Route::resource('testimonial', TestimonialController::class);
     Route::get('testimonial-list', [TestimonialController::class, 'dataList'])->name('testimonial.list');
-    Route::get('testimonial/status/change/{id}', [TestimonialController::class, 'statusChange'])->name('businessType.status.change');
-    Route::get('testimonial-bulk-delete', [TestimonialController::class, 'bulkDelete'])->name('businessType.bulkDelete');
+    Route::get('testimonial-status/change/{id}', [TestimonialController::class, 'statusChange'])->name('testimonial.status.change');
+    Route::get('testimonial-bulk-delete', [TestimonialController::class, 'bulkDelete'])->name('testimonial.bulkDelete');
 });

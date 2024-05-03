@@ -24,10 +24,10 @@ class TestimonialController extends Controller
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
                 ->paginate($request->per_page ?? 1);
             return TestimonialResource::collection($testimonials);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -44,25 +44,48 @@ class TestimonialController extends Controller
             $testimonial->create_by = adminUser()->id;
 
             if ($request->hasFile("image")) {
-                $image_url = imageUploader($request->file('image'), 'admin', $testimonial->image);
+
+                $image_url = imageUploader(
+                    $file = $request->file('image'),
+                    $path = 'testimonial',
+                    $width = 65,
+                    $height = 65,
+                    $old_image = $testimonial->image
+                );
+
                 $testimonial->image = $image_url;
             }
 
             $testimonial->save();
+
             DB::commit();
+
             return response()->json([
                 'status' => true,
                 'message' => 'Testimonial successfully created'
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
 
+    public function edit($id)
+    {
+        try {
+            $testimonial = Testimonial::query()
+                ->findOrFail($id);
+            return new TestimonialResource($testimonial);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
 
     public function update(TestimonialRequest $request, $id)
     {
@@ -74,9 +97,18 @@ class TestimonialController extends Controller
             $testimonial->review = $request->review;
             $testimonial->rating = $request->rating;
             $testimonial->status = $request->status;
+            $testimonial->create_by = adminUser()->id;
 
             if ($request->hasFile("image")) {
-                $image_url = imageUploader($request->file('image'), 'admin', $testimonial->image);
+
+                $image_url = imageUploader(
+                    $file = $request->file('image'),
+                    $path = 'testimonial',
+                    $width = 65,
+                    $height = 65,
+                    $old_image = $testimonial->image
+                );
+
                 $testimonial->image = $image_url;
             }
 
@@ -87,35 +119,36 @@ class TestimonialController extends Controller
                 'status' => true,
                 'message' => 'Testimonial successfully updated'
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
-
 
     public function statusChange($id)
     {
         try {
             DB::beginTransaction();
-            $request = request();
             $testimonial = Testimonial::query()
-                // ->where()
                 ->findOrFail($id);
-            $testimonial->status = $request->status;
+            if ($testimonial->status == 'Active') {
+                $testimonial->status = 'Inactive';
+            } else {
+                $testimonial->status = 'Active';
+            }
             $testimonial->save();
             DB::commit();
             return response()->json([
                 'status' => true,
                 'message' => "Testimonial $testimonial->status Successfully Done",
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -155,8 +188,6 @@ class TestimonialController extends Controller
     public function destroy($id)
     {
         $testimonial = Testimonial::query()
-            // ->where()
-            // ->withCount()
             ->findOrFail($id);
 
         if ($testimonial->image) {
@@ -165,7 +196,6 @@ class TestimonialController extends Controller
 
         $testimonial->delete();
 
-        DB::commit();
         return true;
     }
 }
