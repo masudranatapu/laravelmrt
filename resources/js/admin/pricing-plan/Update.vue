@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="updateData" data-backdrop="static" tabindex="-1" role="dialog"
+        <div class="modal fade" id="updateInfoData" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -8,7 +8,7 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             {{ $t('Update Pricing Plan') }}
                         </h5>
-                        <a href="javascript:;" @click="closePricingPlan()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeUpdateData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closePricingPlan()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -129,7 +129,7 @@ export default {
                         message: this.$t(response.data.message),
                     });
                     this.$emit('load-data');
-                    $("#updateData").modal('hide');
+                    $("#updateInfoData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -155,8 +155,8 @@ export default {
                 }
             });
         },
-        closePricingPlan() {
-            $("#updateData").modal('hide');
+        closeUpdateData() {
+            $("#updateInfoData").modal('hide');
             this.isButtonDisabled = false;
         },
     },

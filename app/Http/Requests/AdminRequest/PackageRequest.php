@@ -3,6 +3,7 @@
 namespace App\Http\Requests\AdminRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PackageRequest extends FormRequest
 {
@@ -22,7 +23,13 @@ class PackageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["required", "string", "min:3", "max:40"],
+            "title" => [
+                "required",
+                "string",
+                "min:3",
+                "max:40",
+                Rule::unique('packages')->ignore($this->id),
+            ],
             "monthly_service_charge" => ["required", "integer", "min:1"],
             "installment_fee" => ["required", "integer", "min:1"],
             "branch_limit" => ["required", "integer", "min:1"],

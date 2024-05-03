@@ -3,7 +3,7 @@
 namespace App\Http\Requests\AdminRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BusinessTypeRequest extends FormRequest
 {
@@ -23,8 +23,13 @@ class BusinessTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "business_type_name" => ["required", "string", "min:3", "max:40", "unique:business_types,business_type_name," . $this->id],
-            "access" => ["required"],
+            "business_type_name" => [
+                "required",
+                "string",
+                "min:3",
+                "max:40",
+                Rule::unique('business_types')->ignore($this->id),
+            ],
         ];
     }
 }

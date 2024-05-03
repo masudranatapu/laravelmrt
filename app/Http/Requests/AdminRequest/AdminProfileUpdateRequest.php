@@ -23,7 +23,12 @@ class AdminProfileUpdateRequest extends FormRequest
     {
         return [
             "name" => ["required", "regex:/^[a-zA-Z]+$/"],
-            "username" => ["required", "string", "min:3", "max:20"],
+            "username" => [
+                "required",
+                "string",
+                "min:3",
+                "max:20"
+            ],
             "email" => ["required", "email", "max:30"],
             "phone" => ["required", "regex:/^[0-9]+$/", "max:15"],
             "address" => ["required", "string", "min:3", "max:50"],

@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.admin_id" @change="loadBusinessType()">
+                                    <select class="form-control" v-model="quarry.admin_id" @change="loadData()">
                                         <option value="">{{ $t('All') }}</option>
                                         <option v-for="(admin, index) in adminUsers" :value="admin.id" :key="index">
                                             {{ admin.name }}
@@ -26,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.status" @change="loadBusinessType()">
+                                    <select class="form-control" v-model="quarry.status" @change="loadData()">
                                         <option value="">{{ $t('All') }}</option>
                                         <option value="Active">{{ $t('Active') }}</option>
                                         <option value="Inactive">{{ $t('Inactive') }}</option>
@@ -34,14 +34,14 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <input type="text" class="form-control" :placeholder="$t('Search')"
-                                        v-model="quarry.keyword" @change="loadBusinessType()">
+                                        v-model="quarry.keyword" @change="loadData()">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadBusinessType()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             {{ $t('Search') }}
                                         </button>
-                                        <button type="button" class="btn btn-warning" @click="clearLoadBusinessType()">
+                                        <button type="button" class="btn btn-warning" @click="clearSearch()">
                                             {{ $t('Clear') }}
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
@@ -50,7 +50,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 {{ $t('Delete') }}
                                             </a>
                                         </div>
@@ -65,45 +65,40 @@
                                         <tr>
                                             <th class="text-center">
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="allGroup">
+                                                    <input type="checkbox" @click="allChecked()" v-model="all_checked"
+                                                        class="custom-control-input" id="allGroup">
                                                     <label for="allGroup" class="custom-control-label">
                                                         {{ $t(' SL No') }}
                                                     </label>
                                                 </div>
                                             </th>
                                             <th class="text-center">{{ $t('Business Type Name') }}</th>
-                                            <th class="text-center">{{ $t('Business Options') }}</th>
                                             <th class="text-center">{{ $t('Status') }}</th>
                                             <th class="text-center">{{ $t('Created By') }}</th>
                                             <th class="text-center">{{ $t('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="( busi_type, index ) in  businessTypes ">
+                                        <tr v-for="( busi_type, index ) in businessTypes ">
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
-                                                        :id="'busiType_' + busi_type?.id" :value='busi_type?.id'>
+                                                        :id="'busiType_' + busi_type?.id" :value='busi_type?.id'
+                                                        v-model="checkedIds">
                                                     <label :for="'busiType_' + busi_type?.id"
                                                         class="custom-control-label">
-                                                        {{ index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1
+                                                        }}
                                                     </label>
                                                 </div>
                                             </td>
                                             <td class="text-center">{{ busi_type?.business_type_name }}</td>
                                             <td class="text-center">
-                                                <p v-for=" key  in  busi_type?.access " :key="key">
-                                                    <b class="text-success">
-                                                        {{ businessAccessOptions[key] }}
-                                                    </b>
-                                                </p>
-                                            </td>
-                                            <td class="text-center">
                                                 <label class="custom-switch mt-2" :title="busi_type?.status">
                                                     <input type="checkbox" name="custom-switch-checkbox"
                                                         class="custom-switch-input"
                                                         :checked="busi_type?.status === 'Active'"
-                                                        @change="businessTypeStatusChange(busi_type?.id)">
+                                                        @change="statusChange(busi_type?.id)">
                                                     <span class="custom-switch-indicator"></span>
                                                     <span class="custom-switch-description">
                                                         {{ $t(busi_type?.status) }}
@@ -116,11 +111,11 @@
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary btn-sm" title="Edit"
-                                                        @click="editBusinessType(busi_type?.id)">
+                                                        @click="editInfo(busi_type?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger btn-sm"
-                                                        title="Delete" @click="deleteBusinessType(busi_type?.id)">
+                                                        title="Delete" @click="deleteData(busi_type?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -130,65 +125,68 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <CreateBusinessType @load-business-type="refreshBusinessType" :accessOptions="businessAccessOptions" />
-        <UpdateBusinessType @load-business-type="refreshBusinessType" :accessOptions="businessAccessOptions"
-            :businessTypeInfo="updateBusinessTypeInfo" />
+        <Create @load-data="refreshData" />
+        <Update @load-data="refreshData" :editData="editData" />
     </div>
 </template>
 
 <script>
-import CreateBusinessType from './CreateBusinessType.vue'
-import UpdateBusinessType from './UpdateBusinessType.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
 export default {
     components: {
-        CreateBusinessType,
-        UpdateBusinessType
+        Create,
+        Update
     },
     data: function () {
         return {
             businessTypes: {},
-            updateBusinessTypeInfo: {},
-            businessAccessOptions: {},
+            editData: {},
             adminUsers: {},
             quarry: {
-                parpage: 20,
+                par_page: 10,
                 keyword: '',
                 admin_id: '',
                 status: '',
             },
+            metaData: {},
+            checkedIds: [],
+            all_checked: false,
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadBusinessType();
-        this.loadAccessOptions();
+        this.loadData();
         this.loadAdminUsers();
     },
     methods: {
-        loadBusinessType() {
-            axios.get("/admin/business-type/list", { params: this.quarry }).then((response) => {
+        loadData(page = 1) {
+            axios.get(`/admin/business-type-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.businessTypes = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
                     message: this.$t(`Fetching data has error. Please try again.`),
                 });
-            });
-        },
-        loadAccessOptions() {
-            axios.get("/admin/load-bussiness/options").then((response) => {
-                this.businessAccessOptions = response.data;
-            }).catch((error) => {
-                if (error) {
-                    this.$iziToast.error({
-                        title: this.$t('Error'),
-                        message: this.$t(`Fetching data has error. Please try again.`),
-                    });
-                }
             });
         },
         loadAdminUsers() {
@@ -204,13 +202,12 @@ export default {
             });
         },
         addBusinessType() {
-            $("#createNewBusinessType").modal('show');
+            $("#createNewData").modal('show');
         },
-        editBusinessType(id) {
-
-            axios.get(`/admin/business-type/edit/${id}`).then((response) => {
-                this.updateBusinessTypeInfo = response.data.data;
-                $("#editBusinessType").modal('show');
+        editInfo(id) {
+            axios.get(`/admin/business-type/${id}/edit`).then((response) => {
+                this.editData = response.data.data;
+                $("#updateInfoData").modal('show');
             }).catch((error) => {
                 if (error) {
                     this.$iziToast.error({
@@ -220,10 +217,10 @@ export default {
                 }
             });
         },
-        refreshBusinessType() {
-            this.loadBusinessType();
+        refreshData() {
+            this.loadData();
         },
-        deleteBusinessType(id) {
+        deleteData(id) {
             this.$swal.fire({
                 title: this.$t('Are you sure?'),
                 text: this.$t('You won\'t be able to revert this!'),
@@ -233,13 +230,16 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/admin/business-type/delete/${id}`).then((response) => {
+                    axios.get(`/admin/business-type-bulk-delete?ids=${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadBusinessType();
+                            this.loadData();
+
+                            this.checkedIds = [];
+                            this.all_checked = false;
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -268,25 +268,24 @@ export default {
                         title: 'Cancelled',
                         message: 'Your data is safe now :)',
                     });
-                    // this.$swal.fire('Your data is safe now :)');
                 }
             });
         },
-        clearLoadBusinessType() {
-            this.quarry.parpage = 20;
+        clearSearch() {
+            this.quarry.par_page = 10;
             this.quarry.keyword = '';
             this.quarry.status = '';
             this.quarry.admin_id = '';
-            this.loadBusinessType();
+            this.loadData();
         },
-        businessTypeStatusChange(id) {
+        statusChange(id) {
             axios.get(`/admin/business-type/status/change/${id}`).then((response) => {
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.loadBusinessType();
+                    this.loadData();
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -311,9 +310,20 @@ export default {
                 }
             });
         },
-        businessAccessValue(access) {
-            return this.businessAccessOptions[access] || access;
+        allChecked() {
+            if (this.checkedIds.length === this.businessTypes.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.businessTypes.map(businessType => businessType.id);
+            }
         },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Business Type Not Select For This Action');
+            }
+        }
     },
 }
 </script>

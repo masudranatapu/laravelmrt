@@ -38,13 +38,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('businesses/create', [AdminBusinessController::class, 'create'])->name('business.create');
     Route::post('businesses/store', [AdminBusinessController::class, 'store'])->name('business.store');
     // business type
-    Route::get('business-type', [BusinessTypeController::class, 'index'])->name('business.type');
-    Route::get('business-type/list', [BusinessTypeController::class, 'businessTypeList'])->name('businessType.list');
-    Route::post('business-type/store', [BusinessTypeController::class, 'store'])->name('businessType.store');
-    Route::get('business-type/edit/{id}', [BusinessTypeController::class, 'edit'])->name('businessType.edit');
-    Route::post('business-type/update/{id}', [BusinessTypeController::class, 'update'])->name('businessType.update');
+    Route::resource('business-type', BusinessTypeController::class);
+    Route::get('business-type-list', [BusinessTypeController::class, 'dataList'])->name('businessType.list');
     Route::get('business-type/status/change/{id}', [BusinessTypeController::class, 'statusChange'])->name('businessType.status.change');
-    Route::get('business-type/delete/{id}', [BusinessTypeController::class, 'delete'])->name('businessType.delete');
+    Route::get('business-type-bulk-delete', [BusinessTypeController::class, 'bulkDelete'])->name('businessType.bulkDelete');
     // pricing-plans
     Route::resource('pricing-plans', PricingPlanController::class);
     Route::get('pricing-plans-list', [PricingPlanController::class, 'dataList'])->name('pricingPlan.list');

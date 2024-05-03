@@ -40,7 +40,7 @@
             </ul>
         </li>
         <li>
-            <a class="nav-link" href="{{ route('admin.business.type') }}">
+            <a class="nav-link" href="{{ route('admin.business-type.index') }}">
                 <i data-feather="map-pin"></i>
                 <span>
                     Business Type
