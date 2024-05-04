@@ -24,17 +24,17 @@ class AdminBusinessController extends Controller
         return view("admin.business.index");
     }
 
-    public function businessList(Request $request)
+    public function dataList(Request $request)
     {
         try {
             $business = Business::query()
                 ->latest()
-                ->paginate($request->per_page ?? 1);
+                ->paginate($request->per_page ?? 10);
             return AdminBusinessResource::collection($business);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -62,9 +62,8 @@ class AdminBusinessController extends Controller
             $user = $this->createUser($request);
             // create business
             $business = $this->createBusiness($request, $user);
-            // update user witH business id
+            // update user with business id
             $user->business_id = $business->id;
-
             $user->save();
             // create guest customer
             $this->guestCustomer($business);
@@ -77,11 +76,11 @@ class AdminBusinessController extends Controller
                 'status' => true,
                 'message' => 'Business Successfully Updated',
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -95,7 +94,7 @@ class AdminBusinessController extends Controller
         $business->package_id = $request->package_id;
         $business->pricing_plan_id = $request->pricing_plan_id;
         $business->business_type_id = $request->business_type_id;
-        $business->type = $request->sub_business_id ? 'Branch' : 'Owner';
+        $business->type = 'Owner';
         $business->name = $request->name;
         $business->email = $request->email;
 
@@ -103,9 +102,9 @@ class AdminBusinessController extends Controller
 
             $image_url = imageUploader(
                 $file = $request->file('logo'),
-                $path = 'testimonial',
-                $width = 65,
-                $height = 65,
+                $path = 'business',
+                $width = 200,
+                $height = 200,
                 $old_image = $business->logo
             );
 
@@ -117,9 +116,9 @@ class AdminBusinessController extends Controller
 
             $image_url = imageUploader(
                 $file = $request->file('favicon'),
-                $path = 'testimonial',
-                $width = 65,
-                $height = 65,
+                $path = 'business',
+                $width = 16,
+                $height = 16,
                 $old_image = $business->favicon
             );
 
@@ -134,8 +133,8 @@ class AdminBusinessController extends Controller
         $business->phone = $request->phone;
         $business->website = $request->website;
         $business->start_date = date('Y-m-d', strtotime($request->start_date));
-        $business->validity_start = date('Y-m-d', strtotime($request->validity_start));
-        $business->validity = date('Y-m-d', strtotime($request->validity));
+        $business->validity_start = date('Y-m-d', strtotime($request->start_date));
+        $business->validity = Carbon::parse($request->start_date)->addMonths($request->total_month)->format('Y-m-d');
         $business->fees = $request->fees;
         $business->service_charge = $request->service_charge;
         $business->branch_limit = $request->branch_limit;
@@ -156,10 +155,14 @@ class AdminBusinessController extends Controller
     public function createUser($request)
     {
         $user = new User();
+        $user->admin_id = adminUser()->id;
+        $user->package_id = $request->package_id;
         $user->name = $request->user_name;
+        $user->username = strtolower(str_replace(' ', '', $request->user_name . rand(1, 9999)));
         $user->email = $request->user_email;
         $user->status = 'Active';
         $user->password = Hash::make($request->password);
+        $user->date = date('Y-d-m');
         $user->save();
         return $user;
     }
@@ -192,5 +195,50 @@ class AdminBusinessController extends Controller
         $supplier->status = 'Active';
         $supplier->save();
         return $supplier;
+    }
+    public function changeStatus($id)
+    {
+        try {
+            DB::beginTransaction();
+            $request = request();
+            $business = Business::query()
+                ->findOrFail($id);
+            $business->status = $request->status;
+            $business->save();
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => "Business $business->status Successfully Done",
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $packages = Package::query()
+                ->select(['id', 'title',])
+                ->get();
+
+            $pricingPlans = PricingPlan::query()
+                ->select(['id', 'month'])
+                ->get();
+            $businessType = BusinessType::query()
+                ->select(['id', 'business_type_name'])
+                ->get();
+            $business = Business::query()
+                ->findOrFail($id);
+            return view("admin.business.edit", compact("packages", "pricingPlans", "businessType", 'business'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

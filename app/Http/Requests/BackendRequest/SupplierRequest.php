@@ -26,7 +26,7 @@ class SupplierRequest extends FormRequest
             "phone" => ["required", "regex:/^[0-9]+$/", "max:15"],
             "supplier_business_name" => ["nullable", "string", "min:3", "max:30"],
             "email" => ["nullable", "min:3", "max:30", "string"],
-            "image" => ["nullable", "max:10240", "mimes:jpeg,png,jpg", "image"],
+            "image" => ["nullable", "max:10240", "mimes:jpeg,png,jpg,webp", "image"],
             "gender" => ["nullable"],
             "date_of_birth" => ["nullable"],
             "due" => ["nullable", "min:0"],

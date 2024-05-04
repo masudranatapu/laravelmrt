@@ -47,10 +47,10 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success btn-sm" @click="loadBusinesse()">
+                                        <button type="button" class="btn btn-success" @click="loadBusinesse()">
                                             {{ $t('Search') }}
                                         </button>
-                                        <button type="button" class="btn btn-warning btn-sm">
+                                        <button type="button" class="btn btn-warning" @click="clearSearch()">
                                             {{ $t('Clear') }}
                                         </button>
                                     </div>
@@ -86,26 +86,81 @@
                                                         class="custom-control-input" :id="'checked_' + business?.id">
                                                     <label :for="'checked_' + business?.id"
                                                         class="custom-control-label">
-                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1}}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1
+                                                        }}
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ business?.name }}</td>
-                                            <td class="align-middle">
-                                                <div class="progress" data-height="4" data-toggle="tooltip"
-                                                    title="100%">
-                                                    <div class="progress-bar bg-success" data-width="100"></div>
-                                                </div>
+                                            <td>
+                                                {{ business?.name }}
+                                            </td>
+                                            <td>
+                                                {{ business?.email }}
                                             </td>
                                             <td>
                                                 <img alt="image" src="" class="rounded-circle" width="35" title="">
                                             </td>
                                             <td>2018-01-20</td>
-                                            <td>
-                                                <div class="badge badge-success">{{ $t('Completed') }}</div>
+                                            <td class="text-center">
+                                                <div class="dropdown d-inline mr-2">
+                                                    <button class="btn dropdown-toggle" type="button"
+                                                        :class="getStatusButtonClass(business?.status)"
+                                                        id="dropdownMenuButton3" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        {{ business?.status }}
+                                                    </button>
+                                                    <div class="dropdown-menu" x-placement="bottom-start"
+                                                        style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(business?.id, 'Active')" type="button"
+                                                            v-if="business?.status === 'Inactive' || business?.status === 'Pending' || business?.status === 'Blocked'">
+                                                            {{ $t('Make Active') }}
+                                                        </button>
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(business?.id, 'Inactive')"
+                                                            type="button"
+                                                            v-if="business?.status === 'Active' || business?.status === 'Pending'">
+                                                            {{ $t('Make Inactive') }}
+                                                        </button>
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(business?.id, 'Blocked')" type="button"
+                                                            v-if="business?.status === 'Active' || business?.status === 'Pending'">
+                                                            {{ $t('Block User') }}
+                                                        </button>
+                                                        <button class="dropdown-item"
+                                                            @click="changeStatus(business?.id, 'Pending')" type="button"
+                                                            v-if="business?.status === 'Active'">
+                                                            {{ $t('Pending') }}
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary">{{ $t('Detail') }}</a>
+                                            <td class="text-center">
+                                                <div class="dropdown d-inline">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton2" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        {{ $t('Action') }}
+                                                    </button>
+                                                    <div class="dropdown-menu" x-placement="bottom-start"
+                                                        style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                        <a class="dropdown-item has-icon" href="javascript:;"
+                                                            @click="viewInfo(business?.id)">
+                                                            <i class="fa fa-eye"></i>
+                                                            {{ $t('View') }}
+                                                        </a>
+                                                        <a class="dropdown-item has-icon"
+                                                            :href="'/admin/businesses/' + business?.id + '/edit'">
+                                                            <i class="fas fa-pen"></i>
+                                                            {{ $t('Edit') }}
+                                                        </a>
+                                                        <a class="dropdown-item has-icon" href="javascript:;"
+                                                            @click="deleteData(business?.id)">
+                                                            <i class="fa fa-times"></i>
+                                                            {{ $t('Delete') }}
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -139,6 +194,12 @@ export default {
         return {
             businesses: {},
             metaData: {},
+            quarry: {
+                per_page: 10,
+                keyword: '',
+                start_date: '',
+                end_date: '',
+            },
             main_url: window.location.origin + "/",
         };
     },
@@ -153,6 +214,46 @@ export default {
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
             });
+        },
+        getStatusButtonClass(status) {
+            return {
+                'btn-info': status === 'Pending',
+                'btn-success': status === 'Active',
+                'btn-secondary': status === 'Inactive',
+                'btn-danger': status === 'Blocked'
+            };
+        },
+        changeStatus(id, changeStatus) {
+            axios.get(`/admin/businesses-status-change/${id}?status=${changeStatus}`).then((response) => {
+                if (response.data.status == true) {
+                    this.$iziToast.success({
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
+                    });
+                    this.loadBusinesse();
+                } else {
+                    this.$iziToast.error({
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
+                    });
+                }
+
+            }).catch((error) => {
+
+                this.$iziToast.error({
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
+                });
+
+            });
+        },
+        clearSearch() {
+            this.quarry.per_page = 10;
+            this.quarry.keyword = '';
+            this.quarry.start_date = '';
+            this.quarry.end_date = '';
+
+            this.loadData();
         },
     },
 };

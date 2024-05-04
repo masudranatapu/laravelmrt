@@ -28,7 +28,7 @@ class TestimonialRequest extends FormRequest
             "review" => ["required", "string", "max:400"],
             "rating" => ["required", "numeric", "in:1,2,3,4,5"],
             "status" => ["nullable", "in:Active,Inactive"],
-            "image" => ["required", "max:10240", "mimes:jpeg,png,jpg", "image"],
+            "image" => ["required", "max:10240", "mimes:jpeg,png,jpg,webp", "image"],
         ];
     }
 }

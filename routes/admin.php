@@ -35,6 +35,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     // businesses
     Route::resource('businesses', AdminBusinessController::class);
     Route::get('businesses-list', [AdminBusinessController::class, 'dataList'])->name('business.list');
+    Route::get('businesses-status-change/{id}', [AdminBusinessController::class, 'changeStatus'])->name('business.statusChange');
     // business type
     Route::resource('business-type', BusinessTypeController::class);
     Route::get('business-type-list', [BusinessTypeController::class, 'dataList'])->name('businessType.list');

@@ -54,16 +54,15 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>{{ $t('Business Start Date') }}</label>
+                                            <label>{{ $t('Start Date') }}</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">
                                                         <i class="fas fa-calendar-alt"></i>
                                                     </div>
                                                 </div>
-                                                <input type="date" class="form-control"
-                                                    v-model="business.business_start_date"
-                                                    :placeholder="$t('Business Start Date')">
+                                                <input type="date" class="form-control" v-model="business.start_date"
+                                                    :placeholder="$t('Start Date')">
                                             </div>
                                         </div>
                                     </div>
@@ -224,29 +223,6 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
-                                                {{ $t('Pricing Plans') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">
-                                                        <i class="far fa-check-square"></i>
-                                                    </div>
-                                                </div>
-                                                <select class="form-control" v-model="business.pricing_plan_id"
-                                                    @change="pricingValue()">
-                                                    <option value="" disabled>Select One</option>
-                                                    <option v-for="(plan, index) in pricing_plans" :key="index"
-                                                        :value="plan?.id">
-                                                        {{ plan?.month }} {{ $t('Month') }}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>
                                                 {{ $t('Packages') }}
                                                 <span class="text-danger">*</span>
                                             </label>
@@ -268,6 +244,29 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>
+                                                {{ $t('Pricing Plans') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="far fa-check-square"></i>
+                                                    </div>
+                                                </div>
+                                                <select class="form-control" v-model="business.pricing_plan_id"
+                                                    @change="pricingValue()">
+                                                    <option value="" disabled>Select One</option>
+                                                    <option v-for="(plan, index) in pricing_plans" :key="index"
+                                                        :value="plan?.id">
+                                                        {{ plan?.month }} {{ $t('Month') }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{ $t('Monthly Service Charge') }}</label>
@@ -420,7 +419,7 @@ export default {
             business: {
                 name: '',
                 phone: '',
-                business_start_date: '',
+                start_date: '',
                 email: '',
                 city: '',
                 zip_code: '',
@@ -430,6 +429,7 @@ export default {
                 password: '',
                 business_type_id: '',
                 pricing_plan_id: '',
+                total_month: '',
                 package_id: '',
                 service_charge: '',
                 fees: '',
@@ -440,7 +440,6 @@ export default {
             },
             accessOptions: {},
             total_service_charge: 0,
-            total_month: 0,
             discount_type: '',
             total_discount: 0,
             after_discount: 0,
@@ -452,8 +451,16 @@ export default {
     },
     beforeMount() {
         this.loadAccessOptions();
+        this.setCurrentDate();
     },
     methods: {
+        setCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            this.business.start_date = `${year}-${month}-${day}`;
+        },
         loadAccessOptions() {
             axios.get("/admin/load-bussiness/options").then((response) => {
                 this.accessOptions = response.data;
@@ -469,7 +476,7 @@ export default {
         pricingValue() {
             axios.get(`/admin/pricing-plan/${this.business.pricing_plan_id}`).then((response) => {
                 if (response.data) {
-                    this.total_month = response.data.month;
+                    this.business.total_month = response.data.month;
                     this.discount_type = response.data.discount_type;
                     this.total_discount = response.data.discount_value;
 
@@ -499,13 +506,13 @@ export default {
                     this.business.user_limit = response.data.user_limit;
                     this.business.product_limit = response.data.product_limit;
 
-                    this.total_service_charge = this.total_month * response.data.monthly_service_charge;
+                    this.total_service_charge = response.data.monthly_service_charge;
 
                     if (this.discount_type === 'Percentage') {
                         this.after_discount = (this.total_service_charge * this.total_discount) / 100;
-                        this.total_amount = this.total_service_charge - this.after_discount;
+                        this.total_amount = Math.round(this.business.fees - this.after_discount);
                     } else {
-                        this.total_amount = this.total_service_charge - this.total_discount;
+                        this.total_amount = Math.round(this.business.fees - this.total_discount);
                     }
 
                 } else {
@@ -573,7 +580,7 @@ export default {
 
             formData.append('name', this.business.name ? this.business.name : '');
             formData.append('phone', this.business.phone ? this.business.phone : '');
-            formData.append('business_start_date', this.business.business_start_date ? this.business.business_start_date : '');
+            formData.append('start_date', this.business.start_date ? this.business.start_date : '');
             formData.append('email', this.business.email ? this.business.email : '');
             formData.append('city', this.business.city ? this.business.city : '');
             formData.append('zip_code', this.business.zip_code ? this.business.zip_code : '');
@@ -585,6 +592,7 @@ export default {
             formData.append('pricing_plan_id', this.business.pricing_plan_id ? this.business.pricing_plan_id : '');
             formData.append('package_id', this.business.package_id ? this.business.package_id : '');
             formData.append('service_charge', this.business.service_charge ? this.business.service_charge : '');
+            formData.append('total_month', this.business.total_month ? this.business.total_month : '');
             formData.append('fees', this.business.fees ? this.business.fees : '');
             formData.append('branch_limit', this.business.branch_limit ? this.business.branch_limit : '');
             formData.append('user_limit', this.business.user_limit ? this.business.user_limit : '');
@@ -604,7 +612,7 @@ export default {
 
                     this.business.name = "";
                     this.business.phone = "";
-                    this.business.business_start_date = "";
+                    this.business.start_date = "";
                     this.business.email = "";
                     this.business.city = "";
                     this.business.zip_code = "";
@@ -622,7 +630,12 @@ export default {
                     this.business.product_limit = "";
                     this.business.option_access = [];
 
-                    $("#createData").modal('hide');
+                    this.total_service_charge = 0;
+                    this.total_discount = 0;
+                    this.total_amount = 0;
+
+                    $("#logo").val('');
+                    $("#favicon").val('');
 
                 } else {
                     this.$iziToast.error({
@@ -644,7 +657,6 @@ export default {
         },
         cancelNewBusiness() {
             this.isButtonDisabled = false;
-            this.business.name = ''
         },
         passwordVisibility() {
             this.showPassword = !this.showPassword;

@@ -22,24 +22,53 @@ class BusinessRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->id ? $this->id : '';
         return [
-            // "business_id" => ["nullable"],
-            // "package_id" => ["nullable"],
-            // "pricing_plan_id" => ["nullable"],
-            // "business_type_id" => ["nullable"],
-            // "type" => ["required", Rule::in(['Owner', 'Branch'])],
-            // "name" => ["required", "max:30", "min:3", "string"],
-            // "logo" => ["nullable", "max:10240", "mimes:jpeg,png,jpg", "image"],
-            // "address" => ["nullable", "string", "min:3", "max:50"],
-            // "area" => ["nullable", "string"],
-            // "zip_code" => ["nullable", "numeric"],
-            // "country" => ["required"],
-            // "phone" => ["required", "regex:/^[0-9]+$/", "max:15"],
-            // "start_date" => ["required"],
-            // "validity_start" => ["required"],
-            // "validity" => ["required"],
-            // "business_access" => ["required"],
-            // "status" => ["required", Rule::in(['Active', 'Inactive', 'Pending', 'Blocked'])],
+            'name' => ['required', 'min:3',  'max:30', 'string'],
+            'phone' => ['required', 'regex:/^[0-9]+$/', 'max:15'],
+            'start_date' => ['required'],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('businesses', 'email')->ignore($id),
+            ],
+            'city' => ['nullable', 'string'],
+            'zip_code' => ['nullable', 'nullable', 'integer'],
+            'address' => ['required', 'string', 'max:50'],
+            'user_name' => ['required', 'min:3', 'max:50', 'string'],
+            'user_email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->where(function ($query) use ($id) {
+                    return $query->where('business_id', $id);
+                })
+            ],
+            'password' => ['required', 'string', 'min:3', 'max:20'],
+            'business_type_id' => [
+                'required',
+                'integer',
+                Rule::exists('business_types', 'id')
+            ],
+            'pricing_plan_id' => [
+                'required',
+                'integer',
+                Rule::exists('pricing_plans', 'id')
+            ],
+            'package_id' => [
+                'required',
+                'integer',
+                Rule::exists('packages', 'id')
+            ],
+            'service_charge' => ['required', 'numeric'],
+            'total_month' => ['required', 'numeric'],
+            'fees' => ['required', 'numeric'],
+            'branch_limit' => ['required', 'integer'],
+            'user_limit' => ['required', 'integer'],
+            'product_limit' => ['required', 'integer'],
+            'option_access' => ['required', 'array', 'min:1'],
+            'logo' => ['nullable', 'max:10240', 'mimes:jpeg,png,jpg,webp', 'image'],
+            'favicon' => ['nullable', 'max:10240', 'mimes:jpeg,png,jpg,webp', 'image'],
+            // 'status' => ['nullable', Rule::in(['Active', 'Inactive', 'Pending', 'Blocked'])],
         ];
     }
 }

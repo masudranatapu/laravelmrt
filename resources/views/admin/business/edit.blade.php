@@ -3,7 +3,5 @@
 @section('title', 'Edit Business')
 
 @section('content')
-    <section class="section">
-        <admin-businesse-edit></admin-businesse-edit>
-    </section>
+    <admin-businesse-edit :business="{{ $business }}" :packages="{{ $packages }}":pricing_plans="{{ $pricingPlans }}" :business_types="{{ $businessType }}"></admin-businesse-edit>
 @endsection

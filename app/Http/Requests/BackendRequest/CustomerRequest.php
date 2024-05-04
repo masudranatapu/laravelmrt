@@ -25,7 +25,7 @@ class CustomerRequest extends FormRequest
             "name" => ["required", "max:30", "min:3", "string"],
             "email" => ["nullable", "max:30", "min:3", "string"],
             "phone" => ["required", "regex:/^[0-9]+$/", "max:15"],
-            "image" => ["nullable", "max:10240", "mimes:jpeg,png,jpg", "image"],
+            "image" => ["nullable", "max:10240", "mimes:jpeg,png,jpg,webp", "image"],
             "gender" => ["nullable"],
             "member_ship_id" => ["nullable", "string"],
             "date_of_birth" => ["nullable"],
