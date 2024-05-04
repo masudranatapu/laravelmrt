@@ -4,7 +4,7 @@ import enLang from "./langs/en";
 import bnLang from "./langs/bn";
 
 const i18n = createI18n({
-    locale: "bn",
+    locale: "en",
     messages: {
         en: enLang,
         bn: bnLang,

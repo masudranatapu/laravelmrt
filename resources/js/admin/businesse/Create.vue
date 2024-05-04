@@ -91,7 +91,7 @@
                                                     </div>
                                                 </div>
                                                 <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp"
-                                                    class="form-control" id="business_logo">
+                                                    class="form-control" id="logo">
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +105,7 @@
                                                     </div>
                                                 </div>
                                                 <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp"
-                                                    class="form-control" id="business_favicon">
+                                                    class="form-control" id="favicon">
                                             </div>
                                         </div>
                                     </div>
@@ -525,14 +525,15 @@ export default {
         },
         createNewBusiness() {
 
+            this.isButtonDisabled = true;
             var formData = new FormData();
 
-            var businessLogo = $("#business_logo")[0].files;
-            var businessFavicon = $("#business_favicon")[0].files;
+            var logo = $("#logo")[0].files;
+            var favicon = $("#favicon")[0].files;
 
-            if (businessLogo.length > 0) {
+            if (logo.length > 0) {
 
-                var nameLogo = businessLogo[0].name;
+                var nameLogo = logo[0].name;
 
                 var extension = nameLogo.split('.').pop().toLowerCase();
 
@@ -541,18 +542,18 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t("Invalid Include Image File Extension"),
                     });
-                    $("#business_logo").val();
+                    $("#logo").val('');
                 } else {
-                    formData.append("logo", businessLogo[0]);
+                    formData.append("logo", logo[0]);
                 }
 
             } else {
                 formData.append("logo", '');
             }
 
-            if (businessFavicon.length > 0) {
+            if (favicon.length > 0) {
 
-                var nameFavicon = businessFavicon[0].name;
+                var nameFavicon = favicon[0].name;
 
                 var extension = nameFavicon.split('.').pop().toLowerCase();
 
@@ -561,9 +562,9 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t("Invalid Include Image File Extension"),
                     });
-                    $("#business_favicon").val();
+                    $("#favicon").val('');
                 } else {
-                    formData.append("favicon", businessFavicon[0]);
+                    formData.append("favicon", favicon[0]);
                 }
 
             } else {
@@ -578,6 +579,7 @@ export default {
             formData.append('zip_code', this.business.zip_code ? this.business.zip_code : '');
             formData.append('address', this.business.address ? this.business.address : '');
             formData.append('user_name', this.business.user_name ? this.business.user_name : '');
+            formData.append('user_email', this.business.user_email ? this.business.user_email : '');
             formData.append('password', this.business.password ? this.business.password : '');
             formData.append('business_type_id', this.business.business_type_id ? this.business.business_type_id : '');
             formData.append('pricing_plan_id', this.business.pricing_plan_id ? this.business.pricing_plan_id : '');
@@ -592,10 +594,42 @@ export default {
                 Object.entries(this.business.option_access).forEach(([key, value]) => formData.append(`option_access[${key}]`, value));
             }
 
-            console.log(formData);
-
             axios.post(`/admin/businesses`, formData).then((response) => {
-                console.log(response);
+                this.isButtonDisabled = false;
+                if (response.data.status == true) {
+                    this.$iziToast.success({
+                        title: this.$t('Success'),
+                        message: this.$t(response.data.message),
+                    });
+
+                    this.business.name = "";
+                    this.business.phone = "";
+                    this.business.business_start_date = "";
+                    this.business.email = "";
+                    this.business.city = "";
+                    this.business.zip_code = "";
+                    this.business.address = "";
+                    this.business.user_name = "";
+                    this.business.user_email = "";
+                    this.business.password = "";
+                    this.business.business_type_id = "";
+                    this.business.pricing_plan_id = "";
+                    this.business.package_id = "";
+                    this.business.service_charge = "";
+                    this.business.fees = "";
+                    this.business.branch_limit = "";
+                    this.business.user_limit = "";
+                    this.business.product_limit = "";
+                    this.business.option_access = [];
+
+                    $("#createData").modal('hide');
+
+                } else {
+                    this.$iziToast.error({
+                        title: this.$t('Error'),
+                        message: this.$t(response.data.message),
+                    });
+                }
             }).catch((error) => {
                 this.isButtonDisabled = false;
                 let errors = error.response.data.errors;

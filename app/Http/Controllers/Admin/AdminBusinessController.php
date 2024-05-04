@@ -98,8 +98,34 @@ class AdminBusinessController extends Controller
         $business->type = $request->sub_business_id ? 'Branch' : 'Owner';
         $business->name = $request->name;
         $business->email = $request->email;
-        $business->logo = $request->logo;
-        $business->favicon = $request->favicon;
+
+        if ($request->hasFile("logo")) {
+
+            $image_url = imageUploader(
+                $file = $request->file('logo'),
+                $path = 'testimonial',
+                $width = 65,
+                $height = 65,
+                $old_image = $business->logo
+            );
+
+            $business->logo = $image_url;
+        }
+
+
+        if ($request->hasFile("favicon")) {
+
+            $image_url = imageUploader(
+                $file = $request->file('favicon'),
+                $path = 'testimonial',
+                $width = 65,
+                $height = 65,
+                $old_image = $business->favicon
+            );
+
+            $business->favicon = $image_url;
+        }
+
         $business->address = $request->address;
         $business->zip_code = $request->zip_code;
         $business->area = $request->area;
@@ -117,6 +143,11 @@ class AdminBusinessController extends Controller
         $business->product_limit = $request->product_limit;
         $business->status = 'Active';
         $business->business_access = $request->option_access ? json_encode($request->option_access) : [];
+
+        foreach ($request->option_access as $row) {
+            $business->$row = 1;
+        }
+
         $business->save();
 
         return $business;
@@ -125,7 +156,7 @@ class AdminBusinessController extends Controller
     public function createUser($request)
     {
         $user = new User();
-        $user->name = $request->name;
+        $user->name = $request->user_name;
         $user->email = $request->user_email;
         $user->status = 'Active';
         $user->password = Hash::make($request->password);
