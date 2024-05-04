@@ -220,7 +220,7 @@
                                                     </div>
                                                 </div>
                                                 <select class="form-control" v-model="business.pricing_plan_id"
-                                                    @change="pricingValue(event)">
+                                                    @change="pricingValue()">
                                                     <option value="" disabled>Select One</option>
                                                     <option v-for="(plan, index) in pricing_plans" :key="index"
                                                         :value="plan?.id">
@@ -336,9 +336,9 @@
                                         <div class="form-check">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input"
-                                                    v-model="business.option_access" :id="'optionCheck_' + index"
+                                                    v-model="business.option_access" :id="'access_' + index"
                                                     :value="index" />
-                                                <label :for="'optionCheck_' + index" class="custom-control-label">
+                                                <label :for="'access_' + index" class="custom-control-label">
                                                     {{ access }}
                                                 </label>
                                             </div>
@@ -466,7 +466,12 @@ export default {
                     });
                 }
             }).catch((error) => {
-                console.log(error);
+                if (error) {
+                    this.$iziToast.error({
+                        title: this.$t('Error'),
+                        message: this.$t(`Fetching data has error. Please try again.`),
+                    });
+                }
             });
         },
         packageValue() {
@@ -478,8 +483,6 @@ export default {
                     this.business.branch_limit = response.data.branch_limit;
                     this.business.user_limit = response.data.user_limit;
                     this.business.product_limit = response.data.product_limit;
-
-                    this.business.option_access = response.data.setting_access;
 
                     this.total_service_charge = this.total_month * response.data.monthly_service_charge;
 
@@ -497,7 +500,12 @@ export default {
                     });
                 }
             }).catch((error) => {
-                console.log(error);
+                if (error) {
+                    this.$iziToast.error({
+                        title: this.$t('Error'),
+                        message: this.$t(`Fetching data has error. Please try again.`),
+                    });
+                }
             });
         },
         createNewBusiness() {
@@ -564,9 +572,14 @@ export default {
             formData.append('branch_limit', this.business.branch_limit ? this.business.branch_limit : '');
             formData.append('user_limit', this.business.user_limit ? this.business.user_limit : '');
             formData.append('product_limit', this.business.product_limit ? this.business.product_limit : '');
-            formData.append('option_access', this.business.option_access ? this.business.option_access : '');
 
-            axios.post(`/admin/businesses/store`, formData).then((response) => {
+            if (this.business.option_access) {
+                Object.entries(this.business.option_access).forEach(([key, value]) => formData.append(`option_access[${key}]`, value));
+            }
+
+            console.log(formData);
+
+            axios.post(`/admin/businesses`, formData).then((response) => {
                 console.log(response);
             }).catch((error) => {
                 this.isButtonDisabled = false;

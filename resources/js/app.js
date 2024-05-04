@@ -12,8 +12,8 @@ import i18n from "./languages";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 
 // multiselect
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.css'
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.css";
 
 const app = createApp({});
 
@@ -29,14 +29,14 @@ app.config.globalProperties.$iziToast = iziToast;
 
 // globally Bootstrap Pagination
 app.component("Pagination", Bootstrap4Pagination);
-app.component('multiselect', Multiselect)
+app.component("multiselect", Multiselect);
 
 // import admin component template
 import AdminDashboard from "./admin/AdminDashboard.vue";
 import AdminProfile from "./admin/profile/Profile.vue";
-import AdminBusinesse from "./admin/businesse/BusinesseList.vue";
-import AdminCreateBusinesse from "./admin/businesse/CreateBusinesse.vue";
-import AdminEditBusinesse from "./admin/businesse/EditBusinesse.vue";
+import AdminBusinesse from "./admin/businesse/List.vue";
+import AdminCreateBusinesse from "./admin/businesse/Create.vue";
+import AdminEditBusinesse from "./admin/businesse/Update.vue";
 import AdminBusinesseType from "./admin/businesse-type/List.vue";
 import AdminPricingPlan from "./admin/pricing-plan/List.vue";
 import AdminPackage from "./admin/package/List.vue";

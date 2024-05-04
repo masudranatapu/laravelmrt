@@ -56,11 +56,10 @@ class AdminBusinessController extends Controller
 
     public function store(BusinessRequest $request)
     {
-        dd($request->all());
         try {
             DB::beginTransaction();
             // create business user
-            $user = $this->createUser($request);
+            $user = $this->createUser($request, $business);
 
             $business = $this->createBusiness($request, $user);
             // create guest customer
@@ -114,10 +113,12 @@ class AdminBusinessController extends Controller
         return $business;
     }
 
-    public function createUser($request)
+    public function createUser($request, $business)
     {
         $user = new User();
         $user->status = 'Active';
+        $user->business_id = $business->id;
+        $user->password = Hash::make($request->password);
         $user->save();
         return $user;
     }

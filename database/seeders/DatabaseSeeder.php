@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BusinessTypeSeeder::class);
         $this->call(PackageSeeder::class);
         $this->call(PricingPlanSeeder::class);
+        $this->call(TestimonialSeeder::class);
     }
 }
