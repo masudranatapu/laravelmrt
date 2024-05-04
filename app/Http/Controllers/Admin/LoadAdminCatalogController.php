@@ -42,7 +42,7 @@ class LoadAdminCatalogController extends Controller
     {
         try {
             $pricingPlan = PricingPlan::query()
-                ->select('id','month', 'discount_type', 'discount_value')
+                ->select('id', 'month', 'discount_type', 'discount_value')
                 ->findOrFail($id);
             return response()->json($pricingPlan);
         } catch (\Throwable $th) {
@@ -57,7 +57,7 @@ class LoadAdminCatalogController extends Controller
     {
         try {
             $package = Package::query()
-                ->select('id', 'monthly_service_charge', 'installment_fee', 'user_limit', 'product_limit', 'branch_limit', 'setting_access')
+                ->select('id', 'monthly_service_charge', 'installment_fee', 'user_limit', 'product_limit', 'branch_limit')
                 ->findOrFail($id);
             return response()->json($package);
         } catch (\Throwable $th) {

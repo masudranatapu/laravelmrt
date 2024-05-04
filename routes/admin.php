@@ -33,10 +33,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::post('profile-update/{id}', [DashboardController::class, 'profileUpdate'])->name('profile.update');
     Route::post('password-update/{id}', [DashboardController::class, 'passwordUpdate'])->name('password.update');
     // businesses
-    Route::get('businesses', [AdminBusinessController::class, 'index'])->name('businesses');
-    Route::get('businesses-list', [AdminBusinessController::class, 'businessList'])->name('business.list');
-    Route::get('businesses/create', [AdminBusinessController::class, 'create'])->name('business.create');
-    Route::post('businesses/store', [AdminBusinessController::class, 'store'])->name('business.store');
+    Route::resource('businesses', AdminBusinessController::class);
+    Route::get('businesses-list', [AdminBusinessController::class, 'dataList'])->name('business.list');
     // business type
     Route::resource('business-type', BusinessTypeController::class);
     Route::get('business-type-list', [BusinessTypeController::class, 'dataList'])->name('businessType.list');
@@ -56,11 +54,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
     Route::get('pricing-plan/{id}', [LoadAdminCatalogController::class, 'pricingPlan'])->name('pricing.plan');
     Route::get('package-info/{id}', [LoadAdminCatalogController::class, 'packageInfo'])->name('package.info');
     // Testimonial
-    Route::get('testimonial', [TestimonialController::class, 'index'])->name('testimonials');
-    Route::get('testimonial-list', [TestimonialController::class, 'testimonialList'])->name('testimonial.list');
-    Route::post('testimonial/store', [TestimonialController::class, 'store'])->name('testimonial.store');
-    Route::get('testimonial/edit/{id}', [TestimonialController::class, 'edit'])->name('testimonial.edit');
-    Route::post('testimonial/update/{id}', [TestimonialController::class, 'update'])->name('testimonial.update');
-    Route::get('testimonial/status/change/{id}', [TestimonialController::class, 'changeStatus'])->name('testimonial.status.change');
-    Route::get('testimonial/delete/{id}', [TestimonialController::class, 'delete'])->name('testimonial.delete');
+    Route::resource('testimonial', TestimonialController::class);
+    Route::get('testimonial-list', [TestimonialController::class, 'dataList'])->name('testimonial.list');
+    Route::get('testimonial-status/change/{id}', [TestimonialController::class, 'statusChange'])->name('testimonial.status.change');
+    Route::get('testimonial-bulk-delete', [TestimonialController::class, 'bulkDelete'])->name('testimonial.bulkDelete');
 });

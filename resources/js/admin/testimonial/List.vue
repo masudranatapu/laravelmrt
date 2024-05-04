@@ -8,7 +8,7 @@
                             <h4>Testimonial</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
-                                    <button type="button" class="btn btn-primary" @click="addTestimonial()">
+                                    <button type="button" class="btn btn-primary" @click="addNewData()">
                                         <i class="fa fa-plus"></i>
                                         Add New Testimonial
                                     </button>
@@ -16,7 +16,18 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row justify-content-center">
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <select class="form-control" @change="loadData()" v-model="quarry.per_page">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="250">250</option>
+                                        <option value="500">500</option>
+                                        <option value="999999999">All</option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.create_by">
                                         <option value="">All</option>
@@ -34,20 +45,20 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.rating">
-                                        <option value="">All</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
+                                        <option value="">All Rating</option>
+                                        <option value="1">1 Star Rating</option>
+                                        <option value="2">2 Star Rating</option>
+                                        <option value="3">3 Star Rating</option>
+                                        <option value="4">4 Star Rating</option>
+                                        <option value="5">5 Star Rating</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadTestimonial()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             Search
                                         </button>
-                                        <button type="button" class="btn btn-warning" @click="clearLoadTestimonial()">
+                                        <button type="button" class="btn btn-warning" @click="clearSearch()">
                                             Clear
                                         </button>
                                         <button class="btn btn-info dropdown-toggle" type="button"
@@ -56,7 +67,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 Delete
                                             </a>
                                         </div>
@@ -103,7 +114,7 @@
                                                     <input type="checkbox" name="custom-switch-checkbox"
                                                         class="custom-switch-input"
                                                         :checked="testimonial?.status === 'Active'"
-                                                        @change="testimonialStatusChange(testimonial?.id)">
+                                                        @change="statusChange(testimonial?.id)">
                                                     <span class="custom-switch-indicator"></span>
                                                     <span class="custom-switch-description">
                                                         {{ testimonial?.status }}
@@ -116,11 +127,11 @@
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary btn-sm" title="Edit"
-                                                        @click="editTestimonial(testimonial?.id)">
+                                                        @click="editInfo(testimonial?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger btn-sm"
-                                                        title="Delete" @click="deleteTestimonial(testimonial?.id)">
+                                                        title="Delete" @click="deleteData(testimonial?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -130,44 +141,63 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <CreateTestimonial @load-testimonial="refreshTestimonial" />
-        <UpdateTestimonial @load-testimonial="refreshTestimonial" :testimonialInfo="updateTestimonialInfo" />
+        <Create @load-data="refreshData" />
+        <Update @load-data="refreshData" :editData="editData" />
     </div>
 </template>
 
 <script>
-import CreateTestimonial from './CreateTestimonial.vue'
-import UpdateTestimonial from './UpdateTestimonial.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
 export default {
     components: {
-        CreateTestimonial,
-        UpdateTestimonial
+        Create,
+        Update
     },
     data: function () {
         return {
             testimonials: {},
-            updateTestimonialInfo: {},
+            editData: {},
             quarry: {
-                parpage: 20,
+                per_page: 10,
                 rating: '',
                 status: '',
                 create_by: '',
             },
+            metaData: {},
+            creators: {},
+            checkedIds: [],
+            all_checked: false,
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadTestimonial();
+        this.loadData();
         this.loadUsers();
     },
     methods: {
-        loadTestimonial() {
-            axios.get("/testimonial-list", { params: this.quarry }).then((response) => {
+        loadData() {
+            axios.get(`/admin/testimonial-list`, { params: this.quarry }).then((response) => {
                 this.testimonials = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -176,8 +206,8 @@ export default {
             });
         },
         loadUsers() {
-            axios.get("/user/list").then((response) => {
-                this.creators = response.data.data;
+            axios.get(`/admin/load-admin/users`).then((response) => {
+                this.creators = response.data;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -185,13 +215,13 @@ export default {
                 });
             });
         },
-        addTestimonial() {
-            $("#createNewTestimonial").modal('show');
+        addNewData() {
+            $("#createData").modal('show');
         },
-        editTestimonial(id) {
-            axios.get(`/testimonial/edit/${id}`).then((response) => {
-                this.updateTestimonialInfo = response.data.data;
-                $("#editTestimonial").modal('show');
+        editInfo(id) {
+            axios.get(`/admin/testimonial/${id}/edit`).then((response) => {
+                this.editData = response.data.data;
+                $("#updateData").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -199,10 +229,10 @@ export default {
                 });
             });
         },
-        refreshTestimonial() {
-            this.loadTestimonial();
+        refreshData() {
+            this.loadData();
         },
-        deleteTestimonial(id) {
+        deleteData(id) {
             this.$swal.fire({
                 title: this.$t('Are you sure?'),
                 text: this.$t('You won\'t be able to revert this!'),
@@ -212,14 +242,14 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/testimonial/delete/${id}`).then((response) => {
+                    axios.get(`/admin/testimonial-bulk-delete?ids=${id}`).then((response) => {
                         this.isButtonDisabled = false;
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadTestimonial();
+                            this.loadData();
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -251,21 +281,36 @@ export default {
                 }
             });
         },
-        clearLoadTestimonial() {
-            this.quarry.parpage = 20;
-            this.quarry.keyword = '';
+        clearSearch() {
+            this.quarry.per_page = 10;
+            this.quarry.rating = '';
+            this.quarry.status = '';
             this.quarry.create_by = '';
-            this.loadTestimonial();
+            this.loadData();
         },
-        testimonialStatusChange(id) {
-            axios.get(`/testimonial/status/change/${id}`).then((response) => {
+        allChecked() {
+            if (this.checkedIds.length === this.testimonials.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.testimonials.map(testimonial => testimonial.id);
+            }
+        },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Testimonial Not Select For This Action');
+            }
+        },
+        statusChange(id) {
+            axios.get(`/admin/testimonial-status/change/${id}`).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.loadTestimonial();
+                    this.loadData();
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),

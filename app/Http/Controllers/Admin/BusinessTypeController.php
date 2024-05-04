@@ -24,7 +24,7 @@ class BusinessTypeController extends Controller
                 ->when($request->keyword, fn ($q) => $q->where("name", "LIKE", "%" . $request->keyword . "%"))
                 ->when($request->status, fn ($q) => $q->where("status", $request->status))
                 ->when($request->admin_id, fn ($q) => $q->where("admin_id", $request->admin_id))
-                ->paginate($request->par_page ?? 10);
+                ->paginate($request->per_page ?? 10);
 
             return BusinessTypeResource::collection($businessTypes);
         } catch (\Throwable $th) {

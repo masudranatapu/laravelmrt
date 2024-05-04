@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Account::class)->nullable();
             $table->string('pay_by')->nullable();
             $table->date('date');
-            $table->double('amount', 14, 4)->default(0);
+            $table->double('amount', 14, 2)->default(0);
             $table->text('note')->nullable();
             $table->timestamps();
         });

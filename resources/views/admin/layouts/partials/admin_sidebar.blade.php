@@ -27,13 +27,13 @@
                 </span>
             </a>
             <ul class="dropdown-menu">
-                <li class="{{ Route::is('admin.businesses') && Route::is('admin.business.create') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.businesses') }}">
+                <li class="{{ Route::is('admin.businesses.index') && Route::is('admin.businesses.create') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.businesses.index') }}">
                         Business List
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="{{ route('admin.business.create') }}">
+                    <a class="nav-link" href="{{ route('admin.businesses.create') }}">
                         Add New Business
                     </a>
                 </li>
@@ -66,8 +66,8 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="portfolio.html">
-                        Portfolio
+                    <a class="nav-link" href="{{ route('admin.testimonial.index') }}">
+                        Testimonial
                     </a>
                 </li>
                 <li>

@@ -162,7 +162,7 @@ export default {
             editData: {},
             adminUsers: {},
             quarry: {
-                par_page: 10,
+                per_page: 10,
                 keyword: '',
                 admin_id: '',
                 status: '',
@@ -272,7 +272,7 @@ export default {
             });
         },
         clearSearch() {
-            this.quarry.par_page = 10;
+            this.quarry.per_page = 10;
             this.quarry.keyword = '';
             this.quarry.status = '';
             this.quarry.admin_id = '';

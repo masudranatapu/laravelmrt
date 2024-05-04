@@ -30,8 +30,8 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->date('date_of_birth')->nullable();
             $table->text('note')->nullable();
-            $table->double('balance', 14, 4)->default(0);
-            $table->double('paid_amount', 14, 4)->default(0);
+            $table->double('balance', 14, 2)->default(0);
+            $table->double('paid_amount', 14, 2)->default(0);
             $table->enum('status', ['Active', 'Inactive', 'Blocked', 'Pending'])->default('Active');
             $table->date('date')->nullable();
             $table->timestamps();
