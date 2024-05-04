@@ -95,10 +95,10 @@
                                                 {{ business?.name }}
                                             </td>
                                             <td>
-                                                {{ business?.email }}
+                                                <a :href="'mailto:' + business?.email">{{ business?.email }}</a>
                                             </td>
                                             <td>
-                                                <img alt="image" src="" class="rounded-circle" width="35" title="">
+                                                <a :href="'tel:' + business?.phone">{{ business?.phone }}</a>
                                             </td>
                                             <td>2018-01-20</td>
                                             <td class="text-center">
