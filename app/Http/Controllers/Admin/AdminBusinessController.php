@@ -59,15 +59,24 @@ class AdminBusinessController extends Controller
         try {
             DB::beginTransaction();
             // create business user
-            $user = $this->createUser($request, $business);
-
+            $user = $this->createUser($request);
+            // create business
             $business = $this->createBusiness($request, $user);
+            // update user witH business id
+            $user->business_id = $business->id;
+
+            $user->save();
             // create guest customer
             $this->guestCustomer($business);
             // create guest supplier
             $this->guestSupplier($business);
 
             DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Business Successfully Updated',
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
@@ -113,11 +122,12 @@ class AdminBusinessController extends Controller
         return $business;
     }
 
-    public function createUser($request, $business)
+    public function createUser($request)
     {
         $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->user_email;
         $user->status = 'Active';
-        $user->business_id = $business->id;
         $user->password = Hash::make($request->password);
         $user->save();
         return $user;

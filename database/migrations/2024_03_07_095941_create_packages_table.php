@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Admin::class)->nullable();
             $table->string('title')->nullable();
-            $table->double('monthly_service_charge', 14, 4)->default(0);
-            $table->double('installment_fee', 14, 4)->default(0);
+            $table->double('monthly_service_charge', 14, 2)->default(0);
+            $table->double('installment_fee', 14, 2)->default(0);
             $table->integer('customer_limit')->default(10);
             $table->integer('supplier_limit')->default(10);
             $table->integer('user_limit')->default(4);

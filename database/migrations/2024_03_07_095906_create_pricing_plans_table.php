@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Admin::class)->nullable();
             $table->string('month')->nullable();
             $table->enum('discount_type', ['Amount', 'Percentage'])->default('Amount');
-            $table->double('discount_value', 14, 4)->default(0);
+            $table->double('discount_value', 14, 2)->default(0);
             $table->timestamps();
         });
     }

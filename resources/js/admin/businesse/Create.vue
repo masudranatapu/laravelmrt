@@ -151,7 +151,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{ $t('User Name') }}</label>
                                             <div class="input-group">
@@ -165,7 +165,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>{{ $t('User Email') }}</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-user"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="email" class="form-control" v-model="business.user_email"
+                                                    :placeholder="$t('User Email')">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{ $t('Password') }}</label>
                                             <div class="input-group">
@@ -412,6 +426,7 @@ export default {
                 zip_code: '',
                 address: '',
                 user_name: '',
+                user_email: '',
                 password: '',
                 business_type_id: '',
                 pricing_plan_id: '',
