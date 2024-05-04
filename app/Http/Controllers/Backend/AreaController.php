@@ -24,7 +24,7 @@ class AreaController extends Controller
                 // ->where('bu')
                 ->when($request->keyword, fn ($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
-                ->get();
+                ->paginate($request->per_page ?? 10);
             return AreaResource::collection($areas);
         } catch (\Throwable $th) {
             return response()->json([

@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="modal fade" id="createNewArea" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="updateInfoData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            {{ $t('Create New Area') }}
+                            {{ $t('Edit Area') }}
                         </h5>
-                        <a href="javascript:;" @click="closeCreateArea()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeUpdateData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="addNewArea()">
+                    <form @submit.prevent="updateData(editData?.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -27,15 +27,38 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="area.name"
+                                            <input type="text" class="form-control" v-model="editData.name"
                                                 :placeholder="$t('Area Name')" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ $t('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="far fa-check-square"></i>
+                                                </div>
+                                            </div>
+                                            <select class="form-control" v-model="editData.status">
+                                                <option value="Active" :selected="editData.status === 'Active'">
+                                                    {{ $t('Active') }}
+                                                </option>
+                                                <option value="Inactive" :selected="editData.status === 'Inactive'">
+                                                    {{ $t('Inactive') }}
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeCreateArea()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -52,30 +75,25 @@
 
 <script>
 export default {
-    props: [],
+    props: ['editData'],
     data: function () {
         return {
-            area: {},
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
     },
-    beforeMount() {
-
-    },
     methods: {
-        addNewArea() {
+        updateData(id) {
             this.isButtonDisabled = true;
-            axios.post('/area/store', this.area).then((response) => {
+            axios.post(`/area/update/${id}`, this.editData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.$emit('load-area');
-                    $("#createNewArea").modal('hide');
-                    this.area.name = "";
+                    this.$emit('load-data');
+                    $("#updateInfoData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -101,10 +119,9 @@ export default {
                 }
             });
         },
-        closeCreateArea() {
-            $("#createNewArea").modal('hide');
+        closeUpdateData() {
+            $("#updateInfoData").modal('hide');
             this.isButtonDisabled = false;
-            this.group.name = "";
         },
     },
 }
