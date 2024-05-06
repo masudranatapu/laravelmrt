@@ -66,7 +66,7 @@ export default {
     methods: {
         storeData() {
             this.isButtonDisabled = true;
-            axios.post('/area/store', this.area).then((response) => {
+            axios.post('/area', this.area).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({

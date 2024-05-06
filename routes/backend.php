@@ -59,12 +59,9 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('group/delete/{id}', [CustomerGroupController::class, 'delete'])->name('group.delete');
         Route::get('group/status/change/{id}', [CustomerGroupController::class, 'statusChange'])->name('group.status.change');
         // area
-        Route::get('area', [AreaController::class, 'index'])->name('area');
+        Route::resource('area', AreaController::class);
         Route::get('area-list', [AreaController::class, 'areaList'])->name('area.list');
-        Route::post('area/store', [AreaController::class, 'store'])->name('area.store');
-        Route::get('area/edit/{id}', [AreaController::class, 'edit'])->name('area.edit');
-        Route::post('area/update/{id}', [AreaController::class, 'update'])->name('area.update');
-        Route::get('area/delete/{id}', [AreaController::class, 'delete'])->name('area.delete');
+        Route::get('area-type-bulk-delete', [AreaController::class, 'bulkDelete'])->name('area.bulkDelete');
         Route::get('area/status/change/{id}', [AreaController::class, 'statusChange'])->name('area.status.change');
         // load catalog
         Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');

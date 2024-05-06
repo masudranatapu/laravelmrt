@@ -33,7 +33,6 @@ class AreaController extends Controller
             ]);
         }
     }
-
     public function store(AreaRequest $request)
     {
         try {
@@ -57,7 +56,6 @@ class AreaController extends Controller
             ]);
         }
     }
-
     public function edit($id)
     {
         try {
@@ -76,6 +74,7 @@ class AreaController extends Controller
     public function update(AreaRequest $request, $id)
     {
         try {
+            // dd($request->all());
             DB::beginTransaction();
             $area = Area::query()
                 // ->where()
@@ -98,30 +97,43 @@ class AreaController extends Controller
             ]);
         }
     }
-
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $area = Area::query()
-                // ->where()
-                // ->withCount()
-                ->findOrFail($id);
-
-            $area->delete();
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Business Type Some Issue. You Can not continue This Action',
+                    ]);
+                }
+            }
 
             DB::commit();
+
             return response()->json([
                 'status' => true,
-                'message' => "Area Successfully Deleted",
+                'message' => "Business Type Successfully Deleted",
             ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function destroy($id)
+    {
+        $area = Area::query()
+            ->findOrFail($id);
+        $area->delete();
+        return true;
     }
 
     public function statusChange($id)

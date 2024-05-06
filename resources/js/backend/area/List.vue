@@ -76,7 +76,8 @@
                                                     <input type="checkbox" class="custom-control-input"
                                                         :id="'area_' + area?.id" :value='area?.id' v-model="checkedIds">
                                                     <label :for="'area_' + area?.id" class="custom-control-label">
-                                                        {{ index + 1 }}
+                                                        {{ (metaData.current_page - 1) * metaData.per_page + index + 1
+                                                        }}
                                                     </label>
                                                 </div>
                                             </td>
@@ -146,7 +147,7 @@ export default {
             editData: {},
             creators: {},
             quarry: {
-                parpage: 20,
+                per_page: 10,
                 keyword: '',
                 status: '',
             },
@@ -160,8 +161,8 @@ export default {
         this.loadData();
     },
     methods: {
-        loadData() {
-            axios.get("/area-list", { params: this.quarry }).then((response) => {
+        loadData(page = 1) {
+            axios.get(`/area-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.areas = response.data.data;
                 this.metaData = response.data.meta;
             }).catch((error) => {
@@ -175,7 +176,7 @@ export default {
             $("#createNewData").modal('show');
         },
         editArea(id) {
-            axios.get(`/area/edit/${id}`).then((response) => {
+            axios.get(`/area/${id}/edit`).then((response) => {
                 this.editData = response.data.data;
                 $("#updateInfoData").modal('show');
             }).catch((error) => {
@@ -198,7 +199,7 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/area/delete/${id}`).then((response) => {
+                    axios.get(`/area-type-bulk-delete?ids=${id}`).then((response) => {
                         this.isButtonDisabled = false;
                         if (response.data.status == true) {
                             this.$iziToast.success({
@@ -239,7 +240,7 @@ export default {
             });
         },
         clearLoadData() {
-            this.quarry.parpage = 20;
+            this.quarry.per_page = 10;
             this.quarry.keyword = '';
             this.quarry.status = '';
             this.loadData();

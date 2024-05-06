@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="{{ route('backend.area') }}">
+                    <a class="nav-link" href="{{ route('backend.area.index') }}">
                         Area
                     </a>
                 </li>

@@ -85,7 +85,8 @@ export default {
     methods: {
         updateData(id) {
             this.isButtonDisabled = true;
-            axios.post(`/area/update/${id}`, this.editData).then((response) => {
+            this.editData._method = 'patch';
+            axios.post(`/area/${id}`, this.editData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
