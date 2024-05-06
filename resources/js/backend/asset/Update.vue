@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="createNewAsset" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="updateData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -8,11 +8,11 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             {{ $t('Create Asset') }}
                         </h5>
-                        <a href="javascript:;" @click="closeCreateAsset()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeUpdateData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="addNewAsset()">
+                    <form @submit.prevent="updateData(editData.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -24,7 +24,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="date" class="form-control" v-model="asset.date"
+                                            <input type="date" class="form-control" v-model="editData.date"
                                                 :placeholder="$t('Date')">
                                         </div>
                                     </div>
@@ -38,8 +38,8 @@
                                                     <i class="fas fa-bars"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="asset.asset_category_id">
-                                                <option v-for="(category, index) in assetCategories"
+                                            <select class="form-control" v-model="editData.asset_category_id">
+                                                <option v-for="(category, index) in categories"
                                                     :value='category?.id'>
                                                     {{ category?.asset_category_name }}
                                                 </option>
@@ -56,7 +56,7 @@
                                                     <i class="fas fa-money-bill"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="asset.address"
+                                            <input type="text" class="form-control" v-model="editData.address"
                                                 :placeholder="$t('Amount')">
                                         </div>
                                     </div>
@@ -64,14 +64,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ $t('Note') }}</label>
-                                        <textarea class="form-control" v-model="asset.note" :placeholder="$t('Note')"
+                                        <textarea class="form-control" v-model="editData.note" :placeholder="$t('Note')"
                                             cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeCreateAsset()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -88,10 +88,9 @@
 
 <script>
 export default {
-    props: ['assetCategories'],
+    props: ['categories', 'editData'],
     data: function () {
         return {
-            asset: {},
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -100,22 +99,18 @@ export default {
 
     },
     methods: {
-        addNewAsset() {
+        updateData(id) {
             this.isButtonDisabled = true;
-
-            axios.post(`/assets/store`, this.asset).then((response) => {
+            this.editData._method = 'patch';
+            axios.post(`/assets/${id}`, this.editData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.$emit('load-asset');
-                    this.asset.date = "";
-                    this.asset.asset_category_id = "";
-                    this.asset.amount = "";
-                    this.asset.note = "";
-                    $("#createNewAsset").modal('hide');
+                    this.$emit('load-data');
+                    $("#updateData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -134,13 +129,13 @@ export default {
                 });
             });
         },
-        closeCreateAsset() {
-            $("#createNewAsset").modal('hide');
+        closeUpdateData() {
+            $("#updateData").modal('hide');
             this.isButtonDisabled = false;
-            this.asset.date = "";
-            this.asset.asset_category_id = "";
-            this.asset.amount = "";
-            this.asset.note = "";
+            this.editData.date = "";
+            this.editData.asset_category_id = "";
+            this.editData.amount = "";
+            this.editData.note = "";
         },
     },
 }

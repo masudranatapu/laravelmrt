@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="editAssetCategory" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="updateData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -8,11 +8,11 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             {{ $t('Update Asset Category') }}
                         </h5>
-                        <a href="javascript:;" @click="closeUpdateAssetCategory()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeUpdateData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updateAssetCategory(assetCategoryInfo?.id)">
+                    <form @submit.prevent="updateData(editData?.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -28,7 +28,7 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control"
-                                                v-model="assetCategoryInfo.asset_category_name"
+                                                v-model="editData.asset_category_name"
                                                 :placeholder="$t('Asset Category Name')" required>
                                         </div>
                                     </div>
@@ -45,13 +45,13 @@
                                                     <i class="far fa-check-square"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="assetCategoryInfo.status">
+                                            <select class="form-control" v-model="editData.status">
                                                 <option value="Active"
-                                                    :selected="assetCategoryInfo.status === 'Active'">
+                                                    :selected="editData.status === 'Active'">
                                                     {{ $t('Active') }}
                                                 </option>
                                                 <option value="Inactive"
-                                                    :selected="assetCategoryInfo.status === 'Inactive'">
+                                                    :selected="editData.status === 'Inactive'">
                                                     {{ $t('Inactive') }}
                                                 </option>
                                             </select>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeUpdateAssetCategory()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -78,7 +78,7 @@
 
 <script>
 export default {
-    props: ["assetCategoryInfo"],
+    props: ["editData"],
     data: function () {
         return {
             isButtonDisabled: false,
@@ -89,17 +89,18 @@ export default {
 
     },
     methods: {
-        updateAssetCategory(id) {
+        updateData(id) {
             this.isButtonDisabled = true;
-            axios.post(`/asset-category/update/${id}`, this.assetCategoryInfo).then((response) => {
+            this.editData._method = 'patch';
+            axios.post(`/asset-category/${id}`, this.editData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.$emit('load-asset-category');
-                    $("#editAssetCategory").modal('hide');
+                    this.$emit('load-data');
+                    $("#updateData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -125,8 +126,8 @@ export default {
                 }
             });
         },
-        closeUpdateAssetCategory() {
-            $("#editAssetCategory").modal('hide');
+        closeUpdateData() {
+            $("#updateData").modal('hide');
         },
     },
 }

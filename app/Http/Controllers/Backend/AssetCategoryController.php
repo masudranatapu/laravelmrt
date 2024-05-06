@@ -24,7 +24,7 @@ class AssetCategoryController extends Controller
                 // ->where()
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->when($request->keyword, fn($q) => $q->where('asset_category_name', 'like', '%' . $request->keyword . '%'))
-                ->get();
+                ->paginate($request->per_page ?? 10);
             return AssetCategoryResource::collection($asset_categories);
         } catch (\Throwable $th) {
             return response()->json([
@@ -101,29 +101,45 @@ class AssetCategoryController extends Controller
         }
     }
 
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Package Some Issue. You Can not continue This Action',
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Package Successfully Deleted",
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+
+    public function destroy($id)
+    {
             $asset_category = AssetCategory::query()
-                // ->where()
-                // ->withCount()
                 ->findOrFail($id);
 
             $asset_category->delete();
-
-            DB::commit();
-            return response()->json([
-                'status' => true,
-                'message' => "Asset Category Successfully Deleted",
-            ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage(),
-            ]);
-        }
+        return true;
     }
 
 

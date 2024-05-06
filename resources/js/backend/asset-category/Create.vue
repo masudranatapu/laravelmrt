@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="createNewAssetCategory" tabindex="-1" role="dialog"
+        <div class="modal fade" id="createNewData" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -12,7 +12,7 @@
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="addNewAssetCategory()">
+                    <form @submit.prevent="addNewData()">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -64,17 +64,17 @@ export default {
 
     },
     methods: {
-        addNewAssetCategory() {
+        addNewData() {
             this.isButtonDisabled = true;
-            axios.post('/asset-category/store', this.assetCategory).then((response) => {
+            axios.post(`/asset-category`, this.assetCategory).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.$emit('load-asset-category');
-                    $("#createNewAssetCategory").modal('hide');
+                    this.$emit('load-data');
+                    $("#createNewData").modal('hide');
                     this.assetCategory.asset_category_name = "";
                 } else {
                     this.$iziToast.error({
@@ -102,7 +102,7 @@ export default {
             });
         },
         closeCreateAssetCategory() {
-            $("#createNewAssetCategory").modal('hide');
+            $("#createNewData").modal('hide');
             this.assetCategory.asset_category_name = "";
         },
     },

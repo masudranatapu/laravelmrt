@@ -298,7 +298,6 @@ export default {
             this.quarry.keyword = '';
             this.quarry.start_date = '';
             this.quarry.end_date = '';
-
             this.loadData();
         },
         allChecked() {

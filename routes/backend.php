@@ -68,19 +68,13 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');
         Route::get('load-asset-category', [LoadCatalogController::class, 'loadAssetCategory'])->name('load.asset.category');
         // asset category
-        Route::get('asset-category', [AssetCategoryController::class, 'index'])->name('assetCategory');
+        Route::resource('asset-category', AssetCategoryController::class);
         Route::get('asset-category-list', [AssetCategoryController::class, 'assetCategoryList'])->name('assetCategory.list');
-        Route::post('asset-category/store', [AssetCategoryController::class, 'store'])->name('assetCategory.store');
-        Route::get('asset-category/edit/{id}', [AssetCategoryController::class, 'edit'])->name('assetCategory.edit');
-        Route::post('asset-category/update/{id}', [AssetCategoryController::class, 'update'])->name('assetCategory.update');
-        Route::get('asset-category/delete/{id}', [AssetCategoryController::class, 'delete'])->name('assetCategory.delete');
-        Route::get('asset-category/status/change/{id}', [AssetCategoryController::class, 'changeStatus'])->name('assetCategory.status.change');
+        Route::get('asset-category-bulk-delete', [AssetCategoryController::class, 'bulkDelete'])->name('assetCategory.delete');
+        Route::get('asset-category-status/change/{id}', [AssetCategoryController::class, 'changeStatus'])->name('assetCategory.status.change');
         // asset
-        Route::get('assets', [AssetController::class, 'index'])->name('assets');
+        Route::resource('assets', AssetController::class);
         Route::get('assets-list', [AssetController::class, 'assetsList'])->name('assets.list');
-        Route::post('assets/store', [AssetController::class, 'store'])->name('assets.store');
-        Route::get('assets/edit/{id}', [AssetController::class, 'edit'])->name('assets.edit');
-        Route::post('assets/update/{id}', [AssetController::class, 'update'])->name('assets.update');
-        Route::get('assets/delete/{id}', [AssetController::class, 'delete'])->name('assets.delete');
+        Route::get('assets-bulk-delete', [AssetController::class, 'bulkDelete'])->name('area.bulkDelete');
     });
 });

@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class PackageController extends Controller
 {
-    //
     public function index()
     {
         return view("admin.package.index");
     }
+
     public function dataList(Request $request)
     {
         try {
@@ -32,6 +32,7 @@ class PackageController extends Controller
             ]);
         }
     }
+
     public function store(PackageRequest $request)
     {
         try {

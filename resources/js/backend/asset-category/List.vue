@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadAssetCategories()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearAssetCategories()">
@@ -42,7 +42,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 {{ $t('Delete') }}
                                             </a>
                                         </div>
@@ -57,7 +57,7 @@
                                         <tr>
                                             <th class="text-center">
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="allGroup">
+                                                    <input type="checkbox" class="custom-control-input" id="allGroup" @click="allChecked()" v-model="all_checked">
                                                     <label for="allGroup" class="custom-control-label">
                                                         {{ $t('SL No') }}
                                                     </label>
@@ -74,7 +74,7 @@
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input"
                                                         :id="'asset_category_' + assetCategory?.id"
-                                                        :value='assetCategory?.id'>
+                                                        :value='assetCategory?.id' v-model="checkedIds">
                                                     <label :for="'asset_category_' + assetCategory?.id"
                                                         class="custom-control-label">
                                                         {{ index + 1 }}
@@ -89,7 +89,7 @@
                                                     <input type="checkbox" name="custom-switch-checkbox"
                                                         class="custom-switch-input"
                                                         :checked="assetCategory?.status === 'Active'"
-                                                        @change="assetCategoryStatusChange(assetCategory?.id)">
+                                                        @change="changeStatus(assetCategory?.id)">
                                                     <span class="custom-switch-indicator"></span>
                                                     <span class="custom-switch-description">
                                                         {{ $t(assetCategory?.status) }}
@@ -99,11 +99,11 @@
                                             <td class="text-center">
                                                 <div class="btn-group mb-3" role="group">
                                                     <button class="btn btn-icon btn-primary btn-sm" title="Edit"
-                                                        @click="editAssetCategory(assetCategory?.id)">
+                                                        @click="editInfo(assetCategory?.id)">
                                                         <i class="far fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-icon btn-danger btn-sm"
-                                                        title="Delete" @click="deleteAssetCategory(assetCategory?.id)">
+                                                        title="Delete" @click="deleteData(assetCategory?.id)">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -113,43 +113,61 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <CreateAssetCategory @load-asset-category="refreshAssetCategory" />
-        <UpdateAssetCategory @load-asset-category="refreshAssetCategory" :assetCategoryInfo="updateAssetCategoryInfo" />
+        <Create @load-data="refreshData" />
+        <Update @load-data="refreshData" :editData="editData" />
     </div>
 </template>
 
 <script>
-import CreateAssetCategory from './CreateAssetCategory.vue'
-import UpdateAssetCategory from './UpdateAssetCategory.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
 export default {
     components: {
-        CreateAssetCategory,
-        UpdateAssetCategory
+        Create,
+        Update
     },
     data: function () {
         return {
             assetCategories: {},
-            updateAssetCategoryInfo: {},
+            editData: {},
             creators: {},
             quarry: {
-                parpage: 20,
+                er_rpage: 10,
                 keyword: '',
                 status: '',
             },
+            metaData: {},
+            checkedIds: [],
+            all_checked: false,
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadAssetCategories();
+        this.loadData();
     },
     methods: {
-        loadAssetCategories() {
-            axios.get("/asset-category-list", { params: this.quarry }).then((response) => {
+        loadData(page = 1) {
+            axios.get(`/asset-category-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.assetCategories = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -158,12 +176,12 @@ export default {
             });
         },
         addAssetCategory() {
-            $("#createNewAssetCategory").modal('show');
+            $("#createNewData").modal('show');
         },
-        editAssetCategory(id) {
-            axios.get(`/asset-category/edit/${id}`).then((response) => {
-                this.updateAssetCategoryInfo = response.data.data;
-                $("#editAssetCategory").modal('show');
+        editInfo(id) {
+            axios.get(`/asset-category/${id}/edit`).then((response) => {
+                this.editData = response.data.data;
+                $("#updateData").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -171,10 +189,10 @@ export default {
                 });
             });
         },
-        refreshAssetCategory() {
-            this.loadAssetCategories();
+        refreshData() {
+            this.loadData();
         },
-        deleteAssetCategory(id) {
+        deleteData(id) {
             this.$swal.fire({
                 title: this.$t('Are you sure?'),
                 text: this.$t('You won\'t be able to revert this!'),
@@ -184,14 +202,14 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/asset-category/delete/${id}`).then((response) => {
+                    axios.get(`/asset-category-bulk-delete?ids=${id}`).then((response) => {
                         this.isButtonDisabled = false;
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadAssetCategories();
+                            this.loadData();
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -225,20 +243,20 @@ export default {
             });
         },
         clearAssetCategories() {
-            this.quarry.parpage = 20;
+            this.quarry.per_page = 10;
             this.quarry.keyword = '';
             this.quarry.status = '';
-            this.loadAssetCategories();
+            this.loadData();
         },
-        assetCategoryStatusChange(id) {
-            axios.get(`/asset-category/status/change/${id}`).then((response) => {
+        changeStatus(id) {
+            axios.get(`/asset-category-status/change/${id}`).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.loadAssetCategories();
+                    this.loadData();
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -262,6 +280,20 @@ export default {
                     });
                 }
             });
+        },
+        allChecked() {
+            if (this.checkedIds.length === this.assetCategories.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.assetCategories.map(assetCategory => assetCategory.id);
+            }
+        },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Asset Category Not Select For This Action');
+            }
         }
     },
 }

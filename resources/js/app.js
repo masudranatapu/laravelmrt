@@ -49,8 +49,8 @@ import BackendSupplier from "./backend/supplier/Supplier.vue";
 import BackendCustomer from "./backend/customer/Customer.vue";
 import BackendCustomerGroup from "./backend/customer-group/Group.vue";
 import BackendArea from "./backend/area/List.vue";
-import BackendAsset from "./backend/asset/Asset.vue";
-import BackendAssetCategory from "./backend/asset-category/AssetCategory.vue";
+import BackendAsset from "./backend/asset/List.vue";
+import BackendAssetCategory from "./backend/asset-category/List.vue";
 
 // admin component
 app.component("admin-dashboard", AdminDashboard);

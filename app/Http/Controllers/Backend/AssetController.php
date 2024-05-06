@@ -22,9 +22,9 @@ class AssetController extends Controller
         try {
             $assets = Asset::query()
                 // ->where()
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
-                ->when($request->keyword, fn($q) => $q->where('asset_name', 'like', '%' . $request->keyword . '%'))
-                ->get();
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
+                ->when($request->keyword, fn ($q) => $q->where('asset_name', 'like', '%' . $request->keyword . '%'))
+                ->paginate($request->per_page ?? 10);
             return AssetResource::collection($assets);
         } catch (\Throwable $th) {
             return response()->json([
@@ -50,6 +50,7 @@ class AssetController extends Controller
             $asset->save();
 
             DB::commit();
+
             return response()->json([
                 'status' => true,
                 'message' => "Asset Successfully Created",
@@ -111,28 +112,43 @@ class AssetController extends Controller
         }
     }
 
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Package Some Issue. You Can not continue This Action',
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Package Successfully Deleted",
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function destroy($id)
+    {
             $asset = Asset::query()
-                // ->where()
-                // ->withCount()
                 ->findOrFail($id);
 
             $asset->delete();
-
-            DB::commit();
-            return response()->json([
-                'status' => true,
-                'message' => "Asset Successfully Deleted",
-            ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage(),
-            ]);
-        }
+            return true;
     }
 }
