@@ -48,7 +48,7 @@ class PackageController extends Controller
             $package->supplier_limit = $request->supplier_limit;
             $package->description = $request->description;
             $package->admin_id = adminUser()->id;
-            $package->sorting_number = $request->sorting_number;
+            $package->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $package->save();
             DB::commit();
             return response()->json([
@@ -93,7 +93,7 @@ class PackageController extends Controller
             $package->branch_limit = $request->branch_limit;
             $package->supplier_limit = $request->supplier_limit;
             $package->description = $request->description;
-            $package->sorting_number = $request->sorting_number;
+            $package->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $package->admin_id = adminUser()->id;
             $package->save();
             DB::commit();

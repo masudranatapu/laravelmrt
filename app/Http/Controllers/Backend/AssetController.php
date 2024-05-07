@@ -46,7 +46,7 @@ class AssetController extends Controller
             $asset->pay_by = $request->pay_by;
             $asset->date = date('Y-m-d', strtotime($request->date));
             $asset->amount = $request->amount;
-            $asset->sorting_number = $request->sorting_number;
+            $asset->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $asset->note = $request->note;
             $asset->status = 'Active';
             $asset->save();
@@ -98,7 +98,7 @@ class AssetController extends Controller
             $asset->amount = $request->amount;
             $asset->note = $request->note;
             $asset->status = $request->status ? $request->status : $asset->status;
-            $asset->sorting_number = $request->sorting_number;
+            $asset->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $asset->save();
 
             DB::commit();

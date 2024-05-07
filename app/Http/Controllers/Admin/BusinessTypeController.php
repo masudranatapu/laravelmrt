@@ -41,7 +41,7 @@ class BusinessTypeController extends Controller
             DB::beginTransaction();
             $businessType = new BusinessType();
             $businessType->business_type_name = $request->business_type_name;
-            $businessType->sorting_number = $request->sorting_number;
+            $businessType->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $businessType->status = 'Active';
             $businessType->admin_id = adminUser()->id;
             $businessType->save();
@@ -106,7 +106,7 @@ class BusinessTypeController extends Controller
                 ->findOrFail($id);
             $businessType->business_type_name = $request->business_type_name;
             $businessType->status = $request->status ? $request->status : $businessType->status;
-            $businessType->sorting_number = $request->sorting_number;
+            $businessType->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $businessType->admin_id = adminUser()->id;
             $businessType->save();
             DB::commit();

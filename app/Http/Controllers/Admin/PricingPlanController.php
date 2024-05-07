@@ -43,7 +43,7 @@ class PricingPlanController extends Controller
             $pricingPlan->discount_type = $request->discount_type;
             $pricingPlan->discount_value = $request->discount_value;
             $pricingPlan->admin_id = adminUser()->id;
-            $pricingPlan->sorting_number = $request->sorting_number;
+            $pricingPlan->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $pricingPlan->save();
             DB::commit();
             return response()->json([
@@ -79,7 +79,7 @@ class PricingPlanController extends Controller
             $pricingPlan->month = $request->month;
             $pricingPlan->discount_type = $request->discount_type;
             $pricingPlan->discount_value = $request->discount_value;
-            $pricingPlan->sorting_number = $request->sorting_number;
+            $pricingPlan->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $pricingPlan->admin_id = adminUser()->id;
             $pricingPlan->save();
             DB::commit();

@@ -33,6 +33,7 @@ class SupplierResource extends JsonResource
             "paid_amount" => $this->paid_amount,
             "status" => $this->status,
             "date" => $this->date,
+            "sorting_number" => $this->sorting_number,
             "due" => $this->supplierInitialDue?->amount,
         ];
     }

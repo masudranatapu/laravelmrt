@@ -180,7 +180,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label>{{ $t('Address') }}</label>
                                         <div class="input-group">
@@ -191,6 +191,20 @@
                                             </div>
                                             <input type="text" class="form-control" v-model="supplier.address"
                                                 :placeholder="$t('Address')">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ $t('Sort Index') }}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-arrows-alt-v"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="supplier.sorting_number"
+                                                :placeholder="$t('Sort Index')">
                                         </div>
                                     </div>
                                 </div>
@@ -236,6 +250,7 @@ export default {
                 area_id: "",
                 zip_code: "",
                 address: "",
+                sorting_number: "",
                 note: "",
             },
             isButtonDisabled: false,
@@ -285,10 +300,11 @@ export default {
             formData.append('area_id', this.supplier.area_id);
             formData.append('zip_code', this.supplier.zip_code);
             formData.append('address', this.supplier.address);
+            formData.append('sorting_number', this.supplier.sorting_number);
             formData.append('note', this.supplier.note);
             formData.append("_method", "POST");
 
-            axios.post(`/supplier/store`, formData).then((response) => {
+            axios.post(`/supplier`, formData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
@@ -296,7 +312,7 @@ export default {
                         message: this.$t(response.data.message),
                     });
                     $("#supplier_image").val('');
-                    this.$emit('create-load-supplier');
+                    this.$emit('load-data');
                     this.supplier.name = "";
                     this.supplier.email = "";
                     this.supplier.supplier_business_name = "";

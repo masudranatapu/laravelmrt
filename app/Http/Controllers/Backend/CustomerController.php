@@ -55,7 +55,7 @@ class CustomerController extends Controller
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
-            $customer->sorting_number = $request->sorting_number;
+            $customer->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $customer->status = 'Active';
 
             if ($request->hasFile("image")) {
@@ -124,7 +124,7 @@ class CustomerController extends Controller
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
-            $customer->sorting_number = $request->sorting_number;
+            $customer->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $customer->status = 'Active';
 
             if ($request->hasFile("image")) {

@@ -22,6 +22,7 @@ class AssetResource extends JsonResource
             'date' => $this->date,
             'amount' => $this->amount,
             'note' => $this->note,
+            "sorting_number" => $this->sorting_number,
         ];
     }
 }

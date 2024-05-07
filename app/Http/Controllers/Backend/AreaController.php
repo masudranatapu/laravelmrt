@@ -41,7 +41,7 @@ class AreaController extends Controller
             $area = new Area();
             $area->business_id = 1;
             $area->name = $request->name;
-            $area->sorting_number = $request->sorting_number;
+            $area->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $area->status = 'Active';
             $area->save();
 
@@ -84,7 +84,7 @@ class AreaController extends Controller
             $area->business_id = 1;
             $area->name = $request->name;
             $area->status = $request->status ? $request->status : $area->status;
-            $area->sorting_number = $request->sorting_number;
+            $area->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $area->save();
 
             DB::commit();

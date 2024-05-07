@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" id="updateModalData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="updateData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -12,7 +12,7 @@
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updateData(supplierEdit?.id)">
+                    <form @submit.prevent="updateDataInfo(editData?.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -180,7 +180,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label>{{ $t('Address') }}</label>
                                         <div class="input-group">
@@ -191,6 +191,20 @@
                                             </div>
                                             <input type="text" class="form-control" v-model="editData.address"
                                                 :placeholder="$t('Address')">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ $t('Sort Index') }}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-arrows-alt-v"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="editData.sorting_number"
+                                                :placeholder="$t('Sort Index')">
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +247,7 @@ export default {
 
     },
     methods: {
-        updateData(id) {
+        updateDataInfo(id) {
 
             this.isButtonDisabled = true;
 
@@ -272,9 +286,11 @@ export default {
             formData.append('area_id', this.editData.area_id ? this.editData.area_id : '');
             formData.append('zip_code', this.editData.zip_code ? this.editData.zip_code : '');
             formData.append('address', this.editData.address ? this.editData.address : '');
+            formData.append('sorting_number', this.editData.sorting_number ? this.editData.sorting_number : '');
             formData.append('note', this.editData.note ? this.editData.note : '');
+            formData.append('_method', 'patch');
 
-            axios.post(`/supplier/update/${id}`, formData).then((response) => {
+            axios.post(`/supplier/${id}`, formData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
@@ -283,7 +299,7 @@ export default {
                     });
                     $("#edit_supplier_image").val('');
                     this.$emit('load-data');
-                    $("#updateModalData").modal('hide');
+                    $("#updateData").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -303,7 +319,7 @@ export default {
             });
         },
         closeData() {
-            $("#updateModalData").modal('hide');
+            $("#updateData").modal('hide');
             this.isButtonDisabled = false;
         },
     },

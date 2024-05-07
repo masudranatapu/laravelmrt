@@ -16,21 +16,19 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="row justify-content-center">
                                 <div class="form-group col-md-1">
-
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <div class="input-group mb-3">
-                                        <input type="date" class="form-control" placeholder="Start date"
-                                            v-model="quarry.start_date">
-                                        <span class="input-group-text bg-success">{{ $t('To') }}</span>
-                                        <input type="date" class="form-control" placeholder="End Date"
-                                            v-model="quarry.end_date">
-                                    </div>
+                                    <select class="form-control" @change="loadData()" v-model="quarry.sort_order">
+                                        <option value="asc">
+                                            {{ $t('ASC') }}
+                                        </option>
+                                        <option value="desc">
+                                            {{ $t('DESC') }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <select class="form-control" v-model="quarry.status">
+                                    <select class="form-control" @change="loadData()" v-model="quarry.status">
                                         <option value="">
                                             {{ $t('All') }}
                                         </option>
@@ -54,7 +52,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadSuppliers()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearSearch()">
@@ -66,7 +64,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 {{ $t('Bulk Delete') }}
                                             </a>
                                         </div>
@@ -83,7 +81,7 @@
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
                                                         data-checkbox-role="dad" class="custom-control-input"
-                                                        id="checkbox-all">
+                                                        id="checkbox-all" @click="allChecked()" v-model="all_checked">
                                                     <label for="checkbox-all" class="custom-control-label">
                                                         {{ $t('SL No') }}
                                                     </label>
@@ -114,7 +112,7 @@
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
-                                                        class="custom-control-input" :id="'supplier_' + supplier?.id">
+                                                        class="custom-control-input" :id="'supplier_' + supplier?.id" :value="supplier?.id" v-model="checkedIds">
                                                     <label :for="'supplier_' + supplier?.id"
                                                         class="custom-control-label">
                                                         {{ (metaData.current_page - 1) * metaData.per_page + index + 1
@@ -182,12 +180,12 @@
                                                     <div class="dropdown-menu" x-placement="bottom-start"
                                                         style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="viewSupplierInfo(supplier?.id)">
+                                                            @click="viewInfo(supplier?.id)">
                                                             <i class="fa fa-eye"></i>
                                                             {{ $t('View') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="editSupplier(supplier?.id)">
+                                                            @click="editInfo(supplier?.id)">
                                                             <i class="fas fa-pen"></i>
                                                             {{ $t('Edit') }}
                                                         </a>
@@ -213,7 +211,7 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <Pagination :data="metaData" @pagination-change-page="loadSuppliers" :limit="5">
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
                                     </Pagination>
                                 </div>
                             </div>
@@ -222,9 +220,9 @@
                 </div>
             </div>
         </section>
-        <Create :areas="areas" @load-data="refreshData" />
-        <Update :areas="areas" :editData="editData" @load-data="refreshData" />
-        <View :supplierView="viewSupplier" />
+        <Create @load-data="refreshData" :areas="areas" />
+        <Update @load-data="refreshData" :areas="areas" :editData="editData" />
+        <View :viewInfoData="viewInfoData" />
     </div>
 </template>
 
@@ -245,23 +243,24 @@ export default {
             editData: {},
             quarry: {
                 per_page: 10,
+                sort_order: 'asc',
                 keyword: '',
-                start_date: '',
-                end_date: '',
                 status: ''
             },
             metaData: {},
-            viewSupplier: {},
+            checkedIds: {},
+            all_checked: false,
+            viewInfoData: {},
             areas: {},
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadSuppliers();
+        this.loadData();
         this.loadAreas();
     },
     methods: {
-        loadSuppliers(page = 1) {
+        loadData(page = 1) {
             axios.get(`/supplier-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.suppliers = response.data.data;
                 this.metaData = response.data.meta;
@@ -283,7 +282,7 @@ export default {
             $("#createSupplier").modal('show');
         },
         refreshData() {
-            this.loadSuppliers();
+            this.loadData();
         },
         getStatusButtonClass(status) {
             return {
@@ -293,10 +292,10 @@ export default {
                 'btn-danger': status === 'Blocked'
             };
         },
-        editSupplier(id) {
-            axios.get(`/supplier/edit/${id}`).then((response) => {
+        editInfo(id) {
+            axios.get(`/supplier/${id}/edit`).then((response) => {
                 this.editData = response.data.data;
-                $("#editSupplier").modal('show');
+                $("#updateData").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -311,7 +310,7 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.loadSuppliers();
+                    this.loadData();
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -328,11 +327,11 @@ export default {
 
             });
         },
-        viewSupplierInfo(id) {
-            axios.get(`/supplier/view/${id}`).then((response) => {
+        viewInfo(id) {
+            axios.get(`/supplier/${id}`).then((response) => {
                 if (response.data.data) {
-                    this.viewSupplier = response.data.data;
-                    $("#updateData").modal('show');
+                    this.viewInfoData = response.data.data;
+                    $("#viewInfoDataModal").modal('show');
                 }
             }).catch((error) => {
                 this.$iziToast.error({
@@ -358,7 +357,7 @@ export default {
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadSuppliers();
+                            this.loadData();
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -393,11 +392,10 @@ export default {
         },
         clearSearch() {
             this.quarry.per_page = 10;
-            this.quarry.keyword = '';
-            this.quarry.start_date = '';
-            this.quarry.end_date = '';
+            this.quarry.sort_order = 'asc';
             this.quarry.status = '';
-            this.loadSuppliers();
+            this.quarry.keyword = '';
+            this.loadData();
         },
         allChecked() {
             if (this.checkedIds.length === this.suppliers.length) {

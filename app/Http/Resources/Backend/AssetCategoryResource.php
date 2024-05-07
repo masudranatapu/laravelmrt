@@ -18,6 +18,7 @@ class AssetCategoryResource extends JsonResource
             'id' => $this->id,
             'asset_category_name' => $this->asset_category_name,
             'status' => $this->status,
+            "sorting_number" => $this->sorting_number,
         ];
     }
 }

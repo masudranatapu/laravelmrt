@@ -20,6 +20,7 @@ class CustomerGroupResource extends JsonResource
             'amount' => $this->amount,
             'status' => $this->status,
             'create_by' => $this->createBy?->name,
+            "sorting_number" => $this->sorting_number,
         ];
     }
 }

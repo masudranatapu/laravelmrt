@@ -40,7 +40,7 @@ class TestimonialController extends Controller
             $testimonial->designation = $request->designation;
             $testimonial->review = $request->review;
             $testimonial->rating = $request->rating;
-            $testimonial->sorting_number = $request->sorting_number;
+            $testimonial->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $testimonial->status = 'Active';
             $testimonial->create_by = adminUser()->id;
 
@@ -99,7 +99,7 @@ class TestimonialController extends Controller
             $testimonial->rating = $request->rating;
             $testimonial->status = $request->status;
             $testimonial->create_by = adminUser()->id;
-            $testimonial->sorting_number = $request->sorting_number;
+            $testimonial->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
 
             if ($request->hasFile("image")) {
 

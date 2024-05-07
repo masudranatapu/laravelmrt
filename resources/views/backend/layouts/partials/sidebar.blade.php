@@ -28,7 +28,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="nav-link" href="{{ route('backend.supplier') }}">
+                    <a class="nav-link" href="{{ route('backend.supplier.index') }}">
                         Supplier
                     </a>
                 </li>

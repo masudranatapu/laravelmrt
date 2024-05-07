@@ -46,7 +46,7 @@ class CustomerGroupController extends Controller
             $customer_group->amount = $request->amount;
             $customer_group->status = 'Active';
             $customer_group->create_by = backendUser()->id;
-            $customer_group->sorting_number = $request->sorting_number;
+            $customer_group->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $customer_group->save();
 
             DB::commit();
@@ -88,7 +88,7 @@ class CustomerGroupController extends Controller
             $customer_group->amount = $request->amount;
             $customer_group->status = $request->status ? $request->status : $customer_group->status;
             $customer_group->create_by = backendUser()->id;
-            $customer_group->sorting_number = $request->sorting_number;
+            $customer_group->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $customer_group->save();
 
             DB::commit();

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
 use App\Models\InitialDue;
+use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
@@ -22,7 +23,7 @@ class SupplierController extends Controller
     {
         try {
             $suppliers = Supplier::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->with([
                     'supplierInitialDue' => fn ($q) => $q->select('id', 'business_id', 'supplier_id', 'amount')->get(),
                 ])
@@ -42,7 +43,7 @@ class SupplierController extends Controller
         try {
             DB::beginTransaction();
             $supplier = new Supplier();
-            $supplier->business_id = 1;
+            $supplier->business_id = Auth::user()->business_id;
             $supplier->name = $request->name;
             $supplier->email = $request->email;
             $supplier->supplier_business_name = $request->supplier_business_name;
@@ -54,7 +55,7 @@ class SupplierController extends Controller
             $supplier->zip_code = $request->zip_code;
             $supplier->address = $request->address;
             $supplier->note = $request->note;
-            $supplier->sorting_number = $request->sorting_number;
+            $supplier->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $supplier->status = 'Active';
 
             if ($request->hasFile("image")) {
@@ -91,7 +92,7 @@ class SupplierController extends Controller
     {
         try {
             $suppliers = Supplier::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new SupplierResource($suppliers);
         } catch (\Throwable $th) {
@@ -106,9 +107,8 @@ class SupplierController extends Controller
         try {
             DB::beginTransaction();
             $supplier = Supplier::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
-            $supplier->business_id = 1;
             $supplier->name = $request->name;
             $supplier->email = $request->email;
             $supplier->supplier_business_name = $request->supplier_business_name;
@@ -119,7 +119,7 @@ class SupplierController extends Controller
             $supplier->area_id = $request->area_id;
             $supplier->zip_code = $request->zip_code;
             $supplier->address = $request->address;
-            $supplier->sorting_number = $request->sorting_number;
+            $supplier->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $supplier->note = $request->note;
 
             if ($request->hasFile("image")) {
@@ -131,7 +131,7 @@ class SupplierController extends Controller
 
             if ($request->due && $request->due > 0) {
                 $due = InitialDue::query()
-                    // ->where()
+                    ->where('business_id', Auth::user()->business_id)
                     ->where('supplier_id', $supplier->id)
                     ->first();
                 $due->business_id = 1;
@@ -155,11 +155,11 @@ class SupplierController extends Controller
             ]);
         }
     }
-    public function view($id)
+    public function show($id)
     {
         try {
             $supplier = Supplier::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new SupplierResource($supplier);
         } catch (\Throwable $th) {
@@ -175,7 +175,7 @@ class SupplierController extends Controller
             DB::beginTransaction();
             $request = request();
             $supplier = Supplier::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             $supplier->status = $request->status;
             $supplier->save();
@@ -227,8 +227,7 @@ class SupplierController extends Controller
     {
 
         $supplier = Supplier::query()
-            // ->where()
-            // ->withCount()
+            ->where('business_id', Auth::user()->business_id)
             ->findOrFail($id);
 
         if ($supplier->image) {
