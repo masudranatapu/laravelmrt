@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('date');
             $table->double('amount', 14, 2)->default(0);
             $table->text('note')->nullable();
+            $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
     }

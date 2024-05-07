@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('product_limit')->default(250);
             $table->integer('branch_limit')->default(1);
             $table->longText('description')->nullable();
+            $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
     }

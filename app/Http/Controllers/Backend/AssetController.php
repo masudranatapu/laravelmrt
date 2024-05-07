@@ -24,7 +24,8 @@ class AssetController extends Controller
                 // ->where()
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->when($request->keyword, fn($q) => $q->where('asset_name', 'like', '%' . $request->keyword . '%'))
-                ->get();
+                ->orderBy('sorting_number', $request->sort_order)
+                ->paginate($request->per_page ?? 10);
             return AssetResource::collection($assets);
         } catch (\Throwable $th) {
             return response()->json([
@@ -45,6 +46,7 @@ class AssetController extends Controller
             $asset->pay_by = $request->pay_by;
             $asset->date = date('Y-m-d', strtotime($request->date));
             $asset->amount = $request->amount;
+            $asset->sorting_number = $request->sorting_number;
             $asset->note = $request->note;
             $asset->status = 'Active';
             $asset->save();
@@ -95,6 +97,7 @@ class AssetController extends Controller
             $asset->amount = $request->amount;
             $asset->note = $request->note;
             $asset->status = $request->status ? $request->status : $asset->status;
+            $asset->sorting_number = $request->sorting_number;
             $asset->save();
 
             DB::commit();

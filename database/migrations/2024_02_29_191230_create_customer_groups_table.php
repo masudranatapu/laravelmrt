@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('amount', 14, 2)->default(0);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->integer('create_by')->nullable();
+            $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Supplier::class)->nullable();
             $table->date('date')->nullable();
             $table->double('amount', 14, 2)->default(0);
+            $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
     }

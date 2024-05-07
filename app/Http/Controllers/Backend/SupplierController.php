@@ -27,7 +27,8 @@ class SupplierController extends Controller
                     'supplierInitialDue' => fn ($q) => $q->select('id', 'business_id', 'supplier_id', 'amount')->get(),
                 ])
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
-                ->paginate($request->per_page ?? 1);
+                ->orderBy('sorting_number', $request->sort_order)
+                ->paginate($request->per_page ?? 10);
             return SupplierResource::collection($suppliers);
         } catch (\Throwable $th) {
             return response()->json([
@@ -53,6 +54,7 @@ class SupplierController extends Controller
             $supplier->zip_code = $request->zip_code;
             $supplier->address = $request->address;
             $supplier->note = $request->note;
+            $supplier->sorting_number = $request->sorting_number;
             $supplier->status = 'Active';
 
             if ($request->hasFile("image")) {
@@ -117,6 +119,7 @@ class SupplierController extends Controller
             $supplier->area_id = $request->area_id;
             $supplier->zip_code = $request->zip_code;
             $supplier->address = $request->address;
+            $supplier->sorting_number = $request->sorting_number;
             $supplier->note = $request->note;
 
             if ($request->hasFile("image")) {
@@ -188,32 +191,51 @@ class SupplierController extends Controller
             ]);
         }
     }
-    public function delete($id)
+
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $supplier = Supplier::query()
-                // ->where()
-                // ->withCount()
-                ->findOrFail($id);
-
-            if ($supplier->image) {
-                fileUnlink($supplier->image);
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Supplier Some Issue. You Can not continue This Action',
+                    ]);
+                }
             }
 
-            $supplier->delete();
-
             DB::commit();
+
             return response()->json([
                 'status' => true,
-                'message' => "Supplier Successfully Deleted",
+                'message' => "Package Successfully Deleted",
             ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function destroy($id)
+    {
+
+        $supplier = Supplier::query()
+            // ->where()
+            // ->withCount()
+            ->findOrFail($id);
+
+        if ($supplier->image) {
+            fileUnlink($supplier->image);
+        }
+
+        $supplier->delete();
+        return true;
     }
 }

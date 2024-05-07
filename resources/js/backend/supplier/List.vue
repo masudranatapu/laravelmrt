@@ -8,7 +8,7 @@
                             <h4>{{ $t('Suppliers') }}</h4>
                             <div class="card-header-form">
                                 <div class="buttons">
-                                    <button type="button" class="btn btn-primary" @click="addSupplier()">
+                                    <button type="button" class="btn btn-primary" @click="addNewData()">
                                         <i class="fa fa-plus"></i>
                                         {{ $t('Add New Supplier') }}
                                     </button>
@@ -192,7 +192,7 @@
                                                             {{ $t('Edit') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="deleteSupplier(supplier?.id)">
+                                                            @click="deleteData(supplier?.id)">
                                                             <i class="fa fa-times"></i>
                                                             {{ $t('Delete') }}
                                                         </a>
@@ -222,35 +222,35 @@
                 </div>
             </div>
         </section>
-        <CreateSupplier :areas="areas" @create-load-supplier="refreshSupplier" />
-        <UpdateSupplier :areas="areas" :supplierEdit="updateSupplier" @update-load-supplier="refreshSupplier" />
-        <ViewSupplier :supplierView="viewSupplier" />
+        <Create :areas="areas" @load-data="refreshData" />
+        <Update :areas="areas" :editData="editData" @load-data="refreshData" />
+        <View :supplierView="viewSupplier" />
     </div>
 </template>
 
 <script>
-import CreateSupplier from './CreateSupplier.vue'
-import UpdateSupplier from './UpdateSupplier.vue'
-import ViewSupplier from './ViewSupplier.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
+import View from './View.vue'
 export default {
     components: {
-        CreateSupplier,
-        UpdateSupplier,
-        ViewSupplier,
+        Create,
+        Update,
+        View,
     },
     props: [],
     data: function () {
         return {
+            suppliers: {},
+            editData: {},
             quarry: {
-                per_page: 1,
+                per_page: 10,
                 keyword: '',
                 start_date: '',
                 end_date: '',
                 status: ''
             },
             metaData: {},
-            suppliers: {},
-            updateSupplier: {},
             viewSupplier: {},
             areas: {},
             main_url: window.location.origin + "/",
@@ -279,10 +279,10 @@ export default {
                 });
             });
         },
-        addSupplier() {
+        addNewData() {
             $("#createSupplier").modal('show');
         },
-        refreshSupplier() {
+        refreshData() {
             this.loadSuppliers();
         },
         getStatusButtonClass(status) {
@@ -295,7 +295,7 @@ export default {
         },
         editSupplier(id) {
             axios.get(`/supplier/edit/${id}`).then((response) => {
-                this.updateSupplier = response.data.data;
+                this.editData = response.data.data;
                 $("#editSupplier").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
@@ -332,7 +332,7 @@ export default {
             axios.get(`/supplier/view/${id}`).then((response) => {
                 if (response.data.data) {
                     this.viewSupplier = response.data.data;
-                    $("#viewSupplier").modal('show');
+                    $("#updateData").modal('show');
                 }
             }).catch((error) => {
                 this.$iziToast.error({
@@ -342,7 +342,7 @@ export default {
 
             });
         },
-        deleteSupplier(id) {
+        deleteData(id) {
             this.$swal.fire({
                 title: this.$t('Are you sure?'),
                 text: this.$t('You won\'t be able to revert this!'),
@@ -352,7 +352,7 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/supplier/delete/${id}`).then((response) => {
+                    axios.get(`/supplier-bulk-delete?ids=${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),
@@ -392,12 +392,26 @@ export default {
             });
         },
         clearSearch() {
-            this.quarry.parPage = 20;
+            this.quarry.per_page = 10;
             this.quarry.keyword = '';
             this.quarry.start_date = '';
             this.quarry.end_date = '';
             this.quarry.status = '';
             this.loadSuppliers();
+        },
+        allChecked() {
+            if (this.checkedIds.length === this.suppliers.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.suppliers.map(supplier => supplier.id);
+            }
+        },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Suppliers Not Select For This Action');
+            }
         }
     },
 }

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->double('paid_amount', 14, 2)->default(0);
             $table->enum('status', ['Active', 'Inactive', 'Blocked', 'Pending'])->default('Active');
             $table->date('date')->nullable();
+            $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
     }

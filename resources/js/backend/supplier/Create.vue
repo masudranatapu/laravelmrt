@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="modal fade" id="editSupplier" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        <div class="modal fade" id="createSupplier" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myLargeModalLabel">
-                            {{ $t('Edit Supplier') }}
+                            {{ $t('Create Supplier') }}
                         </h5>
-                        <a href="javascript:;" @click="closeUpdateSupplier()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeCreateData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updateSupplier(supplierEdit?.id)">
+                    <form @submit.prevent="addNewData()">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -27,7 +27,7 @@
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="supplierEdit.name"
+                                            <input type="text" class="form-control" v-model="supplier.name"
                                                 :placeholder="$t('Name')" required>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control"
-                                                v-model="supplierEdit.supplier_business_name"
+                                                v-model="supplier.supplier_business_name"
                                                 :placeholder="$t('Supplier Business Name')">
                                         </div>
                                     </div>
@@ -59,7 +59,7 @@
                                                     <i class="fas fa-phone"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="supplierEdit.phone"
+                                            <input type="number" class="form-control" v-model="supplier.phone"
                                                 :placeholder="$t('Phone')" required>
                                         </div>
                                     </div>
@@ -73,7 +73,7 @@
                                                     <i class="far fa-envelope"></i>
                                                 </div>
                                             </div>
-                                            <input type="email" class="form-control" v-model="supplierEdit.email"
+                                            <input type="email" class="form-control" v-model="supplier.email"
                                                 :placeholder="$t('Email')">
                                         </div>
                                     </div>
@@ -87,7 +87,7 @@
                                                     <i class="far fa-file-image"></i>
                                                 </div>
                                             </div>
-                                            <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="edit_supplier_image">
+                                            <input type="file" accept=".gif, .png, .jpg, .jpeg, .webp" class="form-control" id="supplier_image">
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                                                     <i class="fas fa-transgender"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="supplierEdit.gender">
+                                            <select class="form-control" v-model="supplier.gender">
                                                 <option value="Male" selected>{{ $t('Male') }}</option>
                                                 <option value="Female">{{ $t('Female') }}</option>
                                             </select>
@@ -116,7 +116,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="date" class="form-control" v-model="supplierEdit.date_of_birth"
+                                            <input type="date" class="form-control" v-model="supplier.date_of_birth"
                                                 :placeholder="$t('Date of Birth')">
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
                                                     <i class="fas fa-sort-amount-up"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="supplierEdit.due"
+                                            <input type="number" class="form-control" v-model="supplier.due"
                                                 :placeholder="$t('Due')">
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
                                             </div>
-                                            <input type="date" class="form-control" v-model="supplierEdit.date"
+                                            <input type="date" class="form-control" v-model="supplier.date"
                                                 :placeholder="$t('Date')">
                                         </div>
                                     </div>
@@ -158,8 +158,8 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="supplierEdit.area_id">
-                                                <option v-for="( area, index ) in  areas " :value='area?.id'>
+                                            <select class="form-control" v-model="supplier.area_id">
+                                                <option v-for="(  area, index  ) in   areas  " :value='area?.id'>
                                                     {{ area?.name }}
                                                 </option>
                                             </select>
@@ -175,7 +175,7 @@
                                                     <i class="fas fa-infinity"></i>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" v-model="supplierEdit.zip_code"
+                                            <input type="number" class="form-control" v-model="supplier.zip_code"
                                                 :placeholder="$t('Zip Code')">
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@
                                                     <i class="fas fa-location-arrow"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" v-model="supplierEdit.address"
+                                            <input type="text" class="form-control" v-model="supplier.address"
                                                 :placeholder="$t('Address')">
                                         </div>
                                     </div>
@@ -197,14 +197,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ $t('Note') }}</label>
-                                        <textarea name="" class="form-control" v-model="supplierEdit.note"
+                                        <textarea name="" class="form-control" v-model="supplier.note"
                                             :placeholder="$t('Note')" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeUpdateSupplier()">
+                            <button type="button" class="btn btn-warning" @click="closeCreateData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary"
@@ -220,11 +220,24 @@
 </template>
 
 <script>
-
 export default {
-    props: ['areas', 'supplierEdit'],
+    props: ['areas'],
     data: function () {
         return {
+            supplier: {
+                name: "",
+                supplier_business_name: "",
+                email: "",
+                phone: "",
+                gender: "",
+                date_of_birth: "",
+                due: "",
+                date: "",
+                area_id: "",
+                zip_code: "",
+                address: "",
+                note: "",
+            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -233,13 +246,13 @@ export default {
 
     },
     methods: {
-        updateSupplier(id) {
+        addNewData() {
 
             this.isButtonDisabled = true;
 
             var formData = new FormData();
 
-            var supplierImage = $("#edit_supplier_image")[0].files;
+            var supplierImage = $("#supplier_image")[0].files;
 
             if (supplierImage.length > 0) {
 
@@ -252,7 +265,7 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t("Invalid Include Image File Extension"),
                     });
-                    $("#edit_supplier_image").val();
+                    $("#supplier_image").val();
                 } else {
                     formData.append("image", supplierImage[0]);
                 }
@@ -261,29 +274,42 @@ export default {
                 formData.append("image", '');
             }
 
-            formData.append('name', this.supplierEdit.name ? this.supplierEdit.name : '');
-            formData.append('email', this.supplierEdit.email ? this.supplierEdit.email : '');
-            formData.append('supplier_business_name', this.supplierEdit.supplier_business_name ? this.supplierEdit.supplier_business_name : '');
-            formData.append('phone', this.supplierEdit.phone ? this.supplierEdit.phone : '');
-            formData.append('gender', this.supplierEdit.gender ? this.supplierEdit.gender : '');
-            formData.append('date_of_birth', this.supplierEdit.date_of_birth ? this.supplierEdit.date_of_birth : '');
-            formData.append('due', this.supplierEdit.due ? this.supplierEdit.due : '');
-            formData.append('date', this.supplierEdit.date ? this.supplierEdit.date : '');
-            formData.append('area_id', this.supplierEdit.area_id ? this.supplierEdit.area_id : '');
-            formData.append('zip_code', this.supplierEdit.zip_code ? this.supplierEdit.zip_code : '');
-            formData.append('address', this.supplierEdit.address ? this.supplierEdit.address : '');
-            formData.append('note', this.supplierEdit.note ? this.supplierEdit.note : '');
+            formData.append('name', this.supplier.name);
+            formData.append('email', this.supplier.email);
+            formData.append('supplier_business_name', this.supplier.supplier_business_name);
+            formData.append('phone', this.supplier.phone);
+            formData.append('gender', this.supplier.gender);
+            formData.append('date_of_birth', this.supplier.date_of_birth);
+            formData.append('due', this.supplier.due);
+            formData.append('date', this.supplier.date);
+            formData.append('area_id', this.supplier.area_id);
+            formData.append('zip_code', this.supplier.zip_code);
+            formData.append('address', this.supplier.address);
+            formData.append('note', this.supplier.note);
+            formData.append("_method", "POST");
 
-            axios.post(`/supplier/update/${id}`, formData).then((response) => {
+            axios.post(`/supplier/store`, formData).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    $("#edit_supplier_image").val('');
-                    this.$emit('update-load-supplier');
-                    $("#editSupplier").modal('hide');
+                    $("#supplier_image").val('');
+                    this.$emit('create-load-supplier');
+                    this.supplier.name = "";
+                    this.supplier.email = "";
+                    this.supplier.supplier_business_name = "";
+                    this.supplier.phone = "";
+                    this.supplier.gender = "";
+                    this.supplier.date_of_birth = "";
+                    this.supplier.due = "";
+                    this.supplier.date = "";
+                    this.supplier.area_id = "";
+                    this.supplier.zip_code = "";
+                    this.supplier.address = "";
+                    this.supplier.note = "";
+                    $("#createSupplier").modal('hide');
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -302,8 +328,8 @@ export default {
                 });
             });
         },
-        closeUpdateSupplier() {
-            $("#editSupplier").modal('hide');
+        closeCreateData() {
+            $("#createSupplier").modal('hide');
             this.isButtonDisabled = false;
         },
     },
