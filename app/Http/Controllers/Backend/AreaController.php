@@ -24,6 +24,7 @@ class AreaController extends Controller
                 // ->where('bu')
                 ->when($request->keyword, fn ($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
+                ->orderBy('sorting_number', $request->sort_order)
                 ->paginate($request->per_page ?? 10);
             return AreaResource::collection($areas);
         } catch (\Throwable $th) {
@@ -40,6 +41,7 @@ class AreaController extends Controller
             $area = new Area();
             $area->business_id = 1;
             $area->name = $request->name;
+            $area->sorting_number = $request->sorting_number;
             $area->status = 'Active';
             $area->save();
 
@@ -82,6 +84,7 @@ class AreaController extends Controller
             $area->business_id = 1;
             $area->name = $request->name;
             $area->status = $request->status ? $request->status : $area->status;
+            $area->sorting_number = $request->sorting_number;
             $area->save();
 
             DB::commit();

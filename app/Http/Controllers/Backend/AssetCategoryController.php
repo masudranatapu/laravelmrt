@@ -24,6 +24,7 @@ class AssetCategoryController extends Controller
                 // ->where()
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->when($request->keyword, fn($q) => $q->where('asset_category_name', 'like', '%' . $request->keyword . '%'))
+                ->orderBy('sorting_number', $request->sort_order)
                 ->paginate($request->per_page ?? 10);
             return AssetCategoryResource::collection($asset_categories);
         } catch (\Throwable $th) {
@@ -41,6 +42,7 @@ class AssetCategoryController extends Controller
             $asset_category = new AssetCategory();
             $asset_category->business_id = 1;
             $asset_category->asset_category_name = $request->asset_category_name;
+            $asset_category->sorting_number = $request->sorting_number;
             $asset_category->status = 'Active';
             $asset_category->save();
 
@@ -85,6 +87,7 @@ class AssetCategoryController extends Controller
             // $asset_category->business_id = 1;
             $asset_category->asset_category_name = $request->asset_category_name;
             $asset_category->status = $request->status ? $request->status : $asset_category->status;
+            $asset_category->sorting_number = $request->sorting_number;
             $asset_category->save();
 
             DB::commit();

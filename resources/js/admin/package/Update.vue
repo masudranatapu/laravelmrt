@@ -8,11 +8,11 @@
                         <h5 class="modal-title" id="myLargeModalLabel">
                             {{ $t('Update Package') }}
                         </h5>
-                        <a href="javascript:;" @click="closeUpdatePackage()" class="btn btn-icon btn-danger">
+                        <a href="javascript:;" @click="closeUpdateData()" class="btn btn-icon btn-danger">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
-                    <form @submit.prevent="updatePackage(editData.id)">
+                    <form @submit.prevent="updateData(editData.id)">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-8 offset-md-2">
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <button type="button" class="btn btn-warning" @click="closeUpdatePackage()">
+                            <button type="button" class="btn btn-warning" @click="closeUpdateData()">
                                 {{ $t('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" :class="{ 'btn-progress': isButtonDisabled }"
@@ -193,7 +193,7 @@ export default {
 
     },
     methods: {
-        updatePackage(id) {
+        updateData(id) {
             this.isButtonDisabled = true;
             this.editData._method = 'patch';
             axios.post(`/admin/package/${id}`, this.editData).then((response) => {
@@ -225,7 +225,7 @@ export default {
                 });
             });
         },
-        closeUpdatePackage() {
+        closeUpdateData() {
             $("#updateData").modal('hide');
             this.isButtonDisabled = false;
         },

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Business::class)->nullable();
             $table->string('asset_category_name')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
     }

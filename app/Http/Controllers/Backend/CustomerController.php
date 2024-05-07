@@ -27,7 +27,8 @@ class CustomerController extends Controller
                     'customerInitialDue' => fn ($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
                 ])
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
-                ->get();
+                ->orderBy('sorting_number', $request->sort_order)
+                ->paginate($request->per_page ?? 10);
             return CustomerResource::collection($customer);
         } catch (\Throwable $th) {
             return response()->json([
@@ -54,6 +55,7 @@ class CustomerController extends Controller
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
+            $customer->sorting_number = $request->sorting_number;
             $customer->status = 'Active';
 
             if ($request->hasFile("image")) {
@@ -122,6 +124,7 @@ class CustomerController extends Controller
             $customer->zip_code = $request->zip_code;
             $customer->address = $request->address;
             $customer->note = $request->note;
+            $customer->sorting_number = $request->sorting_number;
             $customer->status = 'Active';
 
             if ($request->hasFile("image")) {

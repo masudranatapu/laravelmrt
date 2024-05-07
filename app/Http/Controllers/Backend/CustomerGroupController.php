@@ -25,7 +25,8 @@ class CustomerGroupController extends Controller
                 ->when($request->create_by, fn ($q) => $q->where('create_by', $request->create_by))
                 ->when($request->keyword, fn ($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
-                ->get();
+                ->orderBy('sorting_number', $request->sort_order)
+                ->paginate($request->per_page ?? 10);
             return CustomerGroupResource::collection($customer_group);
         } catch (\Throwable $th) {
             return response()->json([
@@ -45,6 +46,7 @@ class CustomerGroupController extends Controller
             $customer_group->amount = $request->amount;
             $customer_group->status = 'Active';
             $customer_group->create_by = backendUser()->id;
+            $customer_group->sorting_number = $request->sorting_number;
             $customer_group->save();
 
             DB::commit();
@@ -86,6 +88,7 @@ class CustomerGroupController extends Controller
             $customer_group->amount = $request->amount;
             $customer_group->status = $request->status ? $request->status : $customer_group->status;
             $customer_group->create_by = backendUser()->id;
+            $customer_group->sorting_number = $request->sorting_number;
             $customer_group->save();
 
             DB::commit();

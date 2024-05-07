@@ -33,14 +33,10 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('password-update/{id}', [UserBackendController::class, 'passwordUpdate'])->name('password.update');
         Route::get('user/list', [UserBackendController::class, 'userList'])->name('user.list');
         // supplier
-        Route::get('supplier', [SupplierController::class, 'index'])->name('supplier');
+        Route::resource('supplier', SupplierController::class);
         Route::get('supplier-list', [SupplierController::class, 'supplierList'])->name('supplier.list');
-        Route::post('supplier/store', [SupplierController::class, 'store'])->name('supplier.store');
-        Route::get('supplier/edit/{id}', [SupplierController::class, 'edit'])->name('supplier.edit');
-        Route::post('supplier/update/{id}', [SupplierController::class, 'update'])->name('supplier.update');
-        Route::get('supplier/view/{id}', [SupplierController::class, 'view'])->name('supplier.view');
         Route::get('supplier/status-change/{id}', [SupplierController::class, 'changeStatus'])->name('supplier.status.change');
-        Route::get('supplier/delete/{id}', [SupplierController::class, 'delete'])->name('supplier.delete');
+        Route::get('supplier-bulk-delete', [SupplierController::class, 'bulkDelete'])->name('supplier.bulkDelete');
         // customer
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
         Route::get('customer-list', [CustomerController::class, 'customerList'])->name('customer.list');
