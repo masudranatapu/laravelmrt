@@ -16,9 +16,16 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="row justify-content-center">
                                 <div class="form-group col-md-1">
-
+                                    <select class="form-control" @change="loadData()" v-model="quarry.sort_order">
+                                        <option value="asc">
+                                            {{ $t('ASC') }}
+                                        </option>
+                                        <option value="desc">
+                                            {{ $t('DESC') }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <div class="input-group mb-3">
@@ -54,7 +61,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success" @click="loadCustomer()">
+                                        <button type="button" class="btn btn-success" @click="loadData()">
                                             {{ $t('Search') }}
                                         </button>
                                         <button type="button" class="btn btn-warning" @click="clearSearch()">
@@ -66,7 +73,7 @@
                                         </button>
                                         <div class="dropdown-menu" x-placement="bottom-start"
                                             style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:;">
+                                            <a class="dropdown-item" href="javascript:;" @click="bulkDelete()">
                                                 {{ $t('Bulk Delete') }}
                                             </a>
                                         </div>
@@ -83,7 +90,7 @@
                                                 <div class="custom-checkbox custom-checkbox-table custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
                                                         data-checkbox-role="dad" class="custom-control-input"
-                                                        id="checkbox-all">
+                                                        id="checkbox-all" @click="allChecked()" v-model="all_checked">
                                                     <label for="checkbox-all" class="custom-control-label">
                                                         {{ $t('SL No') }}
                                                     </label>
@@ -114,7 +121,7 @@
                                             <td class="text-center">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" data-checkboxes="mygroup"
-                                                        class="custom-control-input" :id="'checked_' + customer?.id">
+                                                        class="custom-control-input" :id="'checked_' + customer?.id" :value="customer?.id" v-model="checkedIds">
                                                     <label :for="'checked_' + customer?.id"
                                                         class="custom-control-label">
                                                         {{ index + 1 }}
@@ -186,7 +193,7 @@
                                                             {{ $t('View') }}
                                                         </a>
                                                         <a class="dropdown-item has-icon" href="javascript:;"
-                                                            @click="editCustomer(customer?.id)">
+                                                            @click="editInfo(customer?.id)">
                                                             <i class="fas fa-pen"></i>
                                                             {{ $t('Edit') }}
                                                         </a>
@@ -203,55 +210,70 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                    <span>
+                                        Showing {{ metaData.from }} to {{ metaData.to }} of {{ metaData.total }}
+                                        entries
+                                    </span>
+                                </div>
+                                <div>
+                                    <Pagination :data="metaData" @pagination-change-page="loadData" :limit="5">
+                                    </Pagination>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <CreateCustomer :groups="groups" :areas="areas" @create-load-customer="refreshCustomer" />
-        <UpdateCustomer :groups="groups" :areas="areas" :customerEdit="updateCustomers"
-            @update-load-customer="refreshCustomer" />
-        <ViewCustomer :customerView="viewCustomers" />
+        <Create @load-data="refreshData" :groups="groups" :areas="areas" />
+        <Update @load-data="refreshData" :groups="groups" :areas="areas" :editData="editData" />
+        <View :viewInfoData="viewInfoData" />
     </div>
 </template>
 
 <script>
-import CreateCustomer from './CreateCustomer.vue'
-import UpdateCustomer from './UpdateCustomer.vue'
-import ViewCustomer from './ViewCustomer.vue'
+import Create from './Create.vue'
+import Update from './Update.vue'
+import View from './View.vue'
 export default {
     components: {
-        CreateCustomer,
-        UpdateCustomer,
-        ViewCustomer,
+        Create,
+        Update,
+        View,
     },
     props: [],
     data: function () {
         return {
+            customers: {},
+            editData: {},
+            viewInfoData: {},
             quarry: {
-                parPage: 20,
+                per_page: 10,
+                sort_order: 'asc',
                 keyword: '',
-                start_date: '',
-                end_date: '',
                 status: ''
             },
-            customers: {},
-            updateCustomers: {},
-            viewCustomers: {},
             groups: {},
             areas: {},
+            metaData: {},
+            checkedIds: {},
+            all_checked: false,
             main_url: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.loadCustomer();
+        this.loadData();
         this.loadGroups();
         this.loadAreas();
     },
     methods: {
-        loadCustomer() {
-            axios.get("/customer-list", { params: this.quarry }).then((response) => {
-                // console.log(response);
+        loadData(page = 1) {
+            axios.get(`/customer-list?page=${page}`, { params: this.quarry }).then((response) => {
                 this.customers = response.data.data;
+                this.metaData = response.data.meta;
             }).catch((error) => {
                 console.error("Error fetching profile information: ", error);
             });
@@ -277,10 +299,10 @@ export default {
             });
         },
         addCustomer() {
-            $("#createCustomer").modal('show');
+            $("#createData").modal('show');
         },
-        refreshCustomer() {
-            this.loadCustomer();
+        refreshData() {
+            this.loadData();
         },
         getStatusButtonClass(status) {
             return {
@@ -290,10 +312,10 @@ export default {
                 'btn-danger': status === 'Blocked'
             };
         },
-        editCustomer(id) {
-            axios.get(`/customer/edit/${id}`).then((response) => {
-                this.updateCustomers = response.data.data;
-                $("#editCustomer").modal('show');
+        editInfo(id) {
+            axios.get(`/customer/${id}/edit`).then((response) => {
+                this.editData = response.data.data;
+                $("#updateData").modal('show');
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),
@@ -308,7 +330,7 @@ export default {
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.loadCustomer();
+                    this.loadData();
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -355,7 +377,7 @@ export default {
                                 title: this.$t('Success'),
                                 message: this.$t(response.data.message),
                             });
-                            this.loadCustomer();
+                            this.loadData();
                         } else {
                             this.$iziToast.error({
                                 title: this.$t('Error'),
@@ -389,12 +411,25 @@ export default {
             });
         },
         clearSearch() {
-            this.quarry.parPage = 20;
-            this.quarry.keyword = '';
-            this.quarry.start_date = '';
-            this.quarry.end_date = '';
+            this.quarry.per_page = 10;
+            this.quarry.sort_order = 'asc';
             this.quarry.status = '';
-            this.loadCustomer();
+            this.quarry.keyword = '';
+            this.loadData();
+        },
+        allChecked() {
+            if (this.checkedIds.length === this.customers.length) {
+                this.checkedIds = [];
+            } else {
+                this.checkedIds = this.customers.map(customer => customer.id);
+            }
+        },
+        bulkDelete() {
+            if (this.checkedIds.length > 0) {
+                this.deleteData(this.checkedIds);
+            } else {
+                this.$swal.fire('Customers Not Select For This Action');
+            }
         }
     },
 }

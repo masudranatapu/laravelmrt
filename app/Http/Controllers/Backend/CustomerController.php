@@ -9,6 +9,7 @@ use App\Http\Resources\Backend\CustomerResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
 use App\Models\InitialDue;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -22,7 +23,7 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->with([
                     'customerInitialDue' => fn ($q) => $q->select('id', 'business_id', 'customer_id', 'amount')->get(),
                 ])
@@ -43,6 +44,7 @@ class CustomerController extends Controller
         try {
             DB::beginTransaction();
             $customer = new Customer();
+            $customer->business_id = Auth::user()->business_id;
             $customer->name = $request->name;
             $customer->email = $request->email;
             $customer->phone = $request->phone;
@@ -110,7 +112,7 @@ class CustomerController extends Controller
         try {
             DB::beginTransaction();
             $customer = Customer::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             $customer->name = $request->name;
             $customer->email = $request->email;
@@ -136,7 +138,7 @@ class CustomerController extends Controller
 
             if ($request->due && $request->due > 0) {
                 $due = InitialDue::query()
-                    // ->where()
+                    ->where('business_id', Auth::user()->business_id)
                     ->where('customer_id', $customer->id)
                     ->first();
                 $due->business_id = 1;
@@ -164,7 +166,7 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new CustomerResource($customer);
         } catch (\Throwable $th) {
@@ -181,7 +183,7 @@ class CustomerController extends Controller
             DB::beginTransaction();
             $request = request();
             $customer = Customer::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             $customer->status = $request->status;
             $customer->save();
@@ -198,32 +200,49 @@ class CustomerController extends Controller
         }
     }
 
-    public function delete($id)
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $customer = Customer::query()
-                // ->where()
-                // ->withCount()
-                ->findOrFail($id);
-
-            if ($customer->image) {
-                fileUnlink($customer->image);
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Customer Some Issue. You Can not continue This Action',
+                    ]);
+                }
             }
 
-            $customer->delete();
-
             DB::commit();
+
             return response()->json([
                 'status' => true,
                 'message' => "Customer Successfully Deleted",
             ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+
+
+    public function destroy($id)
+    {
+        $customer = Customer::query()
+            ->where('business_id', Auth::user()->business_id)
+            ->findOrFail($id);
+
+        if ($customer->image) {
+            fileUnlink($customer->image);
+        }
+
+        $customer->delete();
+        return true;
     }
 }

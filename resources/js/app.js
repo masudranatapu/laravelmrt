@@ -46,7 +46,7 @@ import AdminTestimonial from "./admin/testimonial/List.vue";
 import Dashboard from "./backend/Dashboard.vue";
 import UserProfile from "./backend/user/Profile.vue";
 import BackendSupplier from "./backend/supplier/List.vue";
-import BackendCustomer from "./backend/customer/Customer.vue";
+import BackendCustomer from "./backend/customer/List.vue";
 import BackendCustomerGroup from "./backend/customer-group/Group.vue";
 import BackendArea from "./backend/area/List.vue";
 import BackendAsset from "./backend/asset/List.vue";

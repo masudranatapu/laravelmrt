@@ -38,14 +38,10 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('supplier/status-change/{id}', [SupplierController::class, 'changeStatus'])->name('supplier.status.change');
         Route::get('supplier-bulk-delete', [SupplierController::class, 'bulkDelete'])->name('supplier.bulkDelete');
         // customer
-        Route::get('customer', [CustomerController::class, 'index'])->name('customer');
+        Route::resource('customer', CustomerController::class);
         Route::get('customer-list', [CustomerController::class, 'customerList'])->name('customer.list');
-        Route::post('customer/store', [CustomerController::class, 'store'])->name('customer.store');
-        Route::get('customer/edit/{id}', [CustomerController::class, 'edit'])->name('customer.edit');
-        Route::post('customer/update/{id}', [CustomerController::class, 'update'])->name('customer.update');
-        Route::get('customer/view/{id}', [CustomerController::class, 'view'])->name('customer.view');
         Route::get('customer/status-change/{id}', [CustomerController::class, 'changeStatus'])->name('customer.status.change');
-        Route::get('customer/delete/{id}', [CustomerController::class, 'delete'])->name('customer.delete');
+        Route::get('customer-bulk-delete', [CustomerController::class, 'bulkDelete'])->name('customer.bulkDelete');
         // customer group
         Route::get('customers-group', [CustomerGroupController::class, 'index'])->name('customerGroup');
         Route::get('group-list', [CustomerGroupController::class, 'groupList'])->name('group.list');

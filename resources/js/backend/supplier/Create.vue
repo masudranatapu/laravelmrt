@@ -324,6 +324,7 @@ export default {
                     this.supplier.area_id = "";
                     this.supplier.zip_code = "";
                     this.supplier.address = "";
+                    this.supplier.sorting_number = "";
                     this.supplier.note = "";
                     $("#createSupplier").modal('hide');
                 } else {

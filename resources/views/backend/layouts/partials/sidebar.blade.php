@@ -48,7 +48,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="nav-link" href="{{ route('backend.customer') }}">
+                    <a class="nav-link" href="{{ route('backend.customer.index') }}">
                         Customer
                     </a>
                 </li>
