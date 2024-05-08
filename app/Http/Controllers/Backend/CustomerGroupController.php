@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\CustomerGroup;
 use App\Http\Resources\Backend\CustomerGroupResource;
 use App\Http\Requests\BackendRequest\CustomerGroupRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CustomerGroupController extends Controller
@@ -21,7 +22,7 @@ class CustomerGroupController extends Controller
     {
         try {
             $customer_group = CustomerGroup::query()
-                // ->where('business_id', 1)
+                ->where('business_id', Auth::user()->business_id)
                 ->when($request->create_by, fn ($q) => $q->where('create_by', $request->create_by))
                 ->when($request->keyword, fn ($q) => $q->where('name', 'like', '%' . $request->keyword . '%'))
                 ->when($request->status, fn ($q) => $q->where('status', $request->status))
@@ -67,7 +68,7 @@ class CustomerGroupController extends Controller
     {
         try {
             $customer_group = CustomerGroup::query()
-                ->where('business_id', 1)
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new CustomerGroupResource($customer_group);
         } catch (\Throwable $th) {
@@ -82,8 +83,9 @@ class CustomerGroupController extends Controller
     {
         try {
             DB::beginTransaction();
-            $customer_group = CustomerGroup::findOrFail($id);
-            // $customer_group->business_id = 1;
+            $customer_group = CustomerGroup::query()
+                ->where('business_id', Auth::user()->business_id)
+                ->findOrFail($id);
             $customer_group->name = $request->name;
             $customer_group->amount = $request->amount;
             $customer_group->status = $request->status ? $request->status : $customer_group->status;
@@ -104,37 +106,50 @@ class CustomerGroupController extends Controller
             ]);
         }
     }
-    public function delete($id)
+
+    public function bulkDelete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $customer_group = CustomerGroup::query()
-                // ->where('business_id', 1)
-                ->with('customers')
-                ->findOrFail($id);
-
-            if ($customer_group?->customers?->count() > 0) {
-                return response()->json([
-                    'status' => false,
-                    'message' => "Group has has customer. You can not delete this group",
-                ]);
+            $ids = explode(',', $request->ids);
+            foreach ($ids as $id) {
+                $deleteData = $this->destroy($id);
+                if ($deleteData != true) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Customer Some Issue. You Can not continue This Action',
+                    ]);
+                }
             }
-
-            $customer_group->delete();
 
             DB::commit();
 
             return response()->json([
                 'status' => true,
-                'message' => "Customer Group Successfully Deleted",
+                'message' => "Customer Successfully Deleted",
             ]);
-        } catch (\Throwable $th) {
-            DB::rollback();
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+    public function destroy($id)
+    {
+        $customer_group = CustomerGroup::query()
+            ->where('business_id', Auth::user()->business_id)
+            ->with('customers')
+            ->findOrFail($id);
+
+        if ($customer_group?->customers?->count() > 0) {
+            return false;
+        }
+
+        $customer_group->delete();
+        return true;
     }
 
     public function statusChange($id)
@@ -142,7 +157,7 @@ class CustomerGroupController extends Controller
         try {
             DB::beginTransaction();
             $customer_group = CustomerGroup::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             if ($customer_group->status == 'Active') {
                 $customer_group->status = 'Inactive';

@@ -27,7 +27,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-3">
                                     <div class="input-group mb-3">
                                         <input type="date" class="form-control" placeholder="Start date"
                                             v-model="quarry.start_date">
@@ -259,7 +259,7 @@ export default {
             groups: {},
             areas: {},
             metaData: {},
-            checkedIds: {},
+            checkedIds: [],
             all_checked: false,
             main_url: window.location.origin + "/",
         };
@@ -371,7 +371,7 @@ export default {
                 cancelButtonText: this.$t('No, Cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.get(`/customer/delete/${id}`).then((response) => {
+                    axios.get(`/customer-bulk-delete?ids=${id}`).then((response) => {
                         if (response.data.status == true) {
                             this.$iziToast.success({
                                 title: this.$t('Success'),

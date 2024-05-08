@@ -43,13 +43,10 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('customer/status-change/{id}', [CustomerController::class, 'changeStatus'])->name('customer.status.change');
         Route::get('customer-bulk-delete', [CustomerController::class, 'bulkDelete'])->name('customer.bulkDelete');
         // customer group
-        Route::get('customers-group', [CustomerGroupController::class, 'index'])->name('customerGroup');
+        Route::resource('customers-group', CustomerGroupController::class);
         Route::get('group-list', [CustomerGroupController::class, 'groupList'])->name('group.list');
-        Route::post('group/store', [CustomerGroupController::class, 'store'])->name('group.store');
-        Route::get('group/edit/{id}', [CustomerGroupController::class, 'edit'])->name('group.edit');
-        Route::post('group/update/{id}', [CustomerGroupController::class, 'update'])->name('group.update');
-        Route::get('group/delete/{id}', [CustomerGroupController::class, 'delete'])->name('group.delete');
         Route::get('group/status/change/{id}', [CustomerGroupController::class, 'statusChange'])->name('group.status.change');
+        Route::get('group-bulk-delete', [CustomerGroupController::class, 'bulkDelete'])->name('group.bulkDelete');
         // area
         Route::resource('area', AreaController::class);
         Route::get('area-list', [AreaController::class, 'areaList'])->name('area.list');

@@ -49,6 +49,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ $t('Sort Index') }}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-arrows-alt-v"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="group.sorting_number"
+                                                :placeholder="$t('Sort Index')">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
@@ -72,7 +86,11 @@ export default {
     props: [],
     data: function () {
         return {
-            group: {},
+            group: {
+                name : '',
+                amount : '',
+                sorting_number : ''
+            },
             isButtonDisabled: false,
             main_url: window.location.origin + "/",
         };
@@ -83,17 +101,18 @@ export default {
     methods: {
         addNewGroup() {
             this.isButtonDisabled = true;
-            axios.post('/group/store', this.group).then((response) => {
+            axios.post('/customers-group', this.group).then((response) => {
                 this.isButtonDisabled = false;
                 if (response.data.status == true) {
                     this.$iziToast.success({
                         title: this.$t('Success'),
                         message: this.$t(response.data.message),
                     });
-                    this.$emit('load-group');
+                    this.$emit('load-data');
                     $("#createNewGroup").modal('hide');
                     this.group.name = "";
                     this.group.amount = "";
+                    this.group.sorting_number = "";
                 } else {
                     this.$iziToast.error({
                         title: this.$t('Error'),
@@ -124,6 +143,7 @@ export default {
             this.isButtonDisabled = false;
             this.group.name = "";
             this.group.amount = "";
+            this.group.sorting_number = "";
         },
     },
 }

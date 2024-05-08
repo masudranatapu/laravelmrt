@@ -26,7 +26,7 @@ class AssetRequest extends FormRequest
             "account_id" => ["required", "numeric", "exists:accounts,id"],
             "pay_by" => ["required"],
             "date" => ["required"],
-            "sorting_number" => ["nullable", "string", "min:1", "max:11"],
+            "sorting_number" => ["nullable", "numeric", "min:1", "max:11"],
             "amount" => ["required", "min:0"],
         ];
     }

@@ -35,7 +35,7 @@ class CustomerRequest extends FormRequest
             "area" => ["nullable", "string", "exists:areas,id"],
             "zip_code" => ["nullable", "numeric"],
             "address" => ["nullable", "string", "min:3", "max:50"],
-            "sorting_number" => ["nullable", "string", "min:1", "max:11"],
+            "sorting_number" => ["nullable", "numeric", "min:1", "max:11"],
             "note" => ["nullable", "string", "min:3", "max:200"],
         ];
     }

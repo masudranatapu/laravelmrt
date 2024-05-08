@@ -17,6 +17,16 @@
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
+                                <div class="form-group col-md-1">
+                                    <select class="form-control" @change="loadData()" v-model="quarry.sort_order">
+                                        <option value="asc">
+                                            {{ $t('ASC') }}
+                                        </option>
+                                        <option value="desc">
+                                            {{ $t('DESC') }}
+                                        </option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="quarry.status">
                                         <option value="">{{ $t('All') }}</option>
@@ -150,7 +160,8 @@ export default {
             editData: {},
             creators: {},
             quarry: {
-                er_rpage: 10,
+                per_page: 10,
+                sort_order: 'asc',
                 keyword: '',
                 status: '',
             },

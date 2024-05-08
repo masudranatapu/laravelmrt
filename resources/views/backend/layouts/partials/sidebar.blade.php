@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="{{ route('backend.customerGroup') }}">
+                    <a class="nav-link" href="{{ route('backend.customers-group.index') }}">
                         Customer Group
                     </a>
                 </li>

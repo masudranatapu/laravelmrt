@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BackendRequest\AssetRequest;
 use App\Http\Resources\Backend\AssetResource;
 use App\Models\Asset;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AssetController extends Controller
@@ -21,9 +22,9 @@ class AssetController extends Controller
     {
         try {
             $assets = Asset::query()
-                // ->where()
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
-                ->when($request->keyword, fn($q) => $q->where('asset_name', 'like', '%' . $request->keyword . '%'))
+                ->where('business_id', Auth::user()->business_id)
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
+                ->when($request->keyword, fn ($q) => $q->where('asset_name', 'like', '%' . $request->keyword . '%'))
                 ->orderBy('sorting_number', $request->sort_order)
                 ->paginate($request->per_page ?? 10);
             return AssetResource::collection($assets);
@@ -40,7 +41,7 @@ class AssetController extends Controller
         try {
             DB::beginTransaction();
             $asset = new Asset();
-            $asset->business_id = 1;
+            $asset->business_id = Auth::user()->business_id;
             $asset->asset_id = $request->asset_id;
             $asset->account_id = $request->account_id;
             $asset->pay_by = $request->pay_by;
@@ -70,8 +71,7 @@ class AssetController extends Controller
     {
         try {
             $assets = Asset::query()
-                // ->where()
-                // ->withCount()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new AssetResource($assets);
         } catch (\Throwable $th) {
@@ -88,7 +88,7 @@ class AssetController extends Controller
         try {
             DB::beginTransaction();
             $asset = Asset::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             $asset->business_id = 1;
             $asset->asset_id = $request->asset_id;
@@ -148,10 +148,11 @@ class AssetController extends Controller
 
     public function destroy($id)
     {
-            $asset = Asset::query()
-                ->findOrFail($id);
+        $asset = Asset::query()
+            ->where('business_id', Auth::user()->business_id)
+            ->findOrFail($id);
 
-            $asset->delete();
-            return true;
+        $asset->delete();
+        return true;
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BackendRequest\AssetCategoryRequest;
 use App\Http\Resources\Backend\AssetCategoryResource;
 use App\Models\AssetCategory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AssetCategoryController extends Controller
@@ -21,9 +22,9 @@ class AssetCategoryController extends Controller
     {
         try {
             $asset_categories = AssetCategory::query()
-                // ->where()
-                ->when($request->status, fn($q) => $q->where('status', $request->status))
-                ->when($request->keyword, fn($q) => $q->where('asset_category_name', 'like', '%' . $request->keyword . '%'))
+                ->where('business_id', Auth::user()->business_id)
+                ->when($request->status, fn ($q) => $q->where('status', $request->status))
+                ->when($request->keyword, fn ($q) => $q->where('asset_category_name', 'like', '%' . $request->keyword . '%'))
                 ->orderBy('sorting_number', $request->sort_order)
                 ->paginate($request->per_page ?? 10);
             return AssetCategoryResource::collection($asset_categories);
@@ -40,7 +41,7 @@ class AssetCategoryController extends Controller
         try {
             DB::beginTransaction();
             $asset_category = new AssetCategory();
-            $asset_category->business_id = 1;
+            $asset_category->business_id = Auth::user()->business_id;
             $asset_category->asset_category_name = $request->asset_category_name;
             $asset_category->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $asset_category->status = 'Active';
@@ -64,8 +65,7 @@ class AssetCategoryController extends Controller
     {
         try {
             $asset_category = AssetCategory::query()
-                // ->where()
-                // ->withCount()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new AssetCategoryResource($asset_category);
         } catch (\Throwable $th) {
@@ -82,9 +82,8 @@ class AssetCategoryController extends Controller
         try {
             DB::beginTransaction();
             $asset_category = AssetCategory::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
-            // $asset_category->business_id = 1;
             $asset_category->asset_category_name = $request->asset_category_name;
             $asset_category->status = $request->status ? $request->status : $asset_category->status;
             $asset_category->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
@@ -138,10 +137,11 @@ class AssetCategoryController extends Controller
 
     public function destroy($id)
     {
-            $asset_category = AssetCategory::query()
-                ->findOrFail($id);
+        $asset_category = AssetCategory::query()
+            ->where('business_id', Auth::user()->business_id)
+            ->findOrFail($id);
 
-            $asset_category->delete();
+        $asset_category->delete();
         return true;
     }
 
@@ -151,7 +151,7 @@ class AssetCategoryController extends Controller
         try {
             DB::beginTransaction();
             $asset_category = AssetCategory::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             if ($asset_category->status == 'Active') {
                 $asset_category->status = 'Inactive';
@@ -172,5 +172,4 @@ class AssetCategoryController extends Controller
             ]);
         }
     }
-
 }

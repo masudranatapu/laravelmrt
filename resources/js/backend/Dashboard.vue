@@ -95,7 +95,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 @click="currentLanguage()">Assign Task Table</h4>
+                        <h4>Assign Task Table</h4>
                         <div class="card-header-form">
                             <form>
                                 <div class="input-group">
@@ -531,9 +531,7 @@ export default {
 
     },
     computed: {
-        currentLanguage() {
-            return this.$i18n.locale = 'bn';
-        }
+
     },
     methods: {
 

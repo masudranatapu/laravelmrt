@@ -24,7 +24,7 @@ class CustomerGroupRequest extends FormRequest
         return [
             "name" => ["required", "string"],
             "amount" => ["required", "numeric", "min:1"],
-            "sorting_number" => ["nullable", "string", "min:1", "max:11"],
+            "sorting_number" => ["nullable", "numeric", "min:1", "max:11"],
         ];
     }
 }

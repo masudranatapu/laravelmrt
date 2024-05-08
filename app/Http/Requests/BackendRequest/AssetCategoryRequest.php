@@ -23,7 +23,7 @@ class AssetCategoryRequest extends FormRequest
     {
         return [
             "asset_category_name" => ["required", "string", "min:3"],
-            "sorting_number" => ["nullable", "string", "min:1", "max:11"],
+            "sorting_number" => ["nullable", "numeric", "min:1", "max:11"],
         ];
     }
 }

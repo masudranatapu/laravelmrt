@@ -248,7 +248,7 @@ export default {
                 status: ''
             },
             metaData: {},
-            checkedIds: {},
+            checkedIds: [],
             all_checked: false,
             viewInfoData: {},
             areas: {},
