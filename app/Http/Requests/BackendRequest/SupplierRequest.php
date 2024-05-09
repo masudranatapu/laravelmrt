@@ -3,6 +3,7 @@
 namespace App\Http\Requests\BackendRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SupplierRequest extends FormRequest
 {
@@ -27,7 +28,10 @@ class SupplierRequest extends FormRequest
             "supplier_business_name" => ["nullable", "string", "min:3", "max:30"],
             "email" => ["nullable", "min:3", "max:30", "string"],
             "image" => ["nullable", "max:10240", "mimes:jpeg,png,jpg,webp", "image"],
-            "gender" => ["nullable"],
+            "gender" => [
+                "nullable",
+                Rule::in(['Male', 'Female'])
+            ],
             "date_of_birth" => ["nullable"],
             "due" => ["nullable", "min:0"],
             "date" => "nullable",

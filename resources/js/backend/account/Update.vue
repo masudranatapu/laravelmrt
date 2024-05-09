@@ -109,7 +109,7 @@
 <script>
 
 export default {
-    props: ['editData', 'account_types'],
+    props: ['editData', 'account_types', 'mobile_banking_names'],
     data: function () {
         return {
             isButtonDisabled: false,

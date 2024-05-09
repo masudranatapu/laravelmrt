@@ -3,6 +3,7 @@
 namespace App\Http\Requests\BackendRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserProfileUpdateRequest extends FormRequest
 {
@@ -27,7 +28,10 @@ class UserProfileUpdateRequest extends FormRequest
             "email" => ["required", "email", "max:30"],
             "phone" => ["required", " regex:/^[0-9]+$/", "max:15"],
             "address" => ["required", "string", "min:3", "max:50"],
-            "gender" => ["required", "in:Male,Female"],
+            "gender" => [
+                "required",
+                Rule::in(['Male', 'Female'])
+            ],
             "country" => ["required", "string"],
             "bio" => ["required", "string", "min:3", "max:200"],
         ];

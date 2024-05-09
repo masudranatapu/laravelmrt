@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\AdminRequest;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PricingPlanRequest extends FormRequest
@@ -23,7 +24,10 @@ class PricingPlanRequest extends FormRequest
     {
         return [
             "month" => ["required", "integer", "min:1"],
-            "discount_type" => ["required", "in:Percentage,Amount"],
+            "discount_type" => [
+                "required",
+                Rule::in(['Percentage', 'Amount'])
+            ],
             "discount_value" => [
                 "required",
                 "integer",

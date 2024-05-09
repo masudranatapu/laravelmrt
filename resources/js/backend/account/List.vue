@@ -124,8 +124,8 @@
                 </div>
             </div>
         </section>
-        <Create @load-data="refreshData" :account_types="account_types" />
-        <Update @load-data="refreshData" :account_types="account_types" :editData="editData" />
+        <Create @load-data="refreshData" :account_types="account_types" :mobile_banking_names="mobile_banking_names" />
+        <Update @load-data="refreshData" :account_types="account_types" :mobile_banking_names="mobile_banking_names" :editData="editData" />
         <View :viewData="viewData" />
     </div>
 </template>
@@ -150,17 +150,41 @@ export default {
             checkedIds: [],
             all_checked: false,
             account_types: {},
+            account_types: {},
+            mobile_banking_names: {},
             mainUrl: window.location.origin + "/",
         };
     },
     beforeMount() {
         this.loadData();
+        this.loadAccountTypes();
+        this.loadMobileBankingNames();
     },
     methods: {
         loadData() {
             axios.get(`/account-list`, { params: this.quarry }).then((response) => {
                 this.mobile_bankings = response.data.data.mobile_bankings;
                 this.cash_account = response.data.data.cash_account;
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
+                });
+            });
+        },
+        loadAccountTypes() {
+            axios.get(`/load-account-types`).then((response) => {
+                this.account_types = response.data;
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
+                });
+            });
+        },
+        loadMobileBankingNames() {
+            axios.get(`/load-mobile-banking-names`).then((response) => {
+                this.mobile_banking_names = response.data;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),

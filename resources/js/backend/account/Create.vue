@@ -2,7 +2,8 @@
     <div>
         <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <!-- modal-lg when more input need -->
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="largeModalLabel">
@@ -27,7 +28,8 @@
                                                     <i class="far fa-check-square"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="account.type" required >
+                                            <select class="form-control" v-model="account.account_type" required >
+                                                <option value="">Select One</option>
                                                 <option v-for="(account_type, index) in account_types" :value="account_type">
                                                     {{ account_type }}
                                                 </option>
@@ -35,7 +37,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" v-if="account.type == 'Mobile Banking'">
+                                <div class="col-md-12" v-if="account.account_type == 'Mobile Banking'">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Mobile Bank Name') }}
@@ -48,14 +50,15 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" v-model="account.mobile_bank_name" required >
-                                                <option v-for="(mobile_banking_name, index) in mobile_banking_names" :value="mobile_banking_name" :selected="account.mobile_bank_name === mobile_banking_name">
+                                                <option value="">Select One</option>
+                                                <option v-for="(mobile_banking_name, index) in mobile_banking_names" :value="mobile_banking_name">
                                                     {{ mobile_banking_name }}
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" v-if="account.type == 'Mobile Banking'">
+                                <div class="col-md-12" v-if="account.account_type == 'Mobile Banking'">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Phone') }}
@@ -68,11 +71,11 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="account.mobile_number"
-                                                :placeholder="$t('017...')" required>
+                                                :placeholder="$t('Phone')" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" v-if="account.type == 'Mobile Banking'">
+                                <div class="col-md-12" v-if="account.account_type == 'Mobile Banking'">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Service Charge (%)') }}
@@ -109,11 +112,11 @@
 <script>
 
 export default {
-    props: ['account_types'],
+    props: ['account_types', 'mobile_banking_names'],
     data: function () {
         return {
             account: {
-                type: "",
+                account_type: "",
                 mobile_bank_name: "",
                 mobile_number: "",
                 pm_charge: "",
@@ -132,7 +135,7 @@ export default {
 
             var formData = new FormData();
 
-            formData.append('type', this.account.type ? this.account.type : '');
+            formData.append('account_type', this.account.account_type ? this.account.account_type : '');
             formData.append('mobile_bank_name', this.account.mobile_bank_name ? this.account.mobile_bank_name : '');
             formData.append('mobile_number', this.account.mobile_number ? this.account.mobile_number : '');
             formData.append('pm_charge', this.account.pm_charge ? this.account.pm_charge : '');

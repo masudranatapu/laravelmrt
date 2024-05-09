@@ -8,6 +8,7 @@ use App\Http\Resources\BackendResource\AccountResource;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
@@ -24,6 +25,7 @@ class AccountController extends Controller
 
         try {
             $data['mobile_bankings'] = Account::query()
+                ->where('business_id', Auth::user()->business_id)
                 ->where('account_type', 'Mobile Banking')
                 ->withCount([
                     "ledger as debit_amount" => fn ($q) => $q->where("date", "<", $date)->select(DB::raw("sum(debit_amount)")),
@@ -46,6 +48,7 @@ class AccountController extends Controller
                 });
 
             $data['cash_account'] = Account::query()
+                ->where('business_id', Auth::user()->business_id)
                 ->where('account_type', 'Cash')
                 ->withCount([
                     "ledger as debit_amount" => fn ($q) => $q->where("date", "<", $date)->select(DB::raw("sum(debit_amount)")),
@@ -82,10 +85,12 @@ class AccountController extends Controller
 
     public function store(AccountRequest $request)
     {
+        dd($request->all());
         try {
             DB::beginTransaction();
             $account = new Account();
-            $account->type = $request->type;
+            $account->business_id = Auth::user()->business_id;
+            $account->account_type = $request->account_type;
             $account->mobile_bank_name = $request->mobile_bank_name;
             $account->mobile_number = $request->mobile_number;
             $account->pm_charge = $request->pm_charge ?? 0;
@@ -130,7 +135,9 @@ class AccountController extends Controller
     {
         try {
             DB::beginTransaction();
-            $account = Account::query()->findOrFail($id);
+            $account = Account::query()
+                ->where('business_id', Auth::user()->business_id)
+                ->findOrFail($id);
             $account->type = $request->type;
             $account->mobile_bank_name = $request->mobile_bank_name;
             $account->mobile_number = $request->mobile_number;
@@ -159,6 +166,7 @@ class AccountController extends Controller
             ]);
         }
     }
+
     public function show($id)
     {
         try {
@@ -171,6 +179,7 @@ class AccountController extends Controller
             ]);
         }
     }
+
     public function statusChange($id)
     {
         try {
@@ -230,7 +239,6 @@ class AccountController extends Controller
 
     public function destroy($id)
     {
-        dd('destroy ');
         $supplier = Account::query()->findOrFail($id);
         $supplier->delete();
         return true;

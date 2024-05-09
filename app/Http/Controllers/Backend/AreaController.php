@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BackendRequest\AreaRequest;
 use App\Http\Resources\BackendResource\AreaResource;
 use App\Models\Area;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AreaController extends Controller
 {
-    //
     public function index()
     {
         return view('backend.area.index');
@@ -39,7 +39,7 @@ class AreaController extends Controller
         try {
             DB::beginTransaction();
             $area = new Area();
-            $area->business_id = 1;
+            $area->business_id = Auth::user()->business_id;
             $area->name = $request->name;
             $area->sorting_number = $request->sorting_number ? $request->sorting_number : 1;
             $area->status = 'Active';
@@ -62,7 +62,7 @@ class AreaController extends Controller
     {
         try {
             $areas = Area::query()
-                // ->where('bu')
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             return new AreaResource($areas);
         } catch (\Throwable $th) {
@@ -76,10 +76,9 @@ class AreaController extends Controller
     public function update(AreaRequest $request, $id)
     {
         try {
-            // dd($request->all());
             DB::beginTransaction();
             $area = Area::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             $area->business_id = 1;
             $area->name = $request->name;
@@ -134,6 +133,7 @@ class AreaController extends Controller
     public function destroy($id)
     {
         $area = Area::query()
+            ->where('business_id', Auth::user()->business_id)
             ->findOrFail($id);
         $area->delete();
         return true;
@@ -144,7 +144,7 @@ class AreaController extends Controller
         try {
             DB::beginTransaction();
             $area = Area::query()
-                // ->where()
+                ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
             if ($area->status == 'Active') {
                 $area->status = 'Inactive';
