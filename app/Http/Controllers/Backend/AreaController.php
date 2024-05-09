@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BackendRequest\AreaRequest;
-use App\Http\Resources\Backend\AreaResource;
+use App\Http\Resources\BackendResource\AreaResource;
 use App\Models\Area;
 use Illuminate\Support\Facades\DB;
 

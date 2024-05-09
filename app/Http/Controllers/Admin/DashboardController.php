@@ -8,7 +8,7 @@ use App\Http\Requests\BackendRequest\UserProfileUpdateRequest;
 use App\Models\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\Admin\SadminInfoResource;
+use App\Http\Resources\AdminResource\SadminInfoResource;
 
 class DashboardController extends Controller
 {

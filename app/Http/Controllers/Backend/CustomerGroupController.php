@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CustomerGroup;
-use App\Http\Resources\Backend\CustomerGroupResource;
+use App\Http\Resources\BackendResource\CustomerGroupResource;
 use App\Http\Requests\BackendRequest\CustomerGroupRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

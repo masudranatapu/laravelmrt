@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\AssetCategoryController;
 use App\Http\Controllers\Backend\AssetController;
 use App\Http\Controllers\Backend\LoadCatalogController;
 use App\Http\Controllers\Backend\SupplierController;
+use App\Http\Controllers\Backend\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +53,6 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('area-list', [AreaController::class, 'areaList'])->name('area.list');
         Route::get('area-type-bulk-delete', [AreaController::class, 'bulkDelete'])->name('area.bulkDelete');
         Route::get('area/status/change/{id}', [AreaController::class, 'statusChange'])->name('area.status.change');
-        // load catalog
-        Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
-        Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');
-        Route::get('load-asset-category', [LoadCatalogController::class, 'loadAssetCategory'])->name('load.asset.category');
         // asset category
         Route::resource('asset-category', AssetCategoryController::class);
         Route::get('asset-category-list', [AssetCategoryController::class, 'assetCategoryList'])->name('assetCategory.list');
@@ -65,5 +62,27 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::resource('assets', AssetController::class);
         Route::get('assets-list', [AssetController::class, 'assetsList'])->name('assets.list');
         Route::get('assets-bulk-delete', [AssetController::class, 'bulkDelete'])->name('area.bulkDelete');
+        // account
+        Route::resource('account', AccountController::class);
+        Route::get('account-list', [AccountController::class, 'list'])->name('account.list');
+        Route::get('account-status-change/{id}', [AccountController::class, 'statusChange'])->name('account.status.change');
+        Route::get('account-bulk-delete', [AccountController::class, 'bulkDelete'])->name('account.bulkDelete');
+        // expense-types
+        // Route::resource('expense-types', ExpenseTypeController::class);
+        // Route::get('expense-types-list', [ExpenseTypeController::class, 'list'])->name('expense.type.list');
+        // Route::get('expense-types-status-change/{id}', [ExpenseTypeController::class, 'statusChange'])->name('expense.typeStatus.change');
+        // Route::get('expense-types-bulk-delete', [ExpenseTypeController::class, 'bulkDelete'])->name('expense.type.bulkDelete');
+
+
+
+
+
+
+        // load catalog
+        Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
+        Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');
+        Route::get('load-asset-category', [LoadCatalogController::class, 'loadAssetCategory'])->name('load.asset.category');
+        Route::get('load-account-types', [LoadCatalogController::class, 'accountTypesList'])->name('load.accountType');
+        Route::get('load-mobile-banking-names', [LoadCatalogController::class, 'mobileBankingLIst'])->name('load.mobileBanking');
     });
 });

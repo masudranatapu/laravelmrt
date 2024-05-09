@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Backend;
+namespace App\Http\Resources\BackendResource;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AssetResource extends JsonResource
+class CustomerGroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,10 @@ class AssetResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'asset_category_name' => $this->asset_category_id,
-            'account_name' => $this->account_id,
-            'pay_by' => $this->pay_by,
-            'date' => $this->date,
+            'name' => $this->name,
             'amount' => $this->amount,
-            'note' => $this->note,
+            'status' => $this->status,
+            'create_by' => $this->createBy?->name,
             "sorting_number" => $this->sorting_number,
         ];
     }

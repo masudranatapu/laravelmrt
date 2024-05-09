@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest\BusinessRequest;
 use Illuminate\Http\Request;
 use App\Models\Business;
-use App\Http\Resources\Admin\AdminBusinessResource;
+use App\Http\Resources\AdminResource\AdminBusinessResource;
 use App\Models\BusinessType;
 use App\Models\Customer;
 use App\Models\Package;

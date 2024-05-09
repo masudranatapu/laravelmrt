@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Business::class)->nullable();
-            $table->foreignIdFor(Bank::class)->nullable();
             $table->enum('account_type', ['Cash', 'Mobile Banking', 'Card', 'Bank Account', 'Other'])->nullable();
             $table->string('mobile_bank_name')->nullable();
             $table->string('mobile_number')->nullable();
@@ -30,10 +29,10 @@ return new class extends Migration
             $table->string('valid_thru_month')->nullable();
             $table->string('valid_thru_year')->nullable();
             $table->string('cvv_code')->nullable();
-            $table->double('amount', 14, 2)->default(0);
-            $table->double('transfer_amount', 14, 2)->default(0);
+            $table->double('amount', 12, 2)->default(0);
+            $table->double('transfer_amount', 12, 2)->default(0);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
-            $table->double('pm_charge', 14, 2)->default(0);
+            $table->double('pm_charge', 12, 2)->default(0)->comment('Payment Method Charge');
             $table->timestamps();
         });
     }

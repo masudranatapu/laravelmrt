@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest\TestimonialRequest;
-use App\Http\Resources\Admin\TestimonialResource;
+use App\Http\Resources\AdminResource\TestimonialResource;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
 use Illuminate\Support\Facades\DB;

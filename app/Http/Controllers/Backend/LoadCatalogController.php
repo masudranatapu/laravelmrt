@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Backend\AreaResource;
-use App\Http\Resources\Backend\AssetCategoryResource;
-use App\Http\Resources\Backend\CustomerGroupResource;
+use App\Http\Resources\BackendResource\AreaResource;
+use App\Http\Resources\BackendResource\AssetCategoryResource;
+use App\Http\Resources\BackendResource\CustomerGroupResource;
 use App\Models\Area;
 use App\Models\AssetCategory;
 use App\Models\CustomerGroup;
@@ -59,5 +59,16 @@ class LoadCatalogController extends Controller
                 'message' => $th->getMessage(),
             ]);
         }
+    }
+
+    public function accountTypesList()
+    {
+        $accountsTypes = accountTypes();
+        return response()->json($accountsTypes);
+    }
+    public function mobileBankingLIst()
+    {
+        $mobileAccounts = mobileBankingNames();
+        return response()->json($mobileAccounts);
     }
 }

@@ -86,3 +86,27 @@ if (!function_exists('fileUnlink')) {
         return true;
     }
 }
+
+if (!function_exists('accountTypes')) {
+    function accountTypes()
+    {
+        $accounts = ["Cash", "Mobile Banking"];
+        return $accounts;
+    }
+}
+
+if (!function_exists('mobileBankingNames')) {
+    function mobileBankingNames()
+    {
+        $mobileBankingNames = [
+            "Rocket",
+            "Nagad",
+            "Upay",
+            "MCash",
+            "SureCash",
+            "Tap",
+            "bKash",
+        ];
+        return $mobileBankingNames;
+    }
+}

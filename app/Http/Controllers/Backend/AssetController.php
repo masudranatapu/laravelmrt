@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BackendRequest\AssetRequest;
-use App\Http\Resources\Backend\AssetResource;
+use App\Http\Resources\BackendResource\AssetResource;
 use App\Models\Asset;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

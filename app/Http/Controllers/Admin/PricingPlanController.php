@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest\PricingPlanRequest;
-use App\Http\Resources\Admin\PricingPlanResource;
+use App\Http\Resources\AdminResource\PricingPlanResource;
 use App\Models\PricingPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

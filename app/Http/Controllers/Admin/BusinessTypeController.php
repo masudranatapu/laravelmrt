@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest\BusinessTypeRequest;
-use App\Http\Resources\Admin\BusinessTypeResource;
+use App\Http\Resources\AdminResource\BusinessTypeResource;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -97,17 +97,18 @@
         <li class="menu-header">
             UI Elements
         </li>
+
         <li class="dropdown">
             <a href="#" class="menu-toggle nav-link has-dropdown">
                 <i data-feather="copy"></i>
                 <span>
-                    Basic Components
+                    Accounts
                 </span>
             </a>
             <ul class="dropdown-menu">
-                <li>
-                    <a class="nav-link" href="alert.html">
-                        Alert
+                <li class="{{ Route::is('admin.account.index') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('backend.account.index') }}">
+                        Account list
                     </a>
                 </li>
                 <li>

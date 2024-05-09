@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackendRequest\SupplierRequest;
-use App\Http\Resources\Backend\SupplierResource;
+use App\Http\Resources\BackendResource\SupplierResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;

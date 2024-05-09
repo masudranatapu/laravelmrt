@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest\PackageRequest;
-use App\Http\Resources\Admin\PackageResource;
+use App\Http\Resources\AdminResource\PackageResource;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
