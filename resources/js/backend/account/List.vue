@@ -24,14 +24,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">
-                                                <div class="custom-checkbox custom-checkbox-table custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroup"
-                                                        data-checkbox-role="dad" class="custom-control-input"
-                                                        id="checkbox-all" @click="allChecked()" v-model="all_checked">
-                                                    <label for="checkbox-all" class="custom-control-label">
-                                                        {{ $t('SL No') }}
-                                                    </label>
-                                                </div>
+                                                {{ $t('SL No') }}
                                             </th>
                                             <th>
                                                 {{ $t('Name') }}
@@ -53,15 +46,7 @@
                                     <tbody>
                                         <tr v-for="(mobile_banking, index) in mobile_bankings">
                                             <td class="text-center">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroup"
-                                                        class="custom-control-input" :value="mobile_banking?.id"
-                                                        v-model="checkedIds" :id="'checked_' + mobile_banking?.id">
-                                                    <label :for="'checked_' + mobile_banking?.id"
-                                                        class="custom-control-label">
-                                                        {{ index+1 }}
-                                                    </label>
-                                                </div>
+                                                {{ index + 1 }}
                                             </td>
                                             <td>
                                                 <img :alt='mobile_banking?.name' :src='mobile_banking?.image' class="rounded-circle"
@@ -144,7 +129,7 @@ export default {
     data: function () {
         return {
             mobile_bankings: [],
-            cash_account: {},
+            cash_accounts: {},
             editData: {},
             viewData: {},
             checkedIds: [],
@@ -164,7 +149,7 @@ export default {
         loadData() {
             axios.get(`/account-list`, { params: this.quarry }).then((response) => {
                 this.mobile_bankings = response.data.data.mobile_bankings;
-                this.cash_account = response.data.data.cash_account;
+                this.cash_accounts = response.data.data.cash_account;
             }).catch((error) => {
                 this.$iziToast.error({
                     title: this.$t('Error'),

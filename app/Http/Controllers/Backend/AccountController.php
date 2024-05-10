@@ -85,7 +85,6 @@ class AccountController extends Controller
 
     public function store(AccountRequest $request)
     {
-        dd($request->all());
         try {
             DB::beginTransaction();
             $account = new Account();
@@ -138,7 +137,7 @@ class AccountController extends Controller
             $account = Account::query()
                 ->where('business_id', Auth::user()->business_id)
                 ->findOrFail($id);
-            $account->type = $request->type;
+            $account->account_type = $request->account_type;
             $account->mobile_bank_name = $request->mobile_bank_name;
             $account->mobile_number = $request->mobile_number;
             $account->pm_charge = $request->pm_charge ?? 0;

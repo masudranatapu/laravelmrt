@@ -49,7 +49,7 @@
                                                     <i class="far fa-check-square"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="account.mobile_bank_name" required >
+                                            <select class="form-control" v-model="account.mobile_bank_name" >
                                                 <option value="">Select One</option>
                                                 <option v-for="(mobile_banking_name, index) in mobile_banking_names" :value="mobile_banking_name">
                                                     {{ mobile_banking_name }}
@@ -71,7 +71,7 @@
                                                 </div>
                                             </div>
                                             <input type="number" class="form-control" v-model="account.mobile_number"
-                                                :placeholder="$t('Phone')" required>
+                                                :placeholder="$t('Phone')">
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                                     <i class="fas fa-phone"></i>
                                                 </div>
                                             </div>
-                                            <input step="any" type="number" class="form-control" v-model="account.pm_charge" :placeholder="$t('1.8')" required>
+                                            <input step="any" type="number" class="form-control" v-model="account.pm_charge" :placeholder="$t('Amount like 1.8')">
                                         </div>
                                     </div>
                                 </div>

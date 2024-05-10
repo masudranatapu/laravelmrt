@@ -26,15 +26,23 @@ class AccountRequest extends FormRequest
             "account_type" => [
                 "required",
                 "string",
-                Rule::in(['Cash', 'Mobile Banking', 'Card', 'Bank Account', 'Other'])
+                Rule::in(["Cash", "Mobile Banking", "Card", "Bank Account", "Other"])
             ],
             "mobile_bank_name" => [
-                "required_if:account_type,Mobile Banking",
-                "string",
-                Rule::in(['Rocket', 'Nagad', 'Upay', 'MCash', 'SureCash', 'Tap', 'bKash'])
+                Rule::when(function () {
+                    return $this->account_type === "Mobile Banking";
+                }, ["required", "string", Rule::in(["Rocket", "Nagad", "Upay", "MCash", "SureCash", "Tap", "bKash"])]),
             ],
-            "mobile_number" => ["required_if:account_type,Mobile Banking", "max:15"],
-            "pm_charge" => ["required_if:account_type,Mobile Banking",],
+            "mobile_number" => [
+                Rule::when(function () {
+                    return $this->account_type === "Mobile Banking";
+                }, ["required", "max:15"]),
+            ],
+            "pm_charge" => [
+                Rule::when(function () {
+                    return $this->account_type === "Mobile Banking";
+                }, ["required", "max:15"])
+            ],
         ];
     }
 }

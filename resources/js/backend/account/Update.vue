@@ -27,15 +27,15 @@
                                                     <i class="far fa-check-square"></i>
                                                 </div>
                                             </div>
-                                            <select class="form-control" v-model="editData.type" required >
-                                                <option v-for="(account_type, index) in account_types" :value="account_type" :selected="editData.type === account_type">
-                                                    {{ account_type }}
+                                            <select class="form-control" v-model="editData.account_type" required >
+                                                <option v-for="(acc_type, index) in account_types" :value="acc_type" :selected="editData.account_type === acc_type">
+                                                    {{ acc_type }}
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" v-if="editData.type == 'Mobile Banking'">
+                                <div class="col-md-12" v-if="editData.account_type == 'Mobile Banking'">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Mobile Bank Name') }}
@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" v-if="editData.type == 'Mobile Banking'">
+                                <div class="col-md-12" v-if="editData.account_type == 'Mobile Banking'">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Phone') }}
@@ -72,7 +72,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" v-if="editData.type == 'Mobile Banking'">
+                                <div class="col-md-12" v-if="editData.account_type == 'Mobile Banking'">
                                     <div class="form-group">
                                         <label>
                                             {{ $t('Service Charge (%)') }}
@@ -84,7 +84,7 @@
                                                     <i class="fas fa-phone"></i>
                                                 </div>
                                             </div>
-                                            <input step="any" type="number" class="form-control" v-model="editData.pm_charge" :placeholder="$t('1.8')" required>
+                                            <input step="any" type="number" class="form-control" v-model="editData.pm_charge" :placeholder="$t('Amount like 1.8')" required>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@ export default {
             this.isButtonDisabled = true;
 
             var formData = new FormData();
-            formData.append('type', this.editData.type ? this.editData.type : '');
+            formData.append('account_type', this.editData.account_type ? this.editData.account_type : '');
             formData.append('mobile_bank_name', this.editData.mobile_bank_name ? this.editData.mobile_bank_name : '');
             formData.append('mobile_number', this.editData.mobile_number ? this.editData.mobile_number : '');
             formData.append('pm_charge', this.editData.pm_charge ? this.editData.pm_charge : '');
