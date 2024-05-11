@@ -85,5 +85,6 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('load-asset-category', [LoadCatalogController::class, 'loadAssetCategory'])->name('load.asset.category');
         Route::get('load-account-types', [LoadCatalogController::class, 'accountTypesList'])->name('load.accountType');
         Route::get('load-mobile-banking-names', [LoadCatalogController::class, 'mobileBankingLIst'])->name('load.mobileBanking');
+        Route::get('load-expense-type', [LoadCatalogController::class, 'expenseType'])->name('expense.type');
     });
 });

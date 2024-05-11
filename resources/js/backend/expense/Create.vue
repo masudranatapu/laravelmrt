@@ -39,18 +39,10 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
-                                            <multiselect @search-change="pullExpenseTypes"
-                                                v-model="expense.type" open-direction="bottom"
-                                                :options="expense_types" :multiple="false"
-                                                :close-on-select="true" :taggable="false"
-                                                :clear-on-select="false" :allow-empty="false"
-                                                :preserve-search="true" placeholder="Choose Expense Type"
-                                                label="text" track-by="id" selectLabel=""
-                                                deselectLabel="">
-                                                <template slot="singleLabel" slot-scope="{ option }">
-                                                    <strong>{{ option.text }}{{ option.id }}</strong>
-                                                </template>
-                                            </multiselect>
+                                            <select class="form-control">
+                                                <option value="">One</option>
+                                                <option value="">Two</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +150,7 @@
 <script>
 export default {
     components: { },
-    props: ['account_types'],
+    props: ['account_types', 'expense_types', 'mobile_bankings'],
     data: function () {
         return {
             expense: {
@@ -169,32 +161,15 @@ export default {
                 amount: "",
                 note: "",
             },
-            expense_types: [],
-            mobile_bankings: [],
             cash_account: {},
             isButtonDisabled: false,
             mainUrl: window.location.origin + "/",
         };
     },
     beforeMount() {
-        this.pullExpenseTypes();
-        this.pullAccounts();
+        //
     },
     methods: {
-        pullExpenseTypes: function (text = null) {
-            axios.get(`/admin/ajax/expense-type-pagination?text=${text ?? ''}`)
-            .then((response) => {
-                this.expense_types = response.data.data;
-            });
-        },
-        pullAccounts: function (text = null) {
-            axios.get(`/admin/ajax/account-pagination?text=${text ?? ''}`)
-            .then((response) => {
-                this.mobile_bankings = response.data.data.mobile_bankings;
-                this.cash_account = response.data.data.cash_account;
-                this.expense.account_id = response.data.data.cash_account.id;
-            });
-        },
         addNew() {
             this.isButtonDisabled = true;
 

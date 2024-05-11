@@ -27,7 +27,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-1">
                                     <select class="form-control" @change="loadData()" v-model="quarry.per_page">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
@@ -38,19 +38,17 @@
                                         <option value="999999999">All</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <multiselect @search-change="pullExpenseTypes"
-                                        v-model="quarry.expense_type" open-direction="bottom"
-                                        :options="expense_types" :multiple="false" :close-on-select="true"
-                                        :taggable="false" :clear-on-select="false" :allow-empty="false" @select="loadData"
-                                        :preserve-search="true" placeholder="Choose Expense Type"
-                                        label="text" track-by="id" selectLabel="" deselectLabel="">
-                                        <template slot="singleLabel" slot-scope="{ option }">
-                                            <strong>{{ option.text }}{{ option.id}}</strong>
-                                        </template>
-                                    </multiselect>
+                                <div class="form-group col-md-2">
+                                    <select class="form-control">
+                                        <option value="">
+                                            One
+                                        </option>
+                                        <option value="">
+                                            Two
+                                        </option>
+                                    </select>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <select class="form-control"  @change="loadData()" v-model="quarry.account_type" required >
                                         <option value="">{{ $t('All') }}</option>
                                         <option v-for="(account_type, index) in account_types" :value="account_type" :selected="quarry.account_type === account_type">
@@ -191,7 +189,7 @@
                 </div>
             </div>
         </section>
-        <Create @load-data="refreshData" />
+        <Create @load-data="refreshData" :account_types="account_types"/>
         <Update @load-data="refreshData" :editData="editData" />
     </div>
 </template>
@@ -222,22 +220,26 @@ export default {
             checkedIds: [],
             all_checked: false,
             account_types: {},
-            expense_types: [],
-            mobile_bankings: [],
+            expense_types: {},
+            mobile_bankings: {},
             cash_account: {},
             mainUrl: window.location.origin + "/",
         };
     },
     beforeMount() {
         this.loadData();
-        this.pullExpenseTypes();
-        this.pullAccounts();
+        // this.pullExpenseTypes();
+        // this.pullAccounts();
     },
     methods: {
-        pullExpenseTypes: function (text = null) {
-            axios.get(`/ajax/expense-type-pagination?text=${text ?? ''}`)
-            .then((response) => {
-                this.expense_types = response.data.data;
+        pullExpenseTypes(){
+            axios.get(`/load-expense-type`).then((response) => {
+                this.expense_types = response.data;
+            }).catch((error) => {
+                this.$iziToast.error({
+                    title: this.$t('Error'),
+                    message: this.$t(`Fetching data has error. Please try again.`),
+                });
             });
         },
         loadAccountTypes() {
@@ -250,8 +252,8 @@ export default {
                 });
             });
         },
-        pullAccounts: function (text = null) {
-            axios.get(`/ajax/account-pagination?text=${text ?? ''}`)
+        pullAccounts(){
+            axios.get(`/ajax/account-pagination`)
             .then((response) => {
                 this.mobile_bankings = response.data.data.mobile_bankings;
                 this.cash_account = response.data.data.cash_account;
