@@ -13,6 +13,8 @@ use App\Http\Controllers\Backend\AssetController;
 use App\Http\Controllers\Backend\LoadCatalogController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AccountController;
+use App\Http\Controllers\Backend\ExpenseController;
+use App\Http\Controllers\Backend\ExpenseTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,16 +70,15 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('account-status-change/{id}', [AccountController::class, 'statusChange'])->name('account.status.change');
         Route::get('account-bulk-delete', [AccountController::class, 'bulkDelete'])->name('account.bulkDelete');
         // expense-types
-        // Route::resource('expense-types', ExpenseTypeController::class);
-        // Route::get('expense-types-list', [ExpenseTypeController::class, 'list'])->name('expense.type.list');
-        // Route::get('expense-types-status-change/{id}', [ExpenseTypeController::class, 'statusChange'])->name('expense.typeStatus.change');
-        // Route::get('expense-types-bulk-delete', [ExpenseTypeController::class, 'bulkDelete'])->name('expense.type.bulkDelete');
-
-
-
-
-
-
+        Route::resource('expense-types', ExpenseTypeController::class);
+        Route::get('expense-types-list', [ExpenseTypeController::class, 'dataList'])->name('expense.type.list');
+        Route::get('expense-types-status-change/{id}', [ExpenseTypeController::class, 'statusChange'])->name('expense.typeStatus.change');
+        Route::get('expense-types-bulk-delete', [ExpenseTypeController::class, 'bulkDelete'])->name('expense.type.bulkDelete');
+        // expense
+        Route::resource('expense', ExpenseController::class);
+        Route::get('expense-list', [ExpenseController::class, 'list'])->name('expense.list');
+        Route::get('expense-status-change/{id}', [ExpenseController::class, 'statusChange'])->name('expenseStatus.change');
+        Route::get('expense-bulk-delete', [ExpenseController::class, 'bulkDelete'])->name('expense.bulkDelete');
         // load catalog
         Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
         Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');

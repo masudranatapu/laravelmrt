@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Business::class)->nullable();
             $table->string('expense_type_name')->nullable();
-            $table->integer('status')->default(1)->comment('0=Inactive; 1=Active;');
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->integer('sorting_number')->default(0);
             $table->timestamps();
         });
