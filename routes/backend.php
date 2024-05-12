@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\AssetController;
 use App\Http\Controllers\Backend\LoadCatalogController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AccountController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\ExpenseTypeController;
 
@@ -63,7 +64,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         // asset
         Route::resource('assets', AssetController::class);
         Route::get('assets-list', [AssetController::class, 'assetsList'])->name('assets.list');
-        Route::get('assets-bulk-delete', [AssetController::class, 'bulkDelete'])->name('area.bulkDelete');
+        Route::get('assets-bulk-delete', [AssetController::class, 'bulkDelete'])->name('assets.bulkDelete');
         // account
         Route::resource('account', AccountController::class);
         Route::get('account-list', [AccountController::class, 'list'])->name('account.list');
@@ -79,6 +80,10 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('expense-list', [ExpenseController::class, 'list'])->name('expense.list');
         Route::get('expense-status-change/{id}', [ExpenseController::class, 'statusChange'])->name('expenseStatus.change');
         Route::get('expense-bulk-delete', [ExpenseController::class, 'bulkDelete'])->name('expense.bulkDelete');
+        // brands
+        Route::resource('brands', BrandController::class);
+        Route::get('brands-list', [BrandController::class, 'brandsList'])->name('brand.list');
+        Route::get('brand-bulk-delete', [BrandController::class, 'bulkDelete'])->name('brand.bulkDelete');
         // load catalog
         Route::get('load-group', [LoadCatalogController::class, 'loadGroup'])->name('load.group');
         Route::get('load-area', [LoadCatalogController::class, 'loadArea'])->name('load.area');

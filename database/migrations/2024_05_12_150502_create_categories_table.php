@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Business;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Business;
-use App\Models\User;
 
 return new class extends Migration
 {
@@ -13,13 +14,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_groups', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Business::class)->nullable();
+            $table->foreignIdFor(Category::class, 'parent_id')->nullable();
             $table->string('name')->nullable();
-            $table->double('amount', 14, 2)->default(0);
+            $table->string('slug')->nullable();
+            $table->string('logo')->nullable();
+            $table->text('description')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
-            $table->integer('create_by')->nullable();
             $table->integer('sorting_number')->default(0);
             $table->foreignIdFor(User::class, 'create_by')->nullable();
             $table->timestamps();
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_groups');
+        Schema::dropIfExists('categories');
     }
 };

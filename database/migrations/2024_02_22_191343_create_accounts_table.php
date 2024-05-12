@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
 use App\Models\Bank;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->double('transfer_amount', 12, 2)->default(0);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->double('pm_charge', 12, 2)->default(0)->comment('Payment Method Charge');
+            $table->foreignIdFor(User::class, 'create_by')->nullable();
             $table->timestamps();
         });
     }

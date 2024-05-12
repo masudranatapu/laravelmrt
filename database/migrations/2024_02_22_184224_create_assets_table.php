@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Business;
 use App\Models\AssetCategory;
 use App\Models\Account;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->double('amount', 14, 2)->default(0);
             $table->text('note')->nullable();
             $table->integer('sorting_number')->default(0);
+            $table->foreignIdFor(User::class, 'create_by')->nullable();
             $table->timestamps();
         });
     }
